@@ -1,0 +1,103 @@
+/* 
+ * Standard colours:
+ * =================
+ *
+ * Pale orange: #FDA
+ * Pastel orange: #FB5
+ * Brown: #741
+ *
+ * Pastel yellow: #FEA
+ * Burnt yellow: #FD5
+ * 
+ * Pale red: #FBA
+ * Pastel red: #F85
+ *
+ * Pastel blue: #6EF
+ * Dark teal: #157 
+ *
+ */
+
+body {
+    background-color: #FEA;
+    color: #000;
+    font-family: sans-serif;
+}
+
+#header, #footer {
+    width: 100%;
+    height: 5em;
+    clear: both;
+    background-color: #FD5;
+}
+
+#header {
+    border-bottom: 4px solid #741;
+    margin-bottom: 0.5em;
+}
+
+#footer {
+    border-top: 4px solid #741;
+}
+
+#threadspane, #postspane {
+    position: relative;
+    height: 400px;
+    margin-bottom: 0.5em;
+}
+
+#threadspane {
+    float: left;
+    width: 30%;
+    left: 0.5%;
+    margin-right: 0.5%;
+
+    border-width: 1px 4px 1px 1px;
+    border-color: #FB5;
+    border-style: solid;
+
+    background-color: #FDA;
+}
+
+#postspane {
+    float: right;
+    width: 68%;
+    right: 0.5%;
+}
+
+.post {
+    border-color: #FB5;
+    border-style: solid;
+    border-width: 1px 1px 4px 1px;
+
+    background-color: #FDA;
+    padding: 0.5em;
+}
+
+.post_head_fromto, .post_head_info {
+    position: relative;
+    margin-bottom: 0.5em;
+}
+
+.post_head_fromto {
+    float: left;
+}
+
+.post_head_info {
+    float: right;
+    text-align: right;
+}
+
+.post_body, .post_sig {
+    clear: both;
+    padding: 0.5em;
+    background-color: #FFF;
+}
+
+.post_body {
+    border-bottom: 1px solid #CCC;
+}
+
+.post_sig {
+    margin-bottom: 0.5em;
+}
+
