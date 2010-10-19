@@ -1,8 +1,8 @@
 <html>
     <head>
         <title>Test Page</title>
-        <link rel="stylesheet" href="stylesheets/reset.css" />
-        <link rel="stylesheet" href="stylesheets/base.css" />
+        <link rel="stylesheet" href="/stylesheets/reset.css" />
+        <link rel="stylesheet" href="/stylesheets/base.css" />
     </head>
 
     <body>
@@ -124,7 +124,7 @@
             <a href="#">Forj Forum</a> by <a href="#">Andy Farrell</a>
         </div> <!-- #footer -->
 
-        <script src="javascripts/jquery.js"></script>
-        <script src="javascripts/application.js"></script>
+        <script src="/javascripts/jquery.js"></script>
+        <script src="/javascripts/application.js"></script>
     </body>
 </html>

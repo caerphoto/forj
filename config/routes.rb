@@ -1,5 +1,18 @@
 Forj::Application.routes.draw do
+  get "pages/home"
+  get "pages/about"
+  get "pages/test"
+
+  resources :users
+
+  match '/contact', :to => 'pages#contact'
+  match '/about',   :to => 'pages#about'
+  match "/signup",  :to => "users#new"
+
+  root :to => "pages#home"
+
   # The priority is based upon order of creation:
+
   # first created -> highest priority.
 
   # Sample of regular route:
