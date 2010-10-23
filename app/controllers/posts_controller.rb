@@ -1,5 +1,5 @@
 def get_user_info(user)
-    if user
+    if not user.nil?
         { :name => user.name,
           :id => user.id
         }
@@ -13,7 +13,7 @@ end
 def get_post_info(post)
     { :from => get_user_info(post.user),
       :to_index => post.reply_index,
-      :to_user => get_user_info(post.reply_user),
+      :to_user => get_user_info(post.reply_user)
       :date => post.created_at,
       :post_index => post.post_index,
       :body => post.content,
