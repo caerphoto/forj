@@ -1,4 +1,5 @@
 def get_user_info(user)
+    puts "FORJ: get_user_info called with:"
     puts user
     unless user.nil?
         { :name => user.name,
