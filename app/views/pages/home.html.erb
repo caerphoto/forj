@@ -1,2 +1,45 @@
-<h2>Users list:</h2>
-<ul id="userslist"></ul>
+<div id="threadspane">
+    <h2>Threads List:</h2>
+    <ul id="folder_list">
+        <li><a class="folder_name">Static Test Folder</a>
+            <ul class="thread_list" id="temp_thread_list">
+            </ul>
+        </li>
+    </ul>
+    <button id="btnNewThread">New Thread</button>
+</div>
+<div id="postspane">
+    <h2 id="thread_title" class="thread_title"></h2>
+    <div id="posts_wrapper"></div>
+    <div id="replybox">
+        Post as: <select id="selReplyFrom"></select>
+        To: <select id="selReplyTo"></select><br />
+        <textarea id="reply_text"></textarea><br />
+        <button id="btnPostReply">Reply</button>
+        <button id="btnCancelReply">Cancel</button>
+    </div>
+</div>
+
+<!-- Post template - used by showPosts as a source for cloning. This particular
+one here gets removed on app init() -->
+<div id="post_template" class="hidden post">
+    <div class="post_head">
+        <div class="post_head_fromto">
+            From: <a class="post_head_from"></a><br />
+            To: <a class="post_head_to"></a>
+        </div>
+        <div class="post_head_info">
+            Posted: <span class="post_head_date"></span><br />
+            <span class="post_head_index"></span> of
+                <span class="post_head_count"></span>
+        </div>
+    </div> <!-- .post_head -->
+    <div class="post_body">
+    </div> <!-- .post_body -->
+    <div class="post_sig">
+    </div> <!-- .post_sig -->
+    <div class="post_foot">
+        <a href="#" class="post_foot_reply">Reply</a> |
+        <a href="#" class="post_foot_quote">Reply + Quote</a>
+    </div> <!-- .post_foot -->
+</div>

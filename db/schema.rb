@@ -10,15 +10,35 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101017142025) do
+ActiveRecord::Schema.define(:version => 20101021164015) do
+
+  create_table "msg_threads", :force => true do |t|
+    t.integer  "post_count"
+    t.string   "title"
+    t.integer  "folder_id"
+    t.boolean  "sticky"
+    t.integer  "post_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "posts", :force => true do |t|
+    t.integer  "reply_user_id"
+    t.integer  "user_id"
+    t.integer  "thread_id"
+    t.integer  "reply_index"
+    t.string   "content"
+    t.integer  "post_index"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
+    t.string   "sig"
     t.string   "name"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "users", ["name"], :name => "index_users_on_name", :unique => true
 
 end

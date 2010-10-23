@@ -183,3 +183,24 @@ h2 {
 .post_body strong {
     font-weight: bold;
 }
+
+#replybox {
+    margin: 1em;
+}
+
+#replybox textarea {
+    width: 30em;
+    height: 8em;
+    vertical-align: top;
+    padding: 0.5em;
+    border: 1px solid #FC5;
+    margin: 0.5em 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.ui-selectmenu {
+    display: inline-block;
+}

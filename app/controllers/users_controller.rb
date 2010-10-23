@@ -1,7 +1,10 @@
 # Nothing fancy in here - most actions just return JSON data
 
 def get_user_info(user)
-    { :name => user.name, :email => user.email, :joined => user.created_at }
+    { :name => user.name,
+      :email => user.email,
+      :id => user.id,
+      :joined => user.created_at }
 end
 
 class UsersController < ApplicationController

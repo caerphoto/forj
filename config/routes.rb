@@ -4,6 +4,10 @@ Forj::Application.routes.draw do
   get "pages/test"
 
   resources :users
+  resources :posts
+  resources :threads
+  resources :folders
+  resources :msg_threads
 
   match '/contact', :to => 'pages#contact'
   match '/about',   :to => 'pages#about'
