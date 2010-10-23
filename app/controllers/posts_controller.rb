@@ -1,6 +1,6 @@
 def get_user_info(user)
     if user
-        { :name => "testname", #user.name,
+        { :name => user.name,
           :id => user.id
         }
     else
@@ -28,6 +28,7 @@ class PostsController < ApplicationController
                           :conditions => ["msg_thread_id = ?",
                                           params[:thread]],
                           :include => [ :user, :reply_user ] )
+        puts posts
         post_array = []
         posts.each do |post|
             post_array.push get_post_info(post)
