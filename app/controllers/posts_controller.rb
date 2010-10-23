@@ -1,5 +1,5 @@
 def get_user_info(user)
-    if user
+    if (user)
         { :name => user.name,
           :id => user.id
         }
