@@ -1,6 +1,6 @@
 def get_user_info(user)
     if user
-        { :name => user.name,
+        { :name => "testname", #user.name,
           :id => user.id
         }
     else
