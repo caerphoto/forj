@@ -52,4 +52,9 @@ class PostsController < ApplicationController
         post.save
         render :json => get_post_info(post)
     end
+
+    def show
+        post = Post.find(:id)
+        render :json => get_post_info(post).to_json
+    end
 end
