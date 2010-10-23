@@ -28,8 +28,7 @@ class PostsController < ApplicationController
     def index
         posts = Post.find(:all,
                           :conditions => ["msg_thread_id = ?",
-                                          params[:thread]],
-                          :include => [ :user, :reply_user ] )
+                                          params[:thread]])
         post_array = []
         posts.each do |post|
             post_array.push get_post_info(post)
