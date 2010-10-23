@@ -1,9 +1,11 @@
 def get_user_info(user)
-    if (user)
+    # I realise this is a bad way to detect an invalid 'user' but other things
+    # don't seem to work (unless user.nil?, if (user), etc.)
+    begin
         { :name => user.name,
           :id => user.id
         }
-    else
+    rescue NoMethodError
         { :name => "(all)",
           :id => 0
         }
