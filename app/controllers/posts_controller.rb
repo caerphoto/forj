@@ -54,7 +54,7 @@ class PostsController < ApplicationController
     end
 
     def show
-        post = Post.find(:id)
+        post = Post.find(params[:id])
         render :json => get_post_info(post).to_json
     end
 end
