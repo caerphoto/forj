@@ -1,5 +1,5 @@
 def get_user_info(user)
-    if not user.nil?
+    unless user.nil?
         { :name => user.name,
           :id => user.id
         }
