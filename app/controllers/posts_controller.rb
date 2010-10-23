@@ -1,13 +1,14 @@
 def get_user_info(user)
-    #unless user.nil?
-    #    { :name => user.name,
-    #      :id => user.id
-    #    }
-    #else
+    puts user
+    unless user.nil?
+        { :name => user.name,
+          :id => user.id
+        }
+    else
         { :name => "(all)",
           :id => 0
         }
-    #end
+    end
 end
 
 def get_post_info(post)
