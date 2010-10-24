@@ -38,6 +38,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         btnCancelReply: $("#btnCancelReply"),
         selReplyTo: $("#selReplyTo"),
         selReplyFrom: $("#selReplyFrom"),
+        showdown: new Showdown.converter(),
 
         showReplyBox: function(in_post) {
             if (in_post) {
@@ -187,8 +188,8 @@ FORJ.addPost = function(p, scroll) {
     // returned by getThread().post_count, the latter should be
     // updated.
 
-    $post.find(".post_body").html(p.body);
-    $post.find(".post_sig").html(p.sig);
+    $post.find(".post_body").html(FORJ.ui.showdown.makeHtml(p.body));
+    $post.find(".post_sig").html(FORJ.ui.showdown.makeHtml(p.sig));
 
     reply_url = FORJ.config.reply_url + p.post_index;
     $post.find(".post_foot_reply").attr("href", reply_url);
@@ -292,6 +293,7 @@ FORJ.populateThreadsList = function(threads) {
 
 FORJ.newPostCallback = function(newpost) {
     FORJ.ui.hideReplyBox();
+    //console.log(newpost);
     FORJ.addPost(newpost, true);
 };
 
