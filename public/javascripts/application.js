@@ -166,9 +166,8 @@ FORJ.getPost = function(id) {
 }; // FORJ.getPost()
 
 FORJ.addPost = function(p, scroll) {
-    var $post;
+    var $(FORJ.ui.post_fragment).clone();
     var reply_url = "";
-    $post = $(FORJ.ui.post_fragment).clone();
     $post.find(".post_id").text(p.id);
     $post.find(".post_head_from").
         attr("href", [FORJ.config.users_url, p.from.id].join("/")).
@@ -320,13 +319,11 @@ FORJ.btnPostReplyClick = function() {
             "&reply_from=", FORJ.ui.selReplyFrom.val(),
             "&thread=", FORJ.config.current_thread,
             "&reply_index=", post_data.post_index,
-            //"&msg=", encodeURIComponent(FORJ.ui.replybox.find("textarea").
-            //    val()),
             "&post_index=1" // for now at least
            ].join("");
 
     console.log(url);
-    var txt = encodeURIComponent(FORJ.ui.replybox.find("textarea").val());
+    var txt = FORJ.ui.replybox.find("textarea").val();
     $.post(url, { textData: txt }, FORJ.newPostCallback);
 }; // FORJ.btnPostReplyClick()
 
