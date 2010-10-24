@@ -188,8 +188,10 @@ FORJ.addPost = function(p, scroll) {
     // returned by getThread().post_count, the latter should be
     // updated.
 
-    $post.find(".post_body").html(FORJ.ui.showdown.makeHtml(p.body));
-    $post.find(".post_sig").html(FORJ.ui.showdown.makeHtml(p.sig));
+    var post_body_txt = p.body || " ";
+    var post_sig_txt = p.sig || " ";
+    $post.find(".post_body").html(FORJ.ui.showdown.makeHtml(post_body_txt));
+    $post.find(".post_sig").html(FORJ.ui.showdown.makeHtml(post_sig_txt));
 
     reply_url = FORJ.config.reply_url + p.post_index;
     $post.find(".post_foot_reply").attr("href", reply_url);
@@ -293,7 +295,6 @@ FORJ.populateThreadsList = function(threads) {
 
 FORJ.newPostCallback = function(newpost) {
     FORJ.ui.hideReplyBox();
-    //console.log(newpost);
     FORJ.addPost(newpost, true);
 };
 
@@ -319,13 +320,14 @@ FORJ.btnPostReplyClick = function() {
             "&reply_from=", FORJ.ui.selReplyFrom.val(),
             "&thread=", FORJ.config.current_thread,
             "&reply_index=", post_data.post_index,
-            "&msg=", encodeURIComponent(FORJ.ui.replybox.find("textarea").
-                val()),
+            //"&msg=", encodeURIComponent(FORJ.ui.replybox.find("textarea").
+            //    val()),
             "&post_index=1" // for now at least
            ].join("");
 
     console.log(url);
-    $.post(url, FORJ.newPostCallback);
+    var txt = encodeURIComponent(FORJ.ui.replybox.find("textarea").val());
+    $.post(url, { textData: txt }, FORJ.newPostCallback);
 }; // FORJ.btnPostReplyClick()
 
 FORJ.btnCancelReplyClick = function() {

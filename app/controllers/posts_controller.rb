@@ -43,7 +43,8 @@ class PostsController < ApplicationController
 
     def create
         post = Post.new()
-        post.content = params[:msg]
+        #post.content = params[:msg]
+        post.content = params[:textData]
         post.user_id = params[:reply_from].to_i
         post.reply_user_id = params[:reply_to].to_i
         post.msg_thread_id = params[:thread].to_i
