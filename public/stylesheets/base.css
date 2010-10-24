@@ -22,6 +22,7 @@ body {
     color: #000;
     font-family: sans-serif;
     font-size: 85%;
+    overflow: hidden;
 }
 
 a {
@@ -80,33 +81,28 @@ h2 {
 }
 
 #header, #footer {
-    width: 100%;
-    clear: both;
+    /*width: 100%;
+    clear: both;*/
     background-color: #FEA;
 }
 
 #header {
-    height: 5em;
+    padding: 1em;
     border-bottom: 4px solid #EC4;
     margin-bottom: 0.5em;
 }
 
 #footer {
     border-top: 4px solid #EC4;
-    height: 2em;
+    padding: 1em;
 }
 
 #threadspane, #postspane {
-    position: relative;
-    height: 600px;
     margin-bottom: 0.5em;
 }
 
 #threadspane {
-    float: left;
-    width: 30%;
-    left: 0.5%;
-    margin-right: 0.5%;
+    padding: 0.5em;
 
     border-width: 1px 4px 1px 1px;
     border-color: #FC5;
@@ -116,7 +112,7 @@ h2 {
 }
 
 #postspane {
-    float: right;
+    /*float: right;*/
     width: 68%;
     padding-right: 0.5%;
     overflow: auto;
