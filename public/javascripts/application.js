@@ -166,7 +166,7 @@ FORJ.getPost = function(id) {
 }; // FORJ.getPost()
 
 FORJ.addPost = function(p, scroll) {
-    var $(FORJ.ui.post_fragment).clone();
+    var $post = $(FORJ.ui.post_fragment).clone();
     var reply_url = "";
     $post.find(".post_id").text(p.id);
     $post.find(".post_head_from").
