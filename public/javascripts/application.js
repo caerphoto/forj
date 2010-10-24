@@ -24,7 +24,9 @@ if (typeof console === "undefined") {
 
 if (typeof FORJ === "undefined") var FORJ = {
     ui: {
-        thread_list_container: $("#threadspane"),
+        page_header: $("#header"),
+        page_footer: $("#footer"),
+        threads_pane: $("#threadspane"),
         folder_list: $("#folder_list"),
         posts_pane: $("#postspane"),
         posts_container: $("#posts_wrapper"),
@@ -333,9 +335,20 @@ FORJ.lnkThreadClick = function(event) {
 }; // FORJ.threadClick()
 
 FORJ.btnNewThreadClick = function() {
-    // TODO 
+    // TODO
     alert("This button doesn't do anything yet, sorry.");
 }; // FORJ.btnNewThreadClick()
+
+FORJ.layoutSetup = function() {
+    var threads_pane_margins = FORJ.ui.threads_pane.outerHeight(true) -
+        FORJ.ui.threads_pane.innerHeight();
+    console.log("margins: ", threads_pane_margins);
+    FORJ.ui.threads_pane.height(
+        $(window).height() - (FORJ.ui.page_header.outerHeight(true) +
+        FORJ.ui.page_footer.outerHeight(true) + threads_pane_margins)
+    );
+    FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.height());
+};
 
 // Initialise the FORJ application
 FORJ.init = function(config) {
@@ -357,6 +370,8 @@ FORJ.init = function(config) {
     FORJ.ui.btnCancelReply.button().click(FORJ.btnCancelReplyClick);
     FORJ.ui.btnNewThread.button().click(FORJ.btnNewThreadClick);
     FORJ.ui.replybox.hide();
+
+    FORJ.layoutSetup();
 
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
     $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
