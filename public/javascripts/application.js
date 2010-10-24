@@ -334,6 +334,7 @@ FORJ.lnkThreadClick = function(event) {
 
 FORJ.btnNewThreadClick = function() {
     // TODO 
+    alert("This button doesn't do anything yet, sorry.");
 }; // FORJ.btnNewThreadClick()
 
 // Initialise the FORJ application
