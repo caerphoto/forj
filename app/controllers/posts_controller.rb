@@ -1,11 +1,9 @@
 def get_user_info(user)
-    # I realise this is a bad way to detect an invalid 'user' but other things
-    # don't seem to work (unless user.nil?, if (user), etc.)
-    begin
+    unless user.nil?
         { :name => user.name,
           :id => user.id
         }
-    rescue NoMethodError
+    else
         { :name => "(all)",
           :id => 0
         }
@@ -21,6 +19,7 @@ def get_post_info(post)
       :body => post.content,
       :sig => post.user.sig,
       :thread => post.msg_thread.id,
+      :id => post.id
     }
 end
 
@@ -57,5 +56,26 @@ class PostsController < ApplicationController
     def show
         post = Post.find(params[:id])
         render :json => get_post_info(post).to_json
+    end
+
+    def destroy
+        post = Post.find(params[:id])
+        thread_posts = Post.find(:all,
+                                 :conditions => ["msg_thread_id = ?",
+                                                 post.msg_thread_id],
+                                 :order => "created_at")
+        result = -1
+        thread_posts.each_index do |post_index|
+            if thread_posts[post_index].id == post.id
+                if post_index < (thread_posts.length - 1)
+                    result = thread_posts[post_index + 1].id
+                else
+                    result = thread_posts[post_index - 1].id
+                end
+            end
+        end
+
+        post.destroy
+        render :json => result
     end
 end

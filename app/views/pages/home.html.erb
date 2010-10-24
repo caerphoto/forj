@@ -24,6 +24,7 @@
 one here gets removed on app init() -->
 <div id="post_template" class="hidden post">
     <div class="post_head">
+        Post ID: <span class="post_id"></span>
         <div class="post_head_fromto">
             From: <a class="post_head_from"></a><br />
             To: <a class="post_head_to"></a>
@@ -39,7 +40,13 @@ one here gets removed on app init() -->
     <div class="post_sig">
     </div> <!-- .post_sig -->
     <div class="post_foot">
-        <a href="#" class="post_foot_reply">Reply</a> |
-        <a href="#" class="post_foot_quote">Reply + Quote</a>
+        <div class="post_foot_replylinks">
+            <a href="#" class="post_foot_reply">Reply</a> |
+            <a href="#" class="post_foot_quote">Reply + Quote</a>
+        </div>
+        <div class="post_foot_editlinks">
+            <a href="#" class="post_foot_edit">Edit</a> |
+            <a href="#" class="post_foot_delete">Delete</a>
+        </div>
     </div> <!-- .post_foot -->
 </div>

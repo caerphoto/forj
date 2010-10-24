@@ -132,18 +132,26 @@ h2 {
     margin-bottom: 0.5em;
 }
 
+.post_head {
+    text-align: center;
+}
+
 .post_head_fromto, .post_head_info {
     position: relative;
     margin-bottom: 0.5em;
 }
 
-.post_head_fromto {
+.post_head_fromto, .post_foot_replylinks {
     float: left;
 }
 
-.post_head_info {
+.post_head_info, .post_foot_editlinks {
     float: right;
     text-align: right;
+}
+
+.post_foot {
+    height: 1.5em;
 }
 
 .post_body, .post_sig {
@@ -186,10 +194,11 @@ h2 {
 
 #replybox {
     margin: 1em;
+    clear: both;
 }
 
 #replybox textarea {
-    width: 30em;
+    width: 90%; /*30em;*/
     height: 8em;
     vertical-align: top;
     padding: 0.5em;

@@ -12,6 +12,7 @@ Forj::Application.routes.draw do
   match '/contact', :to => 'pages#contact'
   match '/about',   :to => 'pages#about'
   match "/signup",  :to => "users#new"
+  match "/delete_post/:id", :to => "posts#destroy"
 
   root :to => "pages#home"
 
