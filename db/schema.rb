@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(:version => 20101021164015) do
     t.string   "title"
     t.integer  "folder_id"
     t.boolean  "sticky"
-    t.integer  "post_id"
+    t.integer  "first_post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20101021164015) do
   create_table "posts", :force => true do |t|
     t.integer  "reply_user_id"
     t.integer  "user_id"
-    t.integer  "thread_id"
+    t.integer  "msg_thread_id"
     t.integer  "reply_index"
     t.string   "content"
     t.integer  "post_index"
