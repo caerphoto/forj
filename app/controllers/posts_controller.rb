@@ -1,15 +1,11 @@
 def get_user_info(user)
     puts "*** Debug: 'user' param is:"
     puts user
-    begin
-        { :name => user.sig,
-          :id => user.id
-        }
-    rescue
-        { :name => "(all)",
-          :id => 0
-        }
-    end
+    result = {}
+    result[:name] = user.name
+    result[:sig] = user.sig
+    result[:id] = user.id
+    return result
 end
 
 def get_post_info(post)
@@ -19,7 +15,6 @@ def get_post_info(post)
       :date => post.created_at,
       :post_index => post.post_index,
       :body => post.content,
-      :sig => post.user.sig,
       :thread => post.msg_thread.id,
       :id => post.id
     }
