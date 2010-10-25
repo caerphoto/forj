@@ -209,3 +209,7 @@ h2 {
 .ui-selectmenu {
     display: inline-block;
 }
+
+#btnNewThread {
+    margin-top: 5em;
+}
