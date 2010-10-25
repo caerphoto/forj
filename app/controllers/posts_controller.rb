@@ -1,9 +1,9 @@
 def get_user_info(user)
-    unless user.nil?
+    begin
         { :name => user.sig,
           :id => user.id
         }
-    else
+    rescue
         { :name => "(all)",
           :id => 0
         }
