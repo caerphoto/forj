@@ -33,6 +33,9 @@ if (typeof FORJ === "undefined") var FORJ = {
         posts_container: $("#posts_wrapper"),
         post_fragment: $("#post_template"),
         replybox: $("#replybox"),
+        replybox_thread_title: $("#replybox_thread_title"),
+        reply_text: $("#replybox texarea").first(),
+        post_preview: undefined,
         btnNewThread: $("#btnNewThread"),
         btnPostReply: $("#btnPostReply"),
         btnCancelReply: $("#btnCancelReply"),
@@ -54,6 +57,8 @@ if (typeof FORJ === "undefined") var FORJ = {
                 FORJ.setData(FORJ.ui.replybox, FORJ.getData(in_post));
                 FORJ.ui.selReplyTo.val(FORJ.getData(in_post).user_id);
                 FORJ.ui.replybox.find("textarea").focus();
+                FORJ.ui.post_preview.insertAfter(in_post);
+                FORJ.ui.post_preview.show();
             } else {
                 FORJ.ui.btnPostReply.button("enable");
                 FORJ.ui.btnCancelReply.button("disable");
@@ -62,12 +67,14 @@ if (typeof FORJ === "undefined") var FORJ = {
                     detach().
                     insertAfter(FORJ.ui.posts_container).
                     show();
+                FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox);
+                FORJ.ui.post_preview.show();
             }
         },
 
         hideReplyBox: function() {
             FORJ.ui.replybox.slideUp(100, function() {
-                FORJ.ui.replybox.find("textarea").val("");
+                //FORJ.ui.replybox.find("textarea").val("");
                 FORJ.setData(FORJ.ui.replybox);
                 FORJ.ui.showReplyBox();
             });
@@ -76,6 +83,7 @@ if (typeof FORJ === "undefined") var FORJ = {
     config: {
         default_post_data: { user_id: 0, post_index: 0, id: 0 },
         maxposts: 100,
+        MAX_POST_LENGTH: 9000,
         current_thread: 0,
         precache: false,
         delete_post_url: "/delete_post/",
@@ -104,6 +112,23 @@ FORJ.getData = function($obj) {
     return $obj.data("post_data") || FORJ.config.default_post_data;
 };
 
+FORJ.sanitiseInput = function(inp) {
+    var character = {
+        '<': '&lt;',
+        '>': '&gt;',
+        '&': '&amp;',
+        '"': '&quot;'
+    };
+
+    if (typeof inp === "string") {
+        return inp.replace(/[&<>"]/g, function(c) {
+            return character[c];
+        });
+    } else {
+        return "";
+    }
+}; // FORJ.sanitiseInput()
+
 FORJ.getThread = function(thread_id) {
     //return { id: 1, name: "Test Thread", post_count: 2 };
     // Returns a thread object with the given id, assuming it's in the cache.
@@ -119,6 +144,12 @@ FORJ.getThread = function(thread_id) {
 FORJ.scrollToPost = function($post) {
     FORJ.ui.posts_pane.scrollTo($post.position().top + FORJ.ui.posts_pane.scrollTop(), 200);
 }; // FORJ.scrollToPost()
+
+FORJ.resetReplyBox = function() {
+    FORJ.replybox_thread_title.find("input").val("");
+    FORJ.ui.reply_text.val();
+    FORJ.ui.post_preview.find(".post_body").html("");
+}; // FORJ.resetReplyBox()
 
 FORJ.loadThreadList = function() {
     // Loads the first 5 threads in each folder
@@ -189,7 +220,8 @@ FORJ.addPost = function(p, scroll) {
 
     var post_body_txt = p.body || " ";
     var post_sig_txt = p.from.sig || " ";
-    $post.find(".post_body").html(FORJ.ui.showdown.makeHtml(post_body_txt));
+    $post.find(".post_body").html(FORJ.ui.showdown.makeHtml(
+        FORJ.sanitiseInput(post_body_txt)));
     $post.find(".post_sig").html(FORJ.ui.showdown.makeHtml(post_sig_txt));
 
     reply_url = FORJ.config.reply_url + p.post_index;
@@ -276,6 +308,7 @@ FORJ.populateThreadsList = function(threads) {
     // Fills the temporary threads list. For now there is only one static
     // folder to which all threads are added.
     var $thread_list = $("#temp_thread_list");
+    $thread_list.empty();
 
     var folders = [];
     FORJ.threads = [];
@@ -293,8 +326,12 @@ FORJ.populateThreadsList = function(threads) {
 }; // FORJ.populateThreadsList()
 
 FORJ.newPostCallback = function(newpost) {
+    if (newpost.post_index == 0) {
+        $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
+    }
     FORJ.ui.hideReplyBox();
     FORJ.addPost(newpost, true);
+    FORJ.postTextChange();
 };
 
 FORJ.lnkReplyClick = function(event) {
@@ -308,22 +345,55 @@ FORJ.lnkDeleteClick = function(event) {
     FORJ.deletePost(FORJ.getData($(this).parents(".post")).id);
 };
 
+FORJ.postTextChange = function() {
+    // Updates post length counter, changing its class to "post_too_long" if
+    // necessary.
+    console.log("postTextChange() called");
+    var txt = $(this).val();
+    var length_thingy = $("#post_length");
+    length_thingy.text(txt.length);
+    if (txt.length > FORJ.config.MAX_POST_LENGTH) {
+        length_thingy.addClass("post_too_long");
+    } else {
+        length_thingy.removeClass("post_too_long");
+    }
+
+    if (txt) {
+        window.setTimeout(function() {
+            FORJ.ui.post_preview.find(".post_body").html(
+                FORJ.ui.showdown.makeHtml(FORJ.sanitiseInput(txt)));
+        }, 0);
+    } else {
+        FORJ.ui.post_preview.find(".post_body").html("");
+    }
+}; // FORJ.postTextChange()
+    
 FORJ.btnPostReplyClick = function() {
     FORJ.ui.replybox.fadeTo(100, 0.5);
     FORJ.ui.btnPostReply.button("disable");
 
-    var post_data = FORJ.getData(FORJ.ui.replybox);
-    console.log(post_data);
-    var url = FORJ.config.reply_url;
-    url += [FORJ.ui.selReplyTo.val(),
+    var url = "";
+    if (FORJ.config.current_thread === 0) {
+        var title = FORJ.ui.replybox_thread_title.find("input").val();
+        url = FORJ.config.threads_url;
+        url += [
+            "?from=", FORJ.ui.selReplyFrom.val(),
+            "&title=", encodeURIComponent(title)
+        ].join("");
+    } else {
+        var post_data = FORJ.getData(FORJ.ui.replybox);
+        url = FORJ.config.reply_url;
+        url += [
+            FORJ.ui.selReplyTo.val(),
             "&reply_from=", FORJ.ui.selReplyFrom.val(),
             "&thread=", FORJ.config.current_thread,
-            "&reply_index=", post_data.post_index,
-            "&post_index=1" // for now at least
-           ].join("");
+            "&reply_index=", post_data.post_index || 0,
+            "&post_index=", FORJ.config.current_thread ? 1 : 0
+        ].join("");
+    }
 
-    console.log(url);
-    var txt = FORJ.ui.replybox.find("textarea").val();
+    var txt = (FORJ.ui.replybox.find("textarea").val()).slice(0,
+        FORJ.config.MAX_POST_LENGTH);
     $.post(url, { textData: txt }, FORJ.newPostCallback);
 }; // FORJ.btnPostReplyClick()
 
@@ -337,8 +407,11 @@ FORJ.lnkThreadClick = function(event) {
 }; // FORJ.threadClick()
 
 FORJ.btnNewThreadClick = function() {
-    // TODO
-    alert("This button doesn't do anything yet, sorry.");
+    FORJ.ui.posts_container.empty();
+    FORJ.ui.replybox.prepend(FORJ.ui.replybox_thread_title);
+    FORJ.ui.showReplyBox();
+    FORJ.ui.replybox_thread_title.find("input").focus();
+    FORJ.config.current_thread = 0;
 }; // FORJ.btnNewThreadClick()
 
 FORJ.layoutSetup = function() {
@@ -376,6 +449,8 @@ FORJ.init = function(config) {
     FORJ.ui.posts_container.
         delegate(".post_foot_reply", "click", FORJ.lnkReplyClick).
         delegate(".post_foot_delete", "click", FORJ.lnkDeleteClick);
+    FORJ.ui.posts_pane.
+        delegate("#replybox textarea", "keyup", FORJ.postTextChange);
     FORJ.ui.folder_list.
         delegate(".thread_title a", "click", FORJ.lnkThreadClick);
 
@@ -383,6 +458,15 @@ FORJ.init = function(config) {
     FORJ.ui.btnCancelReply.button().click(FORJ.btnCancelReplyClick);
     FORJ.ui.btnNewThread.button().click(FORJ.btnNewThreadClick);
     FORJ.ui.replybox.hide();
+    FORJ.ui.post_preview = FORJ.ui.post_fragment.clone();
+    FORJ.ui.post_preview.removeClass("hidden").
+        addClass("post_preview").
+        removeAttr("id").
+        find(".post_head").remove();
+    FORJ.ui.post_preview.find(".post_foot").remove();
+    FORJ.ui.post_preview.find(".post_sig").remove();
+
+    FORJ.ui.replybox_thread_title.detach();
 
     //FORJ.layoutSetup();
     //$(window).resize(FORJ.layoutSetup);

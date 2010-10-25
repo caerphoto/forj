@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101025184049) do
+ActiveRecord::Schema.define(:version => 20101025190148) do
 
   create_table "msg_threads", :force => true do |t|
     t.integer  "post_count"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20101025184049) do
     t.integer  "user_id"
     t.integer  "msg_thread_id"
     t.integer  "reply_index"
-    t.text     "content",       :limit => 4000
+    t.text     "content",       :limit => 9001
     t.integer  "post_index"
     t.datetime "created_at"
     t.datetime "updated_at"

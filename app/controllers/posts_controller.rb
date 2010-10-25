@@ -45,15 +45,19 @@ class PostsController < ApplicationController
     end
 
     def create
-        post = Post.new()
-        #post.content = params[:msg]
-        post.content = params[:textData]
-        post.user_id = params[:reply_from].to_i
+        user = User.find(params[:reply_from].to_i)
+        post = user.posts.build(
+            :content => params[:textData],
+            :post_index => Post.find(:all,
+                :conditions => ["msg_thread_id = ?",
+                                params[:thread]]).last.post_index + 1)
+
         post.reply_user_id = params[:reply_to].to_i
         post.msg_thread_id = params[:thread].to_i
-        post.post_index = params[:post_index].to_i
         post.reply_index = params[:reply_index].to_i
         post.save
+
+        puts post
         render :json => get_post_info(post)
     end
 

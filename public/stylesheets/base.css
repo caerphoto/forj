@@ -161,7 +161,8 @@ h2 {
 
 .post_body {
     border-bottom-color: #CCC;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .post_sig {
@@ -188,18 +189,56 @@ h2 {
     font-weight: bold;
 }
 
+.post_body ul {
+    margin: 0.5em 1em;
+}
+
+.post_body li {
+    list-style: disc outside;
+    margin-left: 1em;
+}
+
+.post_preview {
+    background-color: #DEF;
+    border-color: #ACD;
+}
+
+.post_preview .post_body {
+    border-color: #CCC;
+}
+
 #replybox {
     margin: 1em;
     clear: both;
 }
 
+#replybox_thread_title {
+    margin-bottom: 0.5em;
+}
+
+#replybox_thread_title h3 {
+    display: inline;
+    margin-right: 0.5em;
+    font-size: 123.1%;
+}
+
+#replybox_thread_title input {
+    width: 50%;
+    height: 1.5em;
+}
+
 #replybox textarea {
     width: 90%; /*30em;*/
-    height: 8em;
+    height: 18em;
     vertical-align: top;
     padding: 0.5em;
     border: 1px solid #FC5;
     margin: 0.5em 0;
+}
+
+.post_too_long {
+    color: #F00;
+    font-weight: bold;
 }
 
 .hidden {

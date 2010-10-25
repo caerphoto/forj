@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
     has_many :posts
-    attr_accessible :name, :email
+    has_many :msg_threads
     validates :email,
         :presence => true,
         :uniqueness => { :case_sensitive => false }

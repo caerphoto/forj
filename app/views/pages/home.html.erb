@@ -8,15 +8,23 @@
         </li>
     </ul>
 </div>
+
 <div id="postspane" class="ui-layout-center">
     <h2 id="thread_title" class="thread_title"></h2>
     <div id="posts_wrapper"></div>
     <div id="replybox">
-        Post as: <select id="selReplyFrom"></select>
-        To: <select id="selReplyTo"></select><br />
+        <div id="replybox_thread_title">
+            <h3>Thread Title:</h3>
+            <input type="text" />
+        </div>
+        <div id="replybox_options">
+            Post as: <select id="selReplyFrom"></select>
+            To: <select id="selReplyTo"></select>
+        </div>
         <textarea id="reply_text"></textarea><br />
-        <button id="btnPostReply">Reply</button>
+        <button id="btnPostReply">Post</button>
         <button id="btnCancelReply">Cancel</button>
+        Post length: <span id="post_length">0</span>
     </div>
 </div>
 
