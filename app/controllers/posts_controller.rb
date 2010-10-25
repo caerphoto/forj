@@ -1,17 +1,23 @@
-def get_user_info(user)
-    puts "*** Debug: 'user' param is:"
-    puts user
-    result = {}
-    result[:name] = "TEST BLAH" #user.name
-    result[:sig] = user.sig
-    result[:id] = user.id
-    return result
+def get_post_user_info(user)
+    unless user.nil?
+        {
+            :name => user.name,
+            :sig => user.sig,
+            :id => user.id
+        }
+    else
+        {
+            :name => "(all)",
+            :sig => "no sig",
+            :id => 0
+        }
+    end
 end
 
 def get_post_info(post)
-    { :from => get_user_info(post.user),
+    { :from => get_post_user_info(post.user),
       :to_index => post.reply_index,
-      :to_user => get_user_info(post.reply_user),
+      :to_user => get_post_user_info(post.reply_user),
       :date => post.created_at,
       :post_index => post.post_index,
       :body => post.content,

@@ -188,7 +188,7 @@ FORJ.addPost = function(p, scroll) {
     // updated.
 
     var post_body_txt = p.body || " ";
-    var post_sig_txt = p.sig || " ";
+    var post_sig_txt = p.from.sig || " ";
     $post.find(".post_body").html(FORJ.ui.showdown.makeHtml(post_body_txt));
     $post.find(".post_sig").html(FORJ.ui.showdown.makeHtml(post_sig_txt));
 
