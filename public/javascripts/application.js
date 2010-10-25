@@ -147,12 +147,14 @@ FORJ.scrollToPost = function($post) {
 
 FORJ.resetReplyBox = function() {
     FORJ.ui.replybox_thread_title.find("input").val("");
-    FORJ.ui.reply_text.val();
+    $("#replybox textarea").val("");
     FORJ.ui.post_preview.find(".post_body").html("");
 }; // FORJ.resetReplyBox()
 
 FORJ.loadThreadList = function() {
-    // Loads the first 5 threads in each folder
+    // Loads the first 5 threads in each folder.
+    // Well, it will do. For now it just displays whatever the controller
+    // throws back at it.
     FORJ.threads = [];
     var _fetched = function(thread_data) {
         // Callback that fills FORJ.folders[] and .threads[]
@@ -329,9 +331,9 @@ FORJ.newPostCallback = function(newpost) {
     if (newpost.post_index == 0) {
         $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
     }
+    FORJ.resetReplyBox();
     FORJ.ui.hideReplyBox();
     FORJ.addPost(newpost, true);
-    FORJ.resetReplyBox();
 };
 
 FORJ.lnkReplyClick = function(event) {
@@ -348,7 +350,6 @@ FORJ.lnkDeleteClick = function(event) {
 FORJ.postTextChange = function() {
     // Updates post length counter, changing its class to "post_too_long" if
     // necessary.
-    console.log("postTextChange() called");
     var txt = $(this).val();
     var length_thingy = $("#post_length");
     length_thingy.text(txt.length);
