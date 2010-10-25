@@ -2,7 +2,7 @@ def get_user_info(user)
     puts "*** Debug: 'user' param is:"
     puts user
     result = {}
-    result[:name] = user.name
+    result[:name] = "TEST BLAH" #user.name
     result[:sig] = user.sig
     result[:id] = user.id
     return result
