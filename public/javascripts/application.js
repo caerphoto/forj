@@ -121,7 +121,7 @@ FORJ.sanitiseInput = function(inp) {
     };
 
     if (typeof inp === "string") {
-        return inp.replace(/[&<>"]/g, function(c) {
+        return inp.replace(/[&<"]/g, function(c) {
             return character[c];
         });
     } else {
@@ -331,7 +331,7 @@ FORJ.newPostCallback = function(newpost) {
     }
     FORJ.ui.hideReplyBox();
     FORJ.addPost(newpost, true);
-    FORJ.postTextChange();
+    FORJ.resetReplyBox();
 };
 
 FORJ.lnkReplyClick = function(event) {
