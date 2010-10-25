@@ -1,4 +1,6 @@
 def get_user_info(user)
+    puts "*** Debug: 'user' param is:"
+    puts user
     begin
         { :name => user.sig,
           :id => user.id
