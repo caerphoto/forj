@@ -146,7 +146,7 @@ FORJ.scrollToPost = function($post) {
 }; // FORJ.scrollToPost()
 
 FORJ.resetReplyBox = function() {
-    FORJ.replybox_thread_title.find("input").val("");
+    FORJ.ui.replybox_thread_title.find("input").val("");
     FORJ.ui.reply_text.val();
     FORJ.ui.post_preview.find(".post_body").html("");
 }; // FORJ.resetReplyBox()
