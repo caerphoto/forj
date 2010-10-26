@@ -25,6 +25,10 @@ body {
     overflow: hidden;
 }
 
+html {
+    background-color: #FEA;
+}
+
 a {
     color: #157;
 }
@@ -46,6 +50,18 @@ h1 {
 h2 {
     font-size: 138.5%;
     font-weight: bold;
+}
+
+#forj_main {
+    padding: 1em;
+}
+
+#forj_main h2 {
+    margin-bottom: 1em;
+}
+
+#forj_main p {
+    margin-bottom: 0.8em;
 }
 
 #folder_list {
@@ -81,8 +97,8 @@ h2 {
 }
 
 #header, #footer {
-    /*width: 100%;
-    clear: both;*/
+    width: 100%;
+    clear: both;
     background-color: #FEA;
 }
 
@@ -93,6 +109,8 @@ h2 {
 }
 
 #footer {
+    /*position: absolute;
+    bottom: 0;*/
     border-top: 4px solid #EC4;
     padding: 1em;
 }
@@ -102,6 +120,8 @@ h2 {
 }
 
 #threadspane {
+    float: left;
+    width: 30%;
     padding: 0.5em;
 
     border-width: 1px 4px 1px 1px;
@@ -112,8 +132,8 @@ h2 {
 }
 
 #postspane {
-    /*float: right;*/
-    width: 68%;
+    float: right;
+    width: 67%;
     padding-right: 0.5%;
     overflow: auto;
 }

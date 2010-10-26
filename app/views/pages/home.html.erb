@@ -18,7 +18,6 @@
             <input type="text" />
         </div>
         <div id="replybox_options">
-            Post as: <select id="selReplyFrom"></select>
             To: <select id="selReplyTo"></select>
         </div>
         <textarea id="reply_text"></textarea><br />
@@ -58,3 +57,10 @@ one here gets removed on app init() -->
         </div>
     </div> <!-- .post_foot -->
 </li>
+  <%= javascript_include_tag "jquery.js" %>
+  <%= javascript_include_tag "scrollto-min.js" %>
+  <%= javascript_include_tag "jquery-ui-min.js" %>
+  <!--<%= javascript_include_tag "jquery-ui-selectmenu.js" %>-->
+  <!--<%= javascript_include_tag "jquery.layout.min.js" %>-->
+  <%= javascript_include_tag "underscore-min.js" %>
+  <%= javascript_include_tag "showdown.js" %>

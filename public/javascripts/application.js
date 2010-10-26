@@ -85,6 +85,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         maxposts: 100,
         MAX_POST_LENGTH: 9000,
         current_thread: 0,
+        current_user: 0,
         precache: false,
         delete_post_url: "/delete_post/",
         posts_url: "/posts",
@@ -417,24 +418,18 @@ FORJ.btnNewThreadClick = function() {
 
 FORJ.layoutSetup = function() {
     // Resized panes so the app fills the window.
-    // NOTE: Chrome has a weird bug where if the browser window is made
-    // smaller, the window still retains its original height, meaning there's a
-    // large blank area beneath the page. Setting body { overflow: hidden }
-    // partly fixes the problem (by hiding the scrollbars) but if the user
-    // invokes a scroll action in a non-scrollable element (such as by using
-    // the mousewheel, or pressing the Page Down key), the window still
-    // scrolls. I'm not sure if anything can really be done about this - it
-    // happens even in Google Reader, so if Google can't work around it I
-    // shan't stress too much if I can't either ;-)
+    // NOTE: the Chrome extension SmoothScroll has a bug where it won't resize
+    // the underlay <div> it creates if the window is sized vertically smaller
+    // than it was previously. This has the unfortunate effect of allowing the
+    // window to be scrolled even if it doesn't look like it should.
 
     var threads_pane_margins = FORJ.ui.threads_pane.outerHeight(true) -
-        FORJ.ui.threads_pane.innerHeight();
-    console.log("margins: ", threads_pane_margins);
+        FORJ.ui.threads_pane.height();
     FORJ.ui.threads_pane.height(
         $(window).height() - (FORJ.ui.page_header.outerHeight(true) +
         FORJ.ui.page_footer.outerHeight(true) + threads_pane_margins)
     );
-    FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.height());
+    FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.outerHeight());
 };
 
 // Initialise the FORJ application
@@ -469,10 +464,10 @@ FORJ.init = function(config) {
 
     FORJ.ui.replybox_thread_title.detach();
 
-    //FORJ.layoutSetup();
-    //$(window).resize(FORJ.layoutSetup);
-    FORJ.ui.panes = $("body").layout();
-    FORJ.ui.panes.sizePane("west", $(window).width() / 4);
+    FORJ.layoutSetup();
+    $(window).resize(FORJ.layoutSetup);
+    //FORJ.ui.panes = $("body").layout();
+    //FORJ.ui.panes.sizePane("west", $(window).width() / 4);
 
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
     $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
@@ -483,4 +478,8 @@ FORJ.init = function(config) {
         removeClass("hidden");
 };
 
-$(document).ready(FORJ.init);
+$(document).ready(function() {
+    if (document.getElementById("threadspane")) {
+        FORJ.init()
+    };
+});

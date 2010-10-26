@@ -17,7 +17,7 @@ class MsgThreadsController < ApplicationController
     end
 
     def create
-        user = User.find(params[:from].to_i)
+        user = current_user #User.find(params[:from].to_i)
 
         thread = user.msg_threads.build(
             :title => params[:title],

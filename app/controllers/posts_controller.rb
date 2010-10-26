@@ -45,7 +45,7 @@ class PostsController < ApplicationController
     end
 
     def create
-        user = User.find(params[:reply_from].to_i)
+        user = current_user #User.find(params[:reply_from].to_i)
         post = user.posts.build(
             :content => params[:textData],
             :post_index => Post.find(:all,
@@ -57,7 +57,6 @@ class PostsController < ApplicationController
         post.reply_index = params[:reply_index].to_i
         post.save
 
-        puts post
         render :json => get_post_info(post)
     end
 

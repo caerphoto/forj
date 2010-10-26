@@ -4,7 +4,7 @@
     <title><%= title %></title>
   <%= stylesheet_link_tag "reset.css" %>
   <%= stylesheet_link_tag "jquery-ui.css" %>
-  <%= stylesheet_link_tag "jquery-ui-selectmenu.css" %>
+  <!-- <%= stylesheet_link_tag "jquery-ui-selectmenu.css" %>-->
   <%= stylesheet_link_tag "base.css" %>
   <%= csrf_meta_tag %>
 </head>
@@ -12,8 +12,13 @@
     <div id="header" class="ui-layout-north">
         <h1><%= title %></h1>
         <div id="sign">
-            <%= link_to "Log In", "#" %> |
-            <%= link_to "Sign Up", signup_path %>
+  <% if user_signed_in? %>
+    Signed in as <%= current_user.email %>. Not you?
+    <%= link_to "Sign out", destroy_user_session_path %>
+  <% else %>
+    <%= link_to "Sign up", new_user_registration_path %> |
+    <%= link_to "Sign in", new_user_session_path %>
+  <% end %>
         </div>
 
     </div> <!-- #header -->
@@ -24,15 +29,7 @@
         <a href="/">Forj Forum</a> by <a href="mailto:forj@caerphoto.com">Andy Farrell</a>
     </div> <!-- #footer -->
     <div id="log"></div>
-
-
-  <%= javascript_include_tag "jquery.js" %>
-  <%= javascript_include_tag "scrollto-min.js" %>
-  <%= javascript_include_tag "jquery-ui-min.js" %>
-  <%= javascript_include_tag "jquery-ui-selectmenu.js" %>
-  <%= javascript_include_tag "jquery.layout.min.js" %>
-  <%= javascript_include_tag "underscore-min.js" %>
-  <%= javascript_include_tag "showdown.js" %>
   <%= javascript_include_tag "application.js" %>
+
 </body>
 </html>
