@@ -55,6 +55,10 @@ h2 {
     font-weight: bold;
 }
 
+.current_user {
+    font-weight: bold;
+}
+
 #forj_main {
     padding: 1em;
 }

@@ -173,7 +173,6 @@ FORJ.loadThreadList = function() {
         loading_msg.remove();
         for (var i = 0, l = thread_data.length; i < l; i++) {
             FORJ.threads.push(thread_data[i]);
-            console.log(thread_data[i]);
         }
     };
     $.getJSON(threads_url, _fetched);
@@ -328,7 +327,6 @@ FORJ.populateUserLists = function(users) {
 }; // FORJ.populateUserLists()
 
 FORJ.populateThreadsList = function(threads) {
-    console.log(threads);
     // Fills the temporary threads list. For now there is only one static
     // folder to which all threads are added.
     var $thread_list = $("#temp_thread_list");

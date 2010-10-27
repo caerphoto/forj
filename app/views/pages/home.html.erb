@@ -1,5 +1,7 @@
 <div id="threadspane" class="ui-layout-west">
+    <% if user_signed_in? %>
     <button id="btnNewThread">New Thread</button>
+    <% end %>
     <h2>Threads List:</h2>
     <ul id="folder_list">
         <li><a class="folder_name">Static Test Folder</a>
@@ -12,6 +14,8 @@
 <div id="postspane" class="ui-layout-center">
     <h2 id="thread_title" class="thread_title"></h2>
     <ul id="posts_container"></ul>
+
+   <% if user_signed_in? %>
     <div id="replybox">
         <div id="replybox_thread_title">
             <h3>Thread Title:</h3>
@@ -28,6 +32,7 @@
         <button id="btnCancelReply">Cancel</button>
         Post length: <span id="post_length">0</span> characters.
     </div>
+    <% end %>
 </div>
 
 <!-- Post template - used by showPosts as a source for cloning. This particular
@@ -50,6 +55,7 @@ one here gets removed on app init() -->
     <div class="post_sig">
     </div> <!-- .post_sig -->
     <div class="post_foot">
+        <% if user_signed_in? %>
         <div class="post_foot_replylinks">
             <a href="#" class="post_foot_reply">Reply</a> |
             <a href="#" class="post_foot_quote">Reply + Quote</a>
@@ -58,6 +64,7 @@ one here gets removed on app init() -->
             <a href="#" class="post_foot_edit">Edit</a> |
             <a href="#" class="post_foot_delete">Delete</a>
         </div>
+        <% end %>
     </div> <!-- .post_foot -->
 </li>
   <%= javascript_include_tag "jquery.js" %>
