@@ -12,8 +12,11 @@
  * Pale red: #FBA
  * Pastel red: #F85
  *
- * Pastel blue: #4AC
+ * Light blue: #4AC
  * Dark teal: #157
+ *
+ * Pastel blue: #DEF
+ * Mid-pastel blue: #ACD
  *
  */
 
@@ -66,6 +69,15 @@ h2 {
 
 #folder_list {
     margin: 0 0.5em;
+}
+
+.loading_msg {
+    border-color: #ACD;
+    border-style: solid;
+    border-width: 1px 1px 4px 1px;
+    padding: 0.5em 30px;
+    font-weight: bold;
+    background: url("/images/loading_blue.gif") 8px no-repeat #DEF;
 }
 
 .folder_name {

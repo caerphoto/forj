@@ -30,7 +30,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         threads_pane: $("#threadspane"),
         folder_list: $("#folder_list"),
         posts_pane: $("#postspane"),
-        posts_container: $("#posts_wrapper"),
+        posts_container: $("#posts_container"),
         post_fragment: $("#post_template"),
         replybox: $("#replybox"),
         replybox_thread_title: $("#replybox_thread_title"),
@@ -157,8 +157,12 @@ FORJ.loadThreadList = function() {
     // Well, it will do. For now it just displays whatever the controller
     // throws back at it.
     FORJ.threads = [];
+    var loading_msg = $("<div />").addClass("loading_msg").
+        text("Loading thread list...").
+        appendTo(FORJ.ui.folder_list);
     var _fetched = function(thread_data) {
         // Callback that fills FORJ.folders[] and .threads[]
+        loading_msg.remove();
         for (var i = 0, l = thread_data.length; i < l; i++) {
             FORJ.threads.push(thread_data[i]);
             console.log(thread_data[i]);
@@ -180,8 +184,8 @@ FORJ.showThread = function(i) {
     FORJ.ui.posts_container.empty().
         append($("<div/>").
             text("Loading thread...").
-            addClass("thread_loading"));
-    $("#thread_title").text(t.name);
+            addClass("loading_msg"));
+    $("#thread_title").text(t.title);
     FORJ.ui.replybox.detach();
     FORJ.showPosts(i, 0, t.post_count < 50 ? t.post_count : 50);
 }; // FORJ.showThread()
@@ -369,7 +373,7 @@ FORJ.postTextChange = function() {
         FORJ.ui.post_preview.find(".post_body").html("");
     }
 }; // FORJ.postTextChange()
-    
+
 FORJ.btnPostReplyClick = function() {
     FORJ.ui.replybox.fadeTo(100, 0.5);
     FORJ.ui.btnPostReply.button("disable");
