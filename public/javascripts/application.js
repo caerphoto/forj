@@ -30,6 +30,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         threads_pane: $("#threadspane"),
         folder_list: $("#folder_list"),
         posts_pane: $("#postspane"),
+        thread_title: $("#thread_title"),
         posts_container: $("#posts_container"),
         post_fragment: $("#post_template"),
         replybox: $("#replybox"),
@@ -40,41 +41,41 @@ if (typeof FORJ === "undefined") var FORJ = {
         btnPostReply: $("#btnPostReply"),
         btnCancelReply: $("#btnCancelReply"),
         selReplyTo: $("#selReplyTo"),
-        selReplyFrom: $("#selReplyFrom"),
         showdown: new Showdown.converter(),
 
-        showReplyBox: function(in_post) {
+        showReplyBox: function(in_post, new_thread) {
+            var show_speed;
+            var $element;
+
             if (in_post) {
-                FORJ.ui.btnPostReply.button("enable");
+                show_speed = 100;
+                $element = in_post;//.children(".post_foot");
                 FORJ.ui.btnCancelReply.button("enable");
-                FORJ.scrollToPost(in_post);
-                FORJ.ui.replybox.fadeTo(0, 1).
-                    hide().
-                    detach().
-                    insertAfter(in_post.children(".post_foot")).
-                    slideDown(200);
 
                 FORJ.setData(FORJ.ui.replybox, FORJ.getData(in_post));
                 FORJ.ui.selReplyTo.val(FORJ.getData(in_post).user_id);
-                FORJ.ui.replybox.find("textarea").focus();
-                FORJ.ui.post_preview.insertAfter(in_post);
-                FORJ.ui.post_preview.show();
             } else {
-                FORJ.ui.btnPostReply.button("enable");
-                FORJ.ui.btnCancelReply.button("disable");
-                FORJ.ui.replybox.fadeTo(0, 1).
-                    hide().
-                    detach().
-                    insertAfter(FORJ.ui.posts_container).
-                    show();
-                FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox);
-                FORJ.ui.post_preview.show();
+                show_speed = 0;
+                $element = FORJ.ui.posts_container;
+                FORJ.ui.btnCancelReply.button(new_thread ? "enable" : "disable");
+                FORJ.ui.selReplyTo.val(0);
             }
+
+            FORJ.ui.replybox.fadeTo(0, 1).
+                hide().
+                detach().
+                insertAfter($element).
+                slideDown(show_speed, function() {
+                    if (in_post) {
+                        FORJ.ui.replybox.find("textarea").focus();
+                        FORJ.scrollToPost(in_post);
+                    }
+                });
         },
 
         hideReplyBox: function() {
+            FORJ.ui.btnPostReply.button("enable");
             FORJ.ui.replybox.slideUp(100, function() {
-                //FORJ.ui.replybox.find("textarea").val("");
                 FORJ.setData(FORJ.ui.replybox);
                 FORJ.ui.showReplyBox();
             });
@@ -84,7 +85,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         default_post_data: { user_id: 0, post_index: 0, id: 0 },
         maxposts: 100,
         MAX_POST_LENGTH: 9000,
-        current_thread: 0,
+        current_thread: 0, previous_thread: 0,
         current_user: 0,
         precache: false,
         delete_post_url: "/delete_post/",
@@ -96,7 +97,7 @@ if (typeof FORJ === "undefined") var FORJ = {
 
     folders: [],
     threads: [],
-    posts: []
+    post_cache: {}
 }; // if (FORJ is undefined)
 
 FORJ.setData = function($obj) {
@@ -143,12 +144,19 @@ FORJ.getThread = function(thread_id) {
 }; // FORJ.getThread()
 
 FORJ.scrollToPost = function($post) {
-    FORJ.ui.posts_pane.scrollTo($post.position().top + FORJ.ui.posts_pane.scrollTop(), 200);
+    var offset = 100;
+    var pos = FORJ.ui.replybox.position().top -
+        FORJ.ui.replybox.parent().position().top -
+        offset;
+    console.log("Pos:", pos);
+
+    FORJ.ui.posts_pane.scrollTo(pos, 200);
 }; // FORJ.scrollToPost()
 
 FORJ.resetReplyBox = function() {
     FORJ.ui.replybox_thread_title.find("input").val("");
     $("#replybox textarea").val("");
+    $("#post_length").text("0");
     FORJ.ui.post_preview.find(".post_body").html("");
 }; // FORJ.resetReplyBox()
 
@@ -179,13 +187,12 @@ FORJ.showThread = function(i) {
         return;
     }
 
-    FORJ.config.current_thread = t.id;
     FORJ.posts = [];
-    FORJ.ui.posts_container.empty().
-        append($("<div/>").
-            text("Loading thread...").
+    FORJ.ui.posts_container.
+        prepend($("<div/>").
+            text("Loading posts...").
             addClass("loading_msg"));
-    $("#thread_title").text(t.title);
+    FORJ.ui.thread_title.show().text(t.title);
     FORJ.ui.replybox.detach();
     FORJ.showPosts(i, 0, t.post_count < 50 ? t.post_count : 50);
 }; // FORJ.showThread()
@@ -257,7 +264,7 @@ FORJ.deletePost = function(post_id) {
     }
 
     var _deleted = function(next_post_id) {
-        console.log("Deleting: post_id: ", post_id, ", next_post_id: ", next_post_id);
+        console.log("Deleting: post_id: ", post_id, ", next id: ", next_post_id);
         if (next_post_id !== -1) {
             FORJ.getPost(post_id).fadeTo(200, 0.01, function() {
                 $(this).slideUp(100, function() {
@@ -278,28 +285,38 @@ FORJ.showPosts = function(thread_id, offset, limit) {
 
     var _fetched = function(post_data) {
         // Callback that renders the posts sent from the server
-        FORJ.posts = post_data.posts;
+        FORJ.ui.posts_container.empty(); // will need deleting once we start to 
+                                      // append posts to the current thread
         console.log("post_data.length: ", post_data.posts.length);
         var time_start = new Date();
 
-        _(FORJ.posts).each(function(p) {
+        _(post_data.posts).each(function(p) {
             FORJ.addPost(p);
         }); // FORJ.posts.each()
+
         var time_end = new Date();
-        console.log("Time taken: ", time_end - time_start);
+        console.log("Time taken: ", time_end - time_start, "ms");
+
+        FORJ.post_cache = post_data;
+        FORJ.config.current_thread = thread_id;
 
         $(".thread_loading").remove();
         FORJ.ui.showReplyBox();
     }; // _fetched()
 
-    var url = FORJ.config.posts_url + "?thread=";
-    url += [thread_id, "&offset=", offset, "&limit=", limit].join("");
-    console.log("URL fetched: ", url);
-    $.getJSON(url, _fetched);
+    console.log("Cur thread: ", FORJ.config.current_thread,
+        ", thread_id: ", thread_id);
+    if (thread_id === FORJ.config.current_thread) {
+        _fetched(FORJ.post_cache);
+    } else {
+        var url = FORJ.config.posts_url + "?thread=";
+        url += [thread_id, "&offset=", offset, "&limit=", limit].join("");
+        console.log("URL fetched: ", url);
+        $.getJSON(url, _fetched);
+    }
 }; // FORJ.showPosts()
 
 FORJ.populateUserLists = function(users) {
-    console.log(users);
     // Fills in the temporary <select>s used for testing
     var $user_list = $("#replybox select");
     _(users).each(function(user) {
@@ -383,15 +400,13 @@ FORJ.btnPostReplyClick = function() {
         var title = FORJ.ui.replybox_thread_title.find("input").val();
         url = FORJ.config.threads_url;
         url += [
-            "?from=", FORJ.ui.selReplyFrom.val(),
-            "&title=", encodeURIComponent(title)
+            "?title=", encodeURIComponent(title)
         ].join("");
     } else {
         var post_data = FORJ.getData(FORJ.ui.replybox);
         url = FORJ.config.reply_url;
         url += [
             FORJ.ui.selReplyTo.val(),
-            "&reply_from=", FORJ.ui.selReplyFrom.val(),
             "&thread=", FORJ.config.current_thread,
             "&reply_index=", post_data.post_index || 0,
             "&post_index=", FORJ.config.current_thread ? 1 : 0
@@ -404,20 +419,37 @@ FORJ.btnPostReplyClick = function() {
 }; // FORJ.btnPostReplyClick()
 
 FORJ.btnCancelReplyClick = function() {
-    FORJ.ui.hideReplyBox();
+    FORJ.ui.replybox_thread_title.hide();
+    if (FORJ.config.previous_thread) {
+        FORJ.config.current_thread = FORJ.config.previous_thread;
+        FORJ.config.previous_thread = 0;
+        FORJ.showThread(FORJ.config.current_thread);
+    } else {
+        FORJ.ui.hideReplyBox();
+    }
 };
 
 FORJ.lnkThreadClick = function(event) {
     event.preventDefault();
+    $(".current_thread").removeClass("current_thread");
+    $(this).addClass("current_thread");
+    FORJ.config.current_thread = 0; // force reload of thread when clicked
     FORJ.showThread($(this).data("id"));
+
 }; // FORJ.threadClick()
 
 FORJ.btnNewThreadClick = function() {
-    FORJ.ui.posts_container.empty();
-    FORJ.ui.replybox.prepend(FORJ.ui.replybox_thread_title);
-    FORJ.ui.showReplyBox();
-    FORJ.ui.replybox_thread_title.find("input").focus();
+    FORJ.config.previous_thread = FORJ.config.current_thread;
     FORJ.config.current_thread = 0;
+
+    FORJ.ui.thread_title.hide();
+
+    FORJ.ui.replybox.detach();
+    FORJ.ui.posts_container.empty();
+    FORJ.ui.showReplyBox(undefined, true);
+
+    FORJ.ui.replybox_thread_title.show();
+    FORJ.ui.replybox_thread_title.find("input").focus();
 }; // FORJ.btnNewThreadClick()
 
 FORJ.layoutSetup = function() {
@@ -457,16 +489,18 @@ FORJ.init = function(config) {
     FORJ.ui.btnPostReply.button().click(FORJ.btnPostReplyClick);
     FORJ.ui.btnCancelReply.button().click(FORJ.btnCancelReplyClick);
     FORJ.ui.btnNewThread.button().click(FORJ.btnNewThreadClick);
-    FORJ.ui.replybox.hide();
+
     FORJ.ui.post_preview = FORJ.ui.post_fragment.clone();
     FORJ.ui.post_preview.removeClass("hidden").
         addClass("post_preview").
-        removeAttr("id").
-        find(".post_head").remove();
+        removeAttr("id");
+    FORJ.ui.post_preview.find(".post_head").remove();
     FORJ.ui.post_preview.find(".post_foot").remove();
     FORJ.ui.post_preview.find(".post_sig").remove();
+    FORJ.ui.post_preview.appendTo(FORJ.ui.replybox);
 
-    FORJ.ui.replybox_thread_title.detach();
+    FORJ.ui.replybox_thread_title.hide();
+    FORJ.ui.replybox.hide();
 
     FORJ.layoutSetup();
     $(window).resize(FORJ.layoutSetup);

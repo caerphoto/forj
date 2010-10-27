@@ -78,6 +78,7 @@ h2 {
     padding: 0.5em 30px;
     font-weight: bold;
     background: url("/images/loading_blue.gif") 8px no-repeat #DEF;
+    margin-bottom: 1em;
 }
 
 .folder_name {
@@ -102,6 +103,11 @@ h2 {
 .thread_title {
     margin-bottom: 0px;
     list-style: url('/images/icon_nonewposts.png') outside;
+}
+
+.current_thread {
+    text-decoration: none;
+    font-style: italic;
 }
 
 .pinned_thread {
@@ -147,6 +153,10 @@ h2 {
     float: right;
     width: 67%;
     padding-right: 0.5%;
+    overflow: auto;
+}
+
+.posts_container {
     overflow: auto;
 }
 
@@ -231,6 +241,7 @@ h2 {
 }
 
 .post_preview {
+    margin-top: 0.5em;
     background-color: #DEF;
     border-color: #ACD;
 }
