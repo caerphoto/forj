@@ -67,22 +67,36 @@ class PostsController < ApplicationController
 
     def destroy
         post = Post.find(params[:id])
-        thread_posts = Post.find(:all,
+
+        if post.post_index == 0
+            thread = MsgThread.find(post.msg_thread_id)
+            allposts = Post.find(:all,
                                  :conditions => ["msg_thread_id = ?",
-                                                 post.msg_thread_id],
-                                 :order => "created_at")
-        result = -1
-        thread_posts.each_index do |post_index|
-            if thread_posts[post_index].id == post.id
-                if post_index < (thread_posts.length - 1)
-                    result = thread_posts[post_index + 1].id
-                else
-                    result = thread_posts[post_index - 1].id
+                                                 post.msg_thread_id])
+            allposts.each do |eachpost|
+                eachpost.destroy
+            end
+
+            thread.destroy
+            render :json => nil
+        else
+            thread_posts = Post.find(:all,
+                                     :conditions => ["msg_thread_id = ?",
+                                                     post.msg_thread_id],
+                                     :order => "created_at")
+            result = -1
+            thread_posts.each_index do |post_index|
+                if thread_posts[post_index].id == post.id
+                    if post_index < (thread_posts.length - 1)
+                        result = thread_posts[post_index + 1].id
+                    else
+                        result = thread_posts[post_index - 1].id
+                    end
                 end
             end
-        end
 
-        post.destroy
-        render :json => result
+            post.destroy
+            render :json => result
+        end
     end
 end

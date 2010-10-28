@@ -118,7 +118,7 @@ FORJ.sanitiseInput = function(inp) {
     var character = {
         '<': '&lt;',
         '>': '&gt;',
-        '&': '&amp;',
+//        '&': '&amp;',
         '"': '&quot;'
     };
 
@@ -162,6 +162,7 @@ FORJ.resetReplyBox = function() {
 
 FORJ.showThread = function(i) {
     // Loads a new thread and renders it in the posts pane.
+    FORJ.ui.replybox_thread_title.hide();
     var t = FORJ.getThread(i);
     if (!t) {
         alert("Tried to load thread of id " + i + " but not in cache.");
@@ -225,6 +226,7 @@ FORJ.addPost = function(p, scroll) {
         attr("href", reply_url + "&quote=true");
     $post.find(".post_foot_delete").
         attr("href", FORJ.config.delete_post_url + p.id);
+    // NOTE: this line defines the format of a post's .data:
     FORJ.setData($post, {
         user_id: p.from.id,
         post_index: p.post_index,
@@ -240,23 +242,48 @@ FORJ.addPost = function(p, scroll) {
 
 FORJ.deletePost = function(post_id) {
     if (FORJ.getData(FORJ.getPost(post_id)).post_index === 0) {
-        alert("Unable to delete first post in a thread just yet. Coming soon!");
-        return;
-    }
+        // Callback for thread/post deletion $.get()
+        var _deleted_thread = function() {
+            console.log("Deleting: post_id: ", post_id, "and thread id: ",
+                FORJ.config.current_thread);
 
-    var _deleted = function(next_post_id) {
-        console.log("Deleting: post_id: ", post_id, ", next id: ", next_post_id);
-        if (next_post_id !== -1) {
-            FORJ.getPost(post_id).fadeTo(200, 0.01, function() {
-                $(this).slideUp(100, function() {
-                    $(this).remove();
-                    //FORJ.scrollToPost(FORJ.getPost(next_post_id));
-                });
+            FORJ.ui.replybox.detach();
+            FORJ.ui.posts_container.empty();
+            FORJ.ui.thread_title.text("");
+
+            // Find and remove thread from list
+            $(".thread_list_item").each(function(i, $item) {
+                if ($(this).data("id") === FORJ.config.current_thread) {
+                    $(this).fadeTo(200, 0.01, function() {
+                        $(this).slideUp(100, function () {
+                            $(this).remove();
+                        });
+                    });
+                    return false; // halt thread item iteration
+                }
             });
+
+        }; // _deleted_thread()
+
+        if (window.prompt("Deleting the first post of a thread will also delete the entire thread.\n\nAre you sure you want to do this?\n\nType 'delete' into the box below to confirm:").toLowerCase() === "delete") {
+            var url = FORJ.config.delete_post_url + post_id;
+            $.get(url, _deleted_thread);
         }
-    }; // _deleted()
-    var url = FORJ.config.delete_post_url + post_id;
-    $.get(url, _deleted);
+    } else {
+        var _deleted = function(next_post_id) {
+            console.log("Deleting: post_id: ", post_id, ", next id: ", next_post_id);
+            if (next_post_id !== -1) {
+                FORJ.getPost(post_id).fadeTo(200, 0.01, function() {
+                    $(this).slideUp(100, function() {
+                        $(this).remove();
+                        //FORJ.scrollToPost(FORJ.getPost(next_post_id));
+                    });
+                });
+            }
+        }; // _deleted()
+        var url = FORJ.config.delete_post_url + post_id;
+        $.get(url, _deleted);
+    } // if post_index === 0
 };
 
 FORJ.showPosts = function(thread_id, offset, limit) {
@@ -318,21 +345,25 @@ FORJ.populateThreadsList = function(threads) {
     var folders = [];
     FORJ.threads = [];
     _(threads).each(function(thread) {
-        $thread_list.append($("<li/>").
+        var new_item = $("<li/>").
             addClass("thread_list_item").
             data("id", thread.id).
             append($("<a/>").
                 attr("href", [FORJ.config.threads_url, thread.id].join("/")).
-                text(thread.title)
-            )
-        );
+                text(thread.title));
+        if (thread.id === FORJ.config.current_thread) {
+            new_item.addClass("current_thread");
+        }
+        $thread_list.append(new_item);
         FORJ.threads.push(thread);
     });
 }; // FORJ.populateThreadsList()
 
 FORJ.newPostCallback = function(newpost) {
+    FORJ.ui.replybox_thread_title.hide();
     if (newpost.post_index == 0) {
         $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
+        FORJ.config.current_thread = newpost.thread;
     }
     FORJ.resetReplyBox();
     FORJ.ui.hideReplyBox();
