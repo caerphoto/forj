@@ -301,6 +301,7 @@ FORJ.showPosts = function(thread_id, offset, limit) {
 
         $(".thread_loading").remove();
         FORJ.ui.showReplyBox();
+        FORJ.ui.posts_container.scrollTo(0);
     }; // _fetched()
 
     console.log("Cur thread: ", FORJ.config.current_thread,
