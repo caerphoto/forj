@@ -160,24 +160,6 @@ FORJ.resetReplyBox = function() {
     FORJ.ui.post_preview.find(".post_body").html("");
 }; // FORJ.resetReplyBox()
 
-FORJ.loadThreadList = function() {
-    // Loads the first 5 threads in each folder.
-    // Well, it will do. For now it just displays whatever the controller
-    // throws back at it.
-    FORJ.threads = [];
-    var loading_msg = $("<div />").addClass("loading_msg").
-        text("Loading thread list...").
-        appendTo(FORJ.ui.folder_list);
-    var _fetched = function(thread_data) {
-        // Callback that fills FORJ.folders[] and .threads[]
-        loading_msg.remove();
-        for (var i = 0, l = thread_data.length; i < l; i++) {
-            FORJ.threads.push(thread_data[i]);
-        }
-    };
-    $.getJSON(threads_url, _fetched);
-}; // FORJ.loadThreadList()
-
 FORJ.showThread = function(i) {
     // Loads a new thread and renders it in the posts pane.
     var t = FORJ.getThread(i);
@@ -337,11 +319,11 @@ FORJ.populateThreadsList = function(threads) {
     FORJ.threads = [];
     _(threads).each(function(thread) {
         $thread_list.append($("<li/>").
-            addClass("thread_title").
+            addClass("thread_list_item").
+            data("id", thread.id).
             append($("<a/>").
                 attr("href", [FORJ.config.threads_url, thread.id].join("/")).
-                text(thread.title).
-                data("id", thread.id)
+                text(thread.title)
             )
         );
         FORJ.threads.push(thread);
@@ -483,7 +465,7 @@ FORJ.init = function(config) {
     FORJ.ui.posts_pane.
         delegate("#replybox textarea", "keyup", FORJ.postTextChange);
     FORJ.ui.folder_list.
-        delegate(".thread_title a", "click", FORJ.lnkThreadClick);
+        delegate(".thread_list_item", "click", FORJ.lnkThreadClick);
 
     FORJ.ui.btnPostReply.button().click(FORJ.btnPostReplyClick);
     FORJ.ui.btnCancelReply.button().click(FORJ.btnCancelReplyClick);

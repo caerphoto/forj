@@ -101,17 +101,27 @@ h2 {
 }
 
 .thread_list {
-    margin-left: 2em;
+    margin-left: 1em;
 }
 
-.thread_title {
+.thread_list_item {
+    padding-bottom: 0.25em;
+    padding-left: 24px;
     margin-bottom: 0px;
-    list-style: url('/images/icon_nonewposts.png') outside;
+    background: url('/images/icon_nonewposts.png') 4px no-repeat;
+}
+
+.thread_list_item:hover {
+    background-color: #EEE;
+    cursor: pointer;
+}
+
+.thread_list_item a:hover {
+    color: #157;
 }
 
 .current_thread {
-    text-decoration: none;
-    font-style: italic;
+    background-color: #DEF;
 }
 
 .pinned_thread {
