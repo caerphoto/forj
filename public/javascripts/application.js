@@ -36,6 +36,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         replybox: $("#replybox"),
         replybox_thread_title: $("#replybox_thread_title"),
         reply_text: $("#replybox texarea").first(),
+        thread_loading_msg: $("#thread_loading_msg"),
         post_preview: undefined,
         btnNewThread: $("#btnNewThread"),
         btnPostReply: $("#btnPostReply"),
@@ -170,10 +171,7 @@ FORJ.showThread = function(i) {
     }
 
     FORJ.posts = [];
-    FORJ.ui.posts_container.
-        prepend($("<div/>").
-            text("Loading posts...").
-            addClass("loading_msg"));
+    FORJ.ui.thread_loading_msg.slideDown(200);
     FORJ.ui.thread_title.show().text(t.title);
     FORJ.ui.replybox.detach();
     FORJ.showPosts(i, 0, t.post_count < 50 ? t.post_count : 50);
@@ -308,7 +306,7 @@ FORJ.showPosts = function(thread_id, offset, limit) {
         FORJ.post_cache = post_data;
         FORJ.config.current_thread = thread_id;
 
-        $(".thread_loading").remove();
+        FORJ.ui.thread_loading_msg.slideUp(200);
         FORJ.ui.showReplyBox();
         FORJ.ui.posts_container.scrollTo(0);
     }; // _fetched()
@@ -513,6 +511,8 @@ FORJ.init = function(config) {
 
     FORJ.ui.replybox_thread_title.hide();
     FORJ.ui.replybox.hide();
+
+    FORJ.ui.thread_loading_msg.hide();
 
     FORJ.layoutSetup();
     $(window).resize(FORJ.layoutSetup);
