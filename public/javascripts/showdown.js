@@ -246,7 +246,7 @@ _73+="~0";
 _73=_73.replace(/(?:\n\n|^)((?:(?:[ ]{4}|\t).*\n+)+)(\n*[ ]{0,3}[^ \t\n]|(?=~0))/g,function(_74,m1,m2){
 var _77=m1;
 var _78=m2;
-_77=_79(_72(_77));
+//_77=_79(_72(_77));
 _77=_6(_77);
 _77=_77.replace(/^\n+/g,"");
 _77=_77.replace(/\n+$/g,"");
@@ -265,15 +265,15 @@ _7b=_7b.replace(/(^|[^\\])(`+)([^\r]*?[^`])\2(?!`)/gm,function(_7c,m1,m2,m3,m4){
 var c=m3;
 c=c.replace(/^([ \t]*)/g,"");
 c=c.replace(/[ \t]*$/g,"");
-c=_79(c);
+//c=_79(c);
 return m1+"<code>"+c+"</code>";
 });
 return _7b;
 };
 var _79=function(_82){
 _82=_82.replace(/&/g,"&amp;");
-//_82=_82.replace(/</g,"&lt;");
-//_82=_82.replace(/>/g,"&gt;");
+_82=_82.replace(/</g,"&lt;");
+_82=_82.replace(/>/g,"&gt;");
 _82=_2e(_82,"*_{}[]\\",false);
 return _82;
 };
@@ -330,8 +330,8 @@ _8d[i]=_8d[i].replace(/~K\d+K/,_91);
 return _8d.join("\n\n");
 };
 var _11=function(_92){
-//_92=_92.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g,"&amp;");
-//_92=_92.replace(/<(?![a-z\/?\$!])/gi,"&lt;");
+_92=_92.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g,"&amp;");
+_92=_92.replace(/<(?![a-z\/?\$!])/gi,"&lt;");
 return _92;
 };
 var _25=function(_93){
