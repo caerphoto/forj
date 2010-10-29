@@ -272,8 +272,8 @@ return _7b;
 };
 var _79=function(_82){
 _82=_82.replace(/&/g,"&amp;");
-//_82=_82.replace(/</g,"&lt;");
-//_82=_82.replace(/>/g,"&gt;");
+_82=_82.replace(/</g,"&lt;");
+_82=_82.replace(/>/g,"&gt;");
 _82=_2e(_82,"*_{}[]\\",false);
 return _82;
 };
@@ -330,8 +330,8 @@ _8d[i]=_8d[i].replace(/~K\d+K/,_91);
 return _8d.join("\n\n");
 };
 var _11=function(_92){
-_92=_92.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g,"&amp;");
-_92=_92.replace(/<(?![a-z\/?\$!])/gi,"&lt;");
+//_92=_92.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g,"&amp;");
+//_92=_92.replace(/<(?![a-z\/?\$!])/gi,"&lt;");
 return _92;
 };
 var _25=function(_93){
