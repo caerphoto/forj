@@ -57,6 +57,7 @@ h2 {
 
 input[type="text"], input[type="password"] {
     border: 2px solid #FC5;
+    height: 1.5em;
 }
 
 .current_user {
@@ -285,7 +286,6 @@ input[type="text"], input[type="password"] {
 
 #replybox_thread_title input {
     width: 50%;
-    height: 1.5em;
 }
 
 #replybox textarea {
