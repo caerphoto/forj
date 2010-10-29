@@ -218,10 +218,7 @@ input[type="text"], input[type="password"] {
     border-color: #FC5;
     border-width: 1px;
     border-style: solid;
-}
 
-.post_body {
-    border-bottom-color: #CCC;
     overflow-x: auto;
     overflow-y: hidden;
 }
@@ -231,8 +228,13 @@ input[type="text"], input[type="password"] {
     margin-bottom: 0.5em;
 }
 
-.post_body p {
+.post_body p, .post_body pre {
     margin-bottom: 0.5em;
+}
+
+.post_body pre {
+    border: 1px solid #CCC;
+    background-color: #EEE;
 }
 
 .post_body blockquote {
