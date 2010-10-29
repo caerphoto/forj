@@ -55,6 +55,10 @@ h2 {
     font-weight: bold;
 }
 
+input:text {
+    border: 1px solid #FEA;
+}
+
 .current_user {
     font-weight: bold;
 }
