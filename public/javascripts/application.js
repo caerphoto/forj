@@ -116,15 +116,30 @@ FORJ.getData = function($obj) {
 };
 
 FORJ.sanitiseInput = function(inp) {
+    // Smart processing for ampersands that need to be encoded.
+    // Taken from the _EncodeAmpsAndAngles() function in showdown.js,
+    // which in turn was based on Nat Irons's Amputator MT plugin:
+    //   http://bumppo.net/projects/amputator/
+    // It basically encodes any & character that isn't being used to form an
+    // HTML character entity (like &trade; or &lt;)
+    inp = inp.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g,"&amp;");
+
+    // Not smart processing for angle brackets and " characters.
+    // This is needed to prevent <script>-based hacks as well as CSS-based
+    // attacks, for example:
+    // <div style="position: absolute; top: 0; left: 0; width: 100%; height:
+    // 100%; background-color: #F0F">PINK!</div>
+    // Unfortunately a side-effect of this is that Markdown automatic links
+    // like this: <http://forj.heroku.com> will no longer work.
+    // One day I'll be good enough at regex to use a less heavy-handed
+    // approach.
     var character = {
         '<': '&lt;',
         '>': '&gt;',
-        '&': '&amp;',
         '"': '&quot;'
     };
-
     if (typeof inp === "string") {
-        return inp.replace(/[&<>"]/g, function(c) {
+        return inp.replace(/[<>"]/g, function(c) {
             return character[c];
         });
     } else {
