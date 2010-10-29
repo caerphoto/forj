@@ -55,7 +55,7 @@ h2 {
     font-weight: bold;
 }
 
-input:text {
+input[type="text"] {
     border: 1px solid #FEA;
 }
 
