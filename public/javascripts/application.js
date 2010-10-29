@@ -119,12 +119,12 @@ FORJ.sanitiseInput = function(inp) {
     var character = {
         '<': '&lt;',
         '>': '&gt;',
-//        '&': '&amp;',
+        '&': '&amp;',
         '"': '&quot;'
     };
 
     if (typeof inp === "string") {
-        return inp.replace(/[&<"]/g, function(c) {
+        return inp.replace(/[<>"]/g, function(c) {
             return character[c];
         });
     } else {
