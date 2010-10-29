@@ -56,7 +56,7 @@ h2 {
 }
 
 input[type="text"] {
-    border: 1px solid #FEA;
+    border: 2px solid #FC5;
 }
 
 .current_user {
