@@ -124,7 +124,7 @@ FORJ.sanitiseInput = function(inp) {
     };
 
     if (typeof inp === "string") {
-        return inp.replace(/[<>"]/g, function(c) {
+        return inp.replace(/[&<>"]/g, function(c) {
             return character[c];
         });
     } else {
