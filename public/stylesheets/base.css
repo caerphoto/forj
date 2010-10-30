@@ -263,8 +263,11 @@ strong {
 .post_body pre {
     border: 1px solid #CCC;
     background-color: #EEE;
+    padding: 0.5em;
+}
 
-    padding: 0.5em 0;
+.post_body code {
+    background-color: #EEE;
 }
 
 .post_body blockquote {
