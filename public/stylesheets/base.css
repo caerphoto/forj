@@ -55,6 +55,12 @@ h2 {
     font-weight: bold;
 }
 
+h3 {
+    font-size: 123.1%;
+    font-weight: bold;
+    font-style: italic;
+}
+
 input[type="text"], input[type="password"] {
     border: 2px solid #FC5;
     height: 1.5em;
