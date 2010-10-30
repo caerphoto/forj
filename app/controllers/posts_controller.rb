@@ -68,6 +68,10 @@ class PostsController < ApplicationController
     def destroy
         post = Post.find(params[:id])
 
+        if post.user.id != current_user.id and not current_user.admin?
+            return render :text => "WRONG_USER"
+        end
+
         if post.post_index == 0
             thread = MsgThread.find(post.msg_thread_id)
             allposts = Post.find(:all,

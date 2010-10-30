@@ -87,7 +87,10 @@ if (typeof FORJ === "undefined") var FORJ = {
         maxposts: 100,
         MAX_POST_LENGTH: 9000,
         current_thread: 0, previous_thread: 0,
-        current_user: 0,
+        current_user: {
+            id: parseInt(($("#sign input").val()).slice(1), 10),
+            isAdmin: ($("#sign input").val()).slice(0, 1) === "A"
+        },
         precache: false,
         delete_post_url: "/delete_post/",
         posts_url: "/posts",
@@ -237,9 +240,16 @@ FORJ.addPost = function(p, scroll) {
     $post.find(".post_foot_reply").attr("href", reply_url);
     $post.find(".post_foot_quote").
         attr("href", reply_url + "&quote=true");
+    
     $post.find(".post_foot_delete").
         attr("href", FORJ.config.delete_post_url + p.id);
+    $post.find(".post_foot_edit"); 
+    if (FORJ.config.current_user.id !== p.from.id && 
+        !FORJ.config.current_user.isAdmin) {
+        $post.find(".post_foot_editlinks").remove();
+    }
     // NOTE: this line defines the format of a post's .data:
+
     FORJ.setData($post, {
         user_id: p.from.id,
         post_index: p.post_index,
@@ -256,9 +266,13 @@ FORJ.addPost = function(p, scroll) {
 FORJ.deletePost = function(post_id) {
     if (FORJ.getData(FORJ.getPost(post_id)).post_index === 0) {
         // Callback for thread/post deletion $.get()
-        var _deleted_thread = function() {
+        var _deleted_thread = function(response) {
             console.log("Deleting: post_id: ", post_id, "and thread id: ",
                 FORJ.config.current_thread);
+            if (response === "WRONG_USER") {
+                alert("Sorry, you're not authorised to delete this thread.");
+                return;
+            }
 
             FORJ.ui.replybox.detach();
             FORJ.ui.posts_container.empty();
@@ -284,18 +298,30 @@ FORJ.deletePost = function(post_id) {
         }
     } else {
         var _deleted = function(next_post_id) {
-            console.log("Deleting: post_id: ", post_id, ", next id: ", next_post_id);
-            if (next_post_id !== -1) {
-                FORJ.getPost(post_id).fadeTo(200, 0.01, function() {
-                    $(this).slideUp(100, function() {
-                        $(this).remove();
-                        //FORJ.scrollToPost(FORJ.getPost(next_post_id));
+            switch (next_post_id) {
+                case "WRONG_USER": {
+                    alert("Sorry, you're not authorised to delete this post.");
+                    return;
+                };
+                default: {
+                    console.log("Deleting: post_id: ", post_id, ", next id: ",
+                        next_post_id);
+                    FORJ.getPost(post_id).fadeTo(200, 0.01, function() {
+                        $(this).slideUp(100, function() {
+                            $(this).remove();
+                            if (next_post_id !== -1) {
+                                FORJ.scrollToPost(FORJ.getPost(next_post_id));
+                            }
+                        });
                     });
-                });
-            }
+                } // case default
+            } // switch (next_post_id)
         }; // _deleted()
-        var url = FORJ.config.delete_post_url + post_id;
-        $.get(url, _deleted);
+        if (window.confirm("Are you sure you want to delete this post?\n\n" +
+            "Post ID: " + post_id)) {
+            var url = FORJ.config.delete_post_url + post_id;
+            $.get(url, _deleted);
+        }
     } // if post_index === 0
 };
 
@@ -541,6 +567,7 @@ FORJ.init = function(config) {
     FORJ.ui.post_fragment.detach().
         removeAttr("id").
         removeClass("hidden");
+    console.log("Current user: ", FORJ.config.current_user.id);
 };
 
 $(document).ready(function() {

@@ -16,9 +16,16 @@
       Signed in as <span class="current_user"><%= current_user.email %></span>
       (<%= current_user.name %>).
       Not you? <%= link_to "Sign out", destroy_user_session_path %>
+      <% if current_user.admin? %>
+          <% v = "A" + current_user.id.to_s %>
+      <% else %>
+          <% v = "N" + current_user.id.to_s %>
+      <% end %>
+      <input type="hidden" value="<%= v %>" />
   <% else %>
     <%= link_to "Sign up", new_user_registration_path %> |
     <%= link_to "Sign in", new_user_session_path %>
+    <input type="hidden" value="U0" />
   <% end %>
         </div>
 
