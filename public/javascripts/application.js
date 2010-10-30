@@ -134,7 +134,11 @@ FORJ.sanitiseInput = function(inp) {
     // Turns <script> tags into plain text and prevents CSS-based positioning
     // attack.
     if (typeof inp === "string") {
-        inp = inp.replace(/(<.+?")(.*?)(position\s*?:\s*?(absolute|relative|fixed);?)(.*?>)/gi,
+        inp = inp.replace(/&#(\d+);/g, function(m, n) {
+            return String.fromCharCode(n);
+        });
+
+        inp = inp.replace(/(<.+?style\s*?=\s*?")(.*?)(position\s*?:\s*?(absolute|relative|fixed);?)(.*?">)/gi,
             "$1$2$5");
         return inp.replace(/<(\/)?script/gi, "&lt;$1script");//function(c) {
             //return character[c];
