@@ -42,7 +42,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         btnPostReply: $("#btnPostReply"),
         btnCancelReply: $("#btnCancelReply"),
         selReplyTo: $("#selReplyTo"),
-        showdown: new Showdown.converter(),
+        showdown: new Attacklab.showdown.converter(),
 
         showReplyBox: function(in_post, new_thread) {
             var show_speed;
@@ -131,32 +131,14 @@ FORJ.getData = function($obj) {
 };
 
 FORJ.sanitiseInput = function(inp) {
-    // Smart processing for ampersands that need to be encoded.
-    // Taken from the _EncodeAmpsAndAngles() function in showdown.js,
-    // which in turn was based on Nat Irons's Amputator MT plugin:
-    //   http://bumppo.net/projects/amputator/
-    // It basically encodes any & character that isn't being used to form an
-    // HTML character entity (like &trade; or &lt;)
-    inp = inp.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g,"&amp;");
-
-    // Not smart processing for angle brackets and " characters.
-    // This is needed to prevent <script>-based hacks as well as CSS-based
-    // attacks, for example:
-    // <div style="position: absolute; top: 0; left: 0; width: 100%; height:
-    // 100%; background-color: #F0F">PINK!</div>
-    // Unfortunately a side-effect of this is that Markdown automatic links
-    // like this: <http://forj.heroku.com> will no longer work.
-    // One day I'll be good enough at regex to use a less heavy-handed
-    // approach.
-    var character = {
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;'
-    };
+    // Turns <script> tags into plain text and prevents CSS-based positioning
+    // attack.
     if (typeof inp === "string") {
-        return inp.replace(/[<>"]/g, function(c) {
-            return character[c];
-        });
+        inp = inp.replace(/(<.+?")(.*?)(position\s*?:\s*?(absolute|relative|fixed);?)(.*?>)/gi,
+            "$1$2$5");
+        return inp.replace(/<(\/)?script/gi, "&lt;$1script");//function(c) {
+            //return character[c];
+        //});
     } else {
         return "";
     }
@@ -256,8 +238,8 @@ FORJ.addPost = function(p, opts) {
 
     var post_body_txt = p.body || " ";
     var post_sig_txt = p.from.sig || " ";
-    $post.find(".post_body").html(FORJ.ui.showdown.makeHtml(
-        FORJ.sanitiseInput(post_body_txt)));
+    $post.find(".post_body").html(FORJ.sanitiseInput(FORJ.ui.showdown.makeHtml(
+        post_body_txt)));
     $post.find(".post_sig").html(FORJ.ui.showdown.makeHtml(post_sig_txt));
 
     reply_url = FORJ.config.reply_url + p.post_index;
@@ -491,8 +473,8 @@ FORJ.postTextChange = function() {
     }
 
     window.setTimeout(function() {
-        FORJ.ui.post_preview.find(".post_body").html(
-            FORJ.ui.showdown.makeHtml(FORJ.sanitiseInput(txt)));
+        var h = FORJ.ui.showdown.makeHtml(FORJ.sanitiseInput(txt));
+        FORJ.ui.post_preview.find(".post_body").html(h);
     }, 0);
 }; // FORJ.postTextChange()
 
