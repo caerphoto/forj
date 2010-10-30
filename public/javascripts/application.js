@@ -531,7 +531,6 @@ FORJ.btnPostReplyClick = function() {
 
 FORJ.btnCancelReplyClick = function() {
     FORJ.ui.replybox_thread_title.hide();
-    FORJ.config.editing_post = undefined;
     if (FORJ.config.previous_thread) {
         FORJ.config.current_thread = FORJ.config.previous_thread;
         FORJ.config.previous_thread = 0;
@@ -539,7 +538,9 @@ FORJ.btnCancelReplyClick = function() {
     } else {
         if (FORJ.config.editing_post) {
             FORJ.config.editing_post.show();
+            FORJ.config.editing_post = undefined;
         }
+        FORJ.resetReplyBox();
         FORJ.ui.hideReplyBox();
     }
 };
