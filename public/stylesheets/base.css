@@ -60,20 +60,38 @@ input[type="text"], input[type="password"] {
     height: 1.5em;
 }
 
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
 .current_user {
     font-weight: bold;
 }
 
-#forj_main {
+#static_wrapper {
     padding: 1em;
 }
 
-#forj_main h2 {
+#static_wrapper h2 {
     margin-bottom: 1em;
 }
 
-#forj_main p {
+#static_wrapper p {
     margin-bottom: 0.8em;
+}
+
+#static_wrapper ul {
+    margin: 0.75em 1em;
+}
+
+#static_wrapper li {
+    list-style: disc outside;
+    margin-left: 1em;
+    margin-bottom: 0.5em
 }
 
 #folder_list {

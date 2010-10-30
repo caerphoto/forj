@@ -85,7 +85,7 @@ if (typeof FORJ === "undefined") var FORJ = {
     config: {
         default_post_data: { user_id: 0, post_index: 0, id: 0 },
         maxposts: 100,
-        MAX_POST_LENGTH: 9000,
+        MAX_POST_LENGTH: 9001,
         current_thread: 0, previous_thread: 0,
         current_user: {
             id: parseInt(($("#sign input").val()).slice(1), 10),
@@ -243,7 +243,13 @@ FORJ.addPost = function(p, scroll) {
     
     $post.find(".post_foot_delete").
         attr("href", FORJ.config.delete_post_url + p.id);
-    $post.find(".post_foot_edit"); 
+    //$post.find(".post_foot_edit"); 
+
+    // Remove Edit and Delete links if the post is not the current user's,
+    // and the current user is not an admin.
+    // Note: this check is also done server-side, so even if someone sends a
+    // request via hax0ry means, it still won't work - the client-side link
+    // removal is more just a UI thing than any kind of real security.
     if (FORJ.config.current_user.id !== p.from.id && 
         !FORJ.config.current_user.isAdmin) {
         $post.find(".post_foot_editlinks").remove();
@@ -270,6 +276,7 @@ FORJ.deletePost = function(post_id) {
             console.log("Deleting: post_id: ", post_id, "and thread id: ",
                 FORJ.config.current_thread);
             if (response === "WRONG_USER") {
+                // This is unlikely to happen normally
                 alert("Sorry, you're not authorised to delete this thread.");
                 return;
             }

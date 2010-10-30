@@ -1,2 +1,13 @@
-<h1>Pages#about</h1>
-<p>Find me in app/views/pages/about.html.erb</p>
+<div id="static_wrapper">
+<h1>About Forj Forum</h1>
+<p>Forj is intended to be a high-performance forum for people whose
+needs are relatively basic. Its main features are:
+<ul><li><strong>Fewer page loads:</strong> most data communication between client and server is <a href="">JSON</a>, with the page content updated dynamically.</li>
+    <li><strong>Low bandwidth:</strong> JSON data is syntactically very simple, and since the HTML markup required to present it is generated client-side, the amount of bandwidth used is minimal.</li>
+    <li><strong>Easy to navigate:</strong> with a permanently visible threads pane, no complex thread/folder hierarchy, navigating around the main forum page is easy.</li>
+    <li><strong>Easy to format:</strong> Forj uses <a href="http://daringfireball.net/projects/markdown/">Markdown</a> for post input, meaning it's easy even for web novices to create nicely-formatted posts without having to learn HTML or BBCode. Post content is stored in the database just as the user typed it, and converted to HTML on the fly using <a href="http://attacklab.net/showdown/">Showdown</a>, a Javascript port of the original Perl version of Markdown.</li>
+    <li><strong>Real-time post preview:</strong> users can see what their posts will look like as they type, so posts can be tweaked to get them looking just right, and mistakes are easy to spot and correct before submitting.</li>
+</ul>
+    
+</p>
+</div> <!-- #static_wrapper -->

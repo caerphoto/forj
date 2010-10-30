@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="header" class="ui-layout-north">
-        <h1><%= title %></h1>
+        <h1><a href="/">Forj Forum</a></h1>
         <div id="sign">
   <% if user_signed_in? %>
       Signed in as <span class="current_user"><%= current_user.email %></span>
@@ -34,7 +34,7 @@
         <%= yield %>
 
     <div id="footer" class="ui-layout-south">
-        <a href="/">Forj Forum</a> by <a href="mailto:forj@caerphoto.com">Andy Farrell</a>
+        <a href="/about">Forj Forum</a> by <a href="mailto:forj@caerphoto.com">Andy Farrell</a>
     </div> <!-- #footer -->
     <div id="log"></div>
   <%= javascript_include_tag "application.js" %>
