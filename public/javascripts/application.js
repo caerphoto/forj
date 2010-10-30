@@ -134,12 +134,18 @@ FORJ.sanitiseInput = function(inp) {
     // Turns <script> tags into plain text and prevents CSS-based positioning
     // attack.
     if (typeof inp === "string") {
+        // Convert numeric HTML character codes into their actual characters,
+        // to prevent stuff like 'p&#111;sition: absolute'
         inp = inp.replace(/&#(\d+);/g, function(m, n) {
             return String.fromCharCode(n);
         });
 
+        // Remove any references to 'position: absolute' etc. within the
+        // 'style' section of an HTML tag
         inp = inp.replace(/(<.+?style\s*?=\s*?")(.*?)(position\s*?:\s*?(absolute|relative|fixed);?)(.*?">)/gi,
             "$1$2$5");
+
+        // Convert <script> to HTML character escaped plain text
         return inp.replace(/<(\/)?script/gi, "&lt;$1script");//function(c) {
             //return character[c];
         //});
@@ -477,7 +483,7 @@ FORJ.postTextChange = function() {
     }
 
     window.setTimeout(function() {
-        var h = FORJ.ui.showdown.makeHtml(FORJ.sanitiseInput(txt));
+        var h = FORJ.sanitiseInput(FORJ.ui.showdown.makeHtml(txt));
         FORJ.ui.post_preview.find(".post_body").html(h);
     }, 0);
 }; // FORJ.postTextChange()
