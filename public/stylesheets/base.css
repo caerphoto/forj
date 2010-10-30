@@ -282,13 +282,21 @@ strong {
     font-weight: bold;
 }
 
-.post_body ul {
+.post_body ul, .post_body ol {
     margin: 0.5em 1em;
 }
 
-.post_body li {
+.post_body ul {
     list-style: disc outside;
+}
+
+.post_body ol {
+    list-style: decimal outside;
+}
+
+.post_body li {
     margin-left: 1em;
+    list-style: inherit;
 }
 
 .post_preview {
@@ -302,7 +310,7 @@ strong {
 }
 
 #replybox {
-    margin: 1em 0;
+     margin: 0.5em 0 1em 0;
     clear: both;
 }
 
@@ -310,10 +318,9 @@ strong {
     margin-bottom: 0.5em;
 }
 
-#replybox_thread_title h3 {
+#replybox_thread_title h2 {
     display: inline;
     margin-right: 0.5em;
-    font-size: 123.1%;
 }
 
 #replybox_thread_title input {

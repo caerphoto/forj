@@ -613,7 +613,7 @@ FORJ.init = function(config) {
     FORJ.ui.post_preview.find(".post_head").remove();
     FORJ.ui.post_preview.find(".post_foot").remove();
     FORJ.ui.post_preview.find(".post_sig").remove();
-    FORJ.ui.post_preview.prependTo(FORJ.ui.replybox);
+    FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox.find("#replybox_options"));
 
     FORJ.ui.replybox_thread_title.hide();
     FORJ.ui.replybox.hide();
