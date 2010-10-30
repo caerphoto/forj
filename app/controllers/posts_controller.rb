@@ -45,7 +45,7 @@ class PostsController < ApplicationController
     end
 
     def create
-        user = current_user #User.find(params[:reply_from].to_i)
+        user = current_user
         post = user.posts.build(
             :content => params[:textData],
             :post_index => Post.find(:all,
@@ -102,5 +102,18 @@ class PostsController < ApplicationController
             post.destroy
             render :json => result
         end
+    end
+
+    def edit
+        post = Post.find(params[:id])
+
+        if post.user.id != current_user.id and not current_user.admin?
+            return render :text => "WRONG_USER"
+        end
+
+        post.content = params[:textData]
+        post.save
+
+        render :json => get_post_info(post).to_json
     end
 end

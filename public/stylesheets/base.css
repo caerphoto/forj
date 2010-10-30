@@ -193,6 +193,10 @@ strong {
     overflow: auto;
 }
 
+#thread_title {
+    margin-bottom: 0.5em;
+}
+
 .posts_container {
     overflow: auto;
 }
@@ -292,7 +296,7 @@ strong {
 }
 
 #replybox {
-    margin: 1em;
+    margin: 1em 0;
     clear: both;
 }
 
@@ -311,7 +315,7 @@ strong {
 }
 
 #replybox textarea {
-    width: 90%; /*30em;*/
+    width: 95%; /*30em;*/
     height: 18em;
     vertical-align: top;
     padding: 0.5em;
