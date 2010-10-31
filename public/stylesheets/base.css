@@ -103,11 +103,7 @@ strong {
 }
 
 #static_wrapper {
-    padding: 1em;
-}
-
-#static_wrapper h2 {
-    margin-bottom: 1em;
+    padding: 1em 3em;
 }
 
 #static_wrapper p {
@@ -118,10 +114,16 @@ strong {
     margin: 0.75em 1em;
 }
 
-#static_wrapper li {
+#static_wrapper ul li {
     list-style: disc outside;
     margin-left: 1em;
     margin-bottom: 0.5em
+}
+
+#static_wrapper .signtextbox {
+    width: 20em;
+    font-size: 100%;
+    padding: 0.25em;
 }
 
 #folder_list {
@@ -244,6 +246,8 @@ strong {
     background-color: #FEC;
     padding: 0.5em;
     margin-bottom: 0.5em;
+
+    list-style: none;
 }
 
 .post_head {
@@ -282,7 +286,7 @@ strong {
 
 .post_sig {
     border-top-width: 0;
-    margin-bottom: 0.5em;
+/*    margin-bottom: 0.5em;*/
 }
 
 .post_body p, .post_body pre {
@@ -337,12 +341,20 @@ strong {
     border-color: #ACD;
 }
 
-.post_preview .post_body {
+#sigeditor .post_preview {
+    width: 65%;
+}
+
+.post_preview .post_body, .post_preview .post_sig {
     border-color: #CCC;
 }
 
+.sig_body_preview {
+    color: #CCC;
+}
+
 #replybox {
-     margin: 0.5em 0 1em 0;
+    margin: 0.5em 0 1em 0;
     clear: both;
 }
 
@@ -359,16 +371,23 @@ strong {
     width: 50%;
 }
 
+#sigeditor textarea, #replybox textarea {
+    padding: 0.5em;
+    border: 2px solid #FC5;
+    margin: 0.5em 0;
+}
+
+#sigeditor textarea {
+    width: 64.9%;
+}
+
 #replybox textarea {
     width: 95%; /*30em;*/
     height: 18em;
     vertical-align: top;
-    padding: 0.5em;
-    border: 1px solid #FC5;
-    margin: 0.5em 0;
 }
 
-.post_too_long {
+.post_too_long, .field_with_errors {
     color: #F00;
     font-weight: bold;
 }

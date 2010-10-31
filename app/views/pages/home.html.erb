@@ -31,7 +31,8 @@
         <textarea id="reply_text"></textarea><br />
         <button id="btnPostReply">Post</button>
         <button id="btnCancelReply">Cancel</button>
-        Post length: <span id="post_length">0</span> characters.
+        Post length: <span id="post_length">0</span> characters (maximum 
+  <span id="max_post_length">300</span>).
     </div>
     <% end %>
 </div>
@@ -39,36 +40,8 @@
 
 <!-- Post template - used by showPosts as a source for cloning. This particular
 one here gets removed on app init() -->
-<li id="post_template" class="hidden post">
-    <div class="post_head">
-        Post ID: <span class="post_id"></span>
-        <div class="post_head_fromto">
-            From: <a class="post_head_from"></a><br />
-            To: <a class="post_head_to"></a>
-        </div>
-        <div class="post_head_info">
-            Posted: <span class="post_head_date"></span><br />
-            <span class="post_head_index"></span> of
-                <span class="post_head_count"></span>
-        </div>
-    </div> <!-- .post_head -->
-    <div class="post_body">
-    </div> <!-- .post_body -->
-    <div class="post_sig">
-    </div> <!-- .post_sig -->
-    <div class="post_foot">
-        <% if user_signed_in? %>
-        <div class="post_foot_replylinks">
-            <a href="#" class="post_foot_reply">Reply</a> |
-            <a href="#" class="post_foot_quote">Reply + Quote</a>
-        </div>
-        <div class="post_foot_editlinks">
-            <a href="#" class="post_foot_edit">Edit</a> |
-            <a href="#" class="post_foot_delete">Delete</a>
-        </div>
-        <% end %>
-    </div> <!-- .post_foot -->
-</li>
+  <%= render :partial => "layouts/post_partial" %>
+
   <%= javascript_include_tag "jquery.js" %>
   <%= javascript_include_tag "scrollto-min.js" %>
   <%= javascript_include_tag "jquery-ui-min.js" %>

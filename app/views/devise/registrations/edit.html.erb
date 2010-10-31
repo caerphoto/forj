@@ -1,25 +1,40 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div id="static_wrapper">
+<h1>Edit Your Details</h1>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
 
-  <p><%= f.label :email %><br />
-  <%= f.text_field :email %></p>
+  <p><%= f.label :email, "E-mail:" %><br />
+  <%= f.text_field :email, :class => "signtextbox" %></p>
 
-  <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password %></p>
+  <p><%= f.label :password, "New password:" %><br />
+  <%= f.password_field :password, :class => "signtextbox" %><br />
+  <em>Leave blank if you don't want to change it.</em></p>
 
-  <p><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></p>
+  <p><%= f.label :password_confirmation, "Confirm new password:" %><br />
+  <%= f.password_field :password_confirmation, :class => "signtextbox" %></p>
 
-  <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></p>
+  <p><%= f.label :current_password, "Current password:" %><br />
+  <%= f.password_field :current_password, :class => "signtextbox" %><br />
+  <em>We need your current password to confirm your changes.</em></p>
+
+  <div id="sigeditor">
+  <h3>Signature</h3>
+  <p>This is a preview of what your signature will look like in posts. Edit the text in the box below it to your liking:</p>
+  <%= render :partial => "layouts/post_partial" %>
+  <%= f.text_area :sig, :rows => 5 %>
+  <p>Signature is <span id="post_length">0</span> characters (maximum
+  <span id="max_post_length">300</span>).
+  </div>
 
   <p><%= f.submit "Update" %></p>
 <% end %>
 
-<h3>Cancel my account</h3>
+<!-- <h3>Cancel my account</h3>
 
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
+<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>-->
 
-<%= link_to "Back", :back %>
+</div>
+  <%= javascript_include_tag "jquery.js" %>
+  <%= javascript_include_tag "jquery-ui-min.js" %>
+  <%= javascript_include_tag "showdown.js" %>

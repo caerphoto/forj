@@ -25,6 +25,7 @@ if (typeof console === "undefined") {
 if (typeof FORJ === "undefined") var FORJ = {
     ui: {
         panes: undefined,
+        buttons: $("input:submit"),
         page_header: $("#header"),
         page_footer: $("#footer"),
         threads_pane: $("#threadspane"),
@@ -98,6 +99,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         MAX_POST_LENGTH: 9001,
         current_thread: 0, previous_thread: 0,
         editing_post: undefined,
+        post_preview_target: ".post_body",
         current_user: {
             id: parseInt(($("#sign input").val()).slice(1), 10),
             isAdmin: ($("#sign input").val()).slice(0, 1) === "A"
@@ -470,9 +472,10 @@ FORJ.lnkDeleteClick = function(event) {
     FORJ.deletePost(FORJ.getData($(this).parents(".post")).id);
 };
 
-FORJ.postTextChange = function() {
+FORJ.postTextChange = function(sig) {
     // Updates post length counter, changing its class to "post_too_long" if
     // necessary.
+    var forsec = sig ? ".post_sig" : ".post_body";
     var txt = $(this).val() || " ";
     var length_thingy = $("#post_length");
     length_thingy.text(txt.length);
@@ -484,7 +487,7 @@ FORJ.postTextChange = function() {
 
     window.setTimeout(function() {
         var h = FORJ.sanitiseInput(FORJ.ui.showdown.makeHtml(txt));
-        FORJ.ui.post_preview.find(".post_body").html(h);
+        FORJ.ui.post_preview.find(forsec).html(h);
     }, 0);
 }; // FORJ.postTextChange()
 
@@ -579,6 +582,28 @@ FORJ.layoutSetup = function() {
     FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.outerHeight());
 };
 
+FORJ.lipsum = function() {
+    return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget tempor lacus. Aenean condimentum sem velit. Nulla fringilla, ligula in fringilla dignissim, erat enim malesuada nibh, sit amet convallis lectus mi quis nibh. Suspendisse congue dolor diam. Phasellus faucibus dignissim ligula ut lacinia. Phasellus mattis luctus elit ut porta. Cras.";
+}; // FORJ.lipsum()
+
+FORJ.createPostPreview = function(sig) {
+    FORJ.config.post_preview_target = sig ? ".post_sig" : ".post_body";
+    $("#max_post_length").text(FORJ.config.MAX_POST_LENGTH);
+    FORJ.ui.post_preview = FORJ.ui.post_fragment.clone();
+    FORJ.ui.post_preview.removeClass("hidden").
+        addClass("post_preview").
+        removeAttr("id");
+    FORJ.ui.post_preview.find(".post_head").remove();
+    FORJ.ui.post_preview.find(".post_foot").remove();
+    if (sig) {
+        FORJ.ui.post_preview.find(".post_body").
+            text(FORJ.lipsum()).
+            addClass("sig_body_preview");
+    } else {
+        FORJ.ui.post_preview.find(".post_sig").remove();
+    } 
+}; // FORJ.createPostPreview()
+
 // Initialise the FORJ application
 FORJ.initForum = function(config) {
     // Add whatever's in the supplied 'config' parameter to our existing
@@ -602,13 +627,7 @@ FORJ.initForum = function(config) {
     FORJ.ui.btnCancelReply.button().click(FORJ.btnCancelReplyClick);
     FORJ.ui.btnNewThread.button().click(FORJ.btnNewThreadClick);
 
-    FORJ.ui.post_preview = FORJ.ui.post_fragment.clone();
-    FORJ.ui.post_preview.removeClass("hidden").
-        addClass("post_preview").
-        removeAttr("id");
-    FORJ.ui.post_preview.find(".post_head").remove();
-    FORJ.ui.post_preview.find(".post_foot").remove();
-    FORJ.ui.post_preview.find(".post_sig").remove();
+    FORJ.createPostPreview();
     FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox.find("#replybox_options"));
 
     FORJ.ui.replybox_thread_title.hide();
@@ -631,14 +650,27 @@ FORJ.initForum = function(config) {
     console.log("Current user: ", FORJ.config.current_user.id);
 };
 
-FORJ.init = function() {
-    //$("#sign").height($(".logo").height());
+FORJ.initOther = function() {
+    FORJ.ui.buttons.button();
+    FORJ.config.MAX_POST_LENGTH = 255;
+    FORJ.ui.preview_sig = true;
+
+    // Create a clone of #post_fragment, insert it before the original, then
+    // remove the original
+    FORJ.createPostPreview(true); // true will point the preview updater at .post_sig
+    FORJ.ui.post_preview.insertBefore(FORJ.ui.post_fragment);
+    FORJ.ui.post_fragment.remove();
+
+    $("#sigeditor").delegate("textarea", "keyup", FORJ.postTextChange);
+    // trigger an initial keyup as the textarea gets filled automatically by
+    // the server
+    $("#sigeditor textarea").trigger("keyup");
 };
 
 $(document).ready(function() {
-    FORJ.init();
-
     if (document.getElementById("threadspane")) {
-        FORJ.initForum()
-    };
+        FORJ.initForum();
+    } else {
+        FORJ.initOther();
+    }
 });

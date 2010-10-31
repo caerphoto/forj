@@ -15,8 +15,9 @@
         <div id="sign">
   <% if user_signed_in? %>
       Signed in as <span class="current_user"><%= current_user.email %></span>
-      (<%= current_user.name %>).
-      Not you? <%= link_to "Sign out", destroy_user_session_path %>
+      (<%= current_user.name %>) |
+      <%= link_to "Edit Details", edit_user_registration_path %> |
+      <%= link_to "Sign out", destroy_user_session_path %>
       <% if current_user.admin? %>
           <% v = "A" + current_user.id.to_s %>
       <% else %>
