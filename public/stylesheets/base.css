@@ -50,6 +50,30 @@ h1 {
     font-weight: bold;
 }
 
+.logo {
+    border-color: #ACD;
+    border-width: 1px 1px 4px 1px;
+    border-style: solid;
+    background-color: #DEF;
+    color: #157;
+    padding: 0.5em 0.5em 0.5em 1em;
+    width: 10em;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#sign {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    padding: 0.5em;
+    border: 1px solid #ACD;
+    border-bottom-width: 4px;
+    background-color: #DEF;
+}
+
 h2 {
     font-size: 138.5%;
     font-weight: bold;
@@ -138,10 +162,14 @@ strong {
     padding-left: 24px;
     margin-bottom: 0px;
     background: url('/images/icon_nonewposts.png') 4px no-repeat;
+    border-width: 1px 1px 1px 4px;
+    border-style: solid;
+    border-color: #FEC;
 }
 
 .thread_list_item:hover {
     background-color: #EEE;
+    border-color: #CCC;
     cursor: pointer;
 }
 
@@ -151,6 +179,7 @@ strong {
 
 .current_thread {
     background-color: #DEF;
+    border-color: #ACD;
 }
 
 .pinned_thread {

@@ -559,6 +559,10 @@ FORJ.btnNewThreadClick = function() {
     FORJ.ui.replybox_thread_title.find("input").focus();
 }; // FORJ.btnNewThreadClick()
 
+FORJ.logoClick = function() {
+    window.location = "/";
+};
+
 FORJ.layoutSetup = function() {
     // Resized panes so the app fills the window.
     // NOTE: the Chrome extension SmoothScroll has a bug where it won't resize
@@ -576,7 +580,7 @@ FORJ.layoutSetup = function() {
 };
 
 // Initialise the FORJ application
-FORJ.init = function(config) {
+FORJ.initForum = function(config) {
     // Add whatever's in the supplied 'config' parameter to our existing
     // FORJ.config object.
     if (config && typeof(config) == "object") {
@@ -627,8 +631,14 @@ FORJ.init = function(config) {
     console.log("Current user: ", FORJ.config.current_user.id);
 };
 
+FORJ.init = function() {
+    //$("#sign").height($(".logo").height());
+};
+
 $(document).ready(function() {
+    FORJ.init();
+
     if (document.getElementById("threadspane")) {
-        FORJ.init()
+        FORJ.initForum()
     };
 });
