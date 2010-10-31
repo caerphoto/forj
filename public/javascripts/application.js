@@ -475,7 +475,6 @@ FORJ.lnkDeleteClick = function(event) {
 FORJ.postTextChange = function(sig) {
     // Updates post length counter, changing its class to "post_too_long" if
     // necessary.
-    var forsec = sig ? ".post_sig" : ".post_body";
     var txt = $(this).val() || " ";
     var length_thingy = $("#post_length");
     length_thingy.text(txt.length);
@@ -487,7 +486,7 @@ FORJ.postTextChange = function(sig) {
 
     window.setTimeout(function() {
         var h = FORJ.sanitiseInput(FORJ.ui.showdown.makeHtml(txt));
-        FORJ.ui.post_preview.find(forsec).html(h);
+        FORJ.ui.post_preview.find(FORJ.config.post_preview_target).html(h);
     }, 0);
 }; // FORJ.postTextChange()
 
@@ -653,7 +652,6 @@ FORJ.initForum = function(config) {
 FORJ.initOther = function() {
     FORJ.ui.buttons.button();
     FORJ.config.MAX_POST_LENGTH = 255;
-    FORJ.ui.preview_sig = true;
 
     // Create a clone of #post_fragment, insert it before the original, then
     // remove the original
