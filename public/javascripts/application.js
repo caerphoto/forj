@@ -4,6 +4,7 @@ if (typeof console === "undefined") {
         // Very basic reproduction of Chrome/Firebug's console window
         // Assumes there is an element called "log"; does nothing if not
         log: function() {
+                 return;
             var s = [];
             var elog = document.getElementById("log");
             if (elog) {
