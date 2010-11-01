@@ -297,6 +297,7 @@ strong {
     border: 1px solid #CCC;
     background-color: #EEE;
     padding: 0.5em;
+    line-height: 1.1em;
 }
 
 .post_body code {
