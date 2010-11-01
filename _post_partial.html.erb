@@ -1,0 +1,31 @@
+<li id="post_template" class="hidden post">
+    <div class="post_head">
+        Post ID: <span class="post_id"></span>
+        <div class="post_head_fromto">
+            From: <a class="post_head_from"></a><br />
+            To: <a class="post_head_to"></a>
+        </div>
+        <div class="post_head_info">
+            Posted: <span class="post_head_date"></span><br />
+            <span class="post_head_index"></span> of
+                <span class="post_head_count"></span>
+        </div>
+    </div> <!-- .post_head -->
+    <div class="post_body">
+        <div class="post_sig">
+        </div> <!-- .post_sig OMG WHY ISN'T IT WORKING :@ -->
+    </div> <!-- .post_body -->
+    <h1>WORK YOU STUPID THING</h1>
+    <div class="post_foot">
+        <% if user_signed_in? %>
+        <div class="post_foot_replylinks">
+            <a href="#" class="post_foot_reply">Reply</a> |
+            <a href="#" class="post_foot_quote">Reply + Quote</a>
+        </div>
+        <div class="post_foot_editlinks">
+            <a href="#" class="post_foot_edit">Edit</a> |
+            <a href="#" class="post_foot_delete">Delete</a>
+        </div>
+        <% end %>
+    </div> <!-- .post_foot -->
+</li>
