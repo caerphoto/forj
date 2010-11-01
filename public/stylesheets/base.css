@@ -286,52 +286,61 @@ strong {
 
 .post_sig {
     border-top-width: 0;
-/*    margin-bottom: 0.5em;*/
-}
-
-.post_body p, .post_body pre {
     margin-bottom: 0.5em;
 }
 
-.post_body pre {
+.post p, .post pre {
+    margin-bottom: 0.5em;
+}
+
+.post del {
+    color: #AAA;
+    text-decoration: line-through;
+}
+
+sarcasm {
+    color: #44F;
+}
+
+.post pre {
     border: 1px solid #CCC;
     background-color: #EEE;
     padding: 0.5em;
     line-height: 1.5em;
 }
 
-.post_body code {
+.post code {
     background-color: #EEE;
 }
 
-.post_body blockquote {
+.post blockquote {
     margin: 0.5em 1em;
     padding: 0.5em;
     border: 1px solid #FEA;
     background-color: #FFE;
 }
 
-.post_body em {
+.post em {
     font-style: italic;
 }
 
-.post_body strong {
+.post strong {
     font-weight: bold;
 }
 
-.post_body ul, .post_body ol {
+.post ul, .post ol {
     margin: 0.5em 1em;
 }
 
-.post_body ul {
+.post ul {
     list-style: disc outside;
 }
 
-.post_body ol {
+.post ol {
     list-style: decimal outside;
 }
 
-.post_body li {
+.post li {
     margin-left: 1em;
     list-style: inherit;
 }

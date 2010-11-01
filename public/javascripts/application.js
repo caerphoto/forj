@@ -249,11 +249,10 @@ FORJ.addPost = function(p, opts) {
     // returned by getThread().post_count, the latter should be
     // updated.
 
-    var post_body_txt = p.body || " ";
-    var post_sig_txt = p.from.sig || " ";
     $post.find(".post_body").html(FORJ.sanitiseInput(FORJ.ui.showdown.makeHtml(
-        post_body_txt)));
-    $post.find(".post_sig").html(FORJ.ui.showdown.makeHtml(post_sig_txt));
+        p.body || " ")));
+    $post.find(".post_sig").html(FORJ.sanitiseInput(FORJ.ui.showdown.makeHtml(
+        p.from.sig || " ")));
 
     reply_url = FORJ.config.reply_url + p.post_index;
     $post.find(".post_foot_reply").attr("href", reply_url);
