@@ -93,7 +93,7 @@ class PostsController < ApplicationController
         post.reply_user_id = params[:reply_to].to_i
         post.msg_thread_id = params[:thread].to_i
         post.reply_index = params[:reply_index].to_i
-        post.msg_thread.post_count += 1
+        #post.msg_thread.post_count += 1
         post.save
 
         render :json => get_post_info(post)
