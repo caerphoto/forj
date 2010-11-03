@@ -17,6 +17,13 @@ def get_thread_info(thread)
       :post_count => thread.post_count }
 end
 
+def reset_folder_ids
+  MsgThread.all.each do |thread|
+      thread.folder_id = 0
+      thread.save
+  end
+end
+
 class MsgThreadsController < ApplicationController
     def  index
         q_folders = Folder.all
@@ -43,7 +50,7 @@ class MsgThreadsController < ApplicationController
 
         thread = user.msg_threads.build(
             :title => params[:title],
-            :folder_id => params[:folder],
+            :folder_id => params[:folder].to_i,
             :first_post => user.posts.build(
                 :content => params[:textData],
                 :post_index => 0,
