@@ -30,7 +30,7 @@ class MsgThreadsController < ApplicationController
         end
 
         folders.push :name => "Uncategorised", :id => 0, :threads => []
-        threads = MsgThread.all :conditions => "not folder_id > 0"
+        threads = MsgThread.all :conditions => "folder_id = 0"
         threads.each do |thread|
             folders.last[:threads].push get_thread_info(thread)
         end
