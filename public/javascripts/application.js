@@ -516,10 +516,12 @@ FORJ.btnPostReplyClick = function() {
 
     var url = "";
     if (FORJ.config.current_thread === 0) {
+        // Starting a new thread
         var title = FORJ.ui.replybox_thread_title.find("input").val();
         url = FORJ.config.threads_url;
         url += [
-            "?title=", encodeURIComponent(title)
+            "?title=", encodeURIComponent(title),
+            "&folder=0" // no folder choice yet - coming soon!
         ].join("");
     } else {
         var post_data = FORJ.getData(FORJ.ui.replybox);
