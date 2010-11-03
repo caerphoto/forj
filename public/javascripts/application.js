@@ -44,7 +44,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         btnPostReply: $("#btnPostReply"),
         btnCancelReply: $("#btnCancelReply"),
         selReplyTo: $("#selReplyTo"),
-        showdown: new Attacklab.showdown.converter(),
+        showdown: Attacklab && new Attacklab.showdown.converter(),
 
         showReplyBox: function(in_post, new_thread) {
             var show_speed;
@@ -57,7 +57,7 @@ if (typeof FORJ === "undefined") var FORJ = {
 
                 FORJ.setData(FORJ.ui.replybox, FORJ.getData(in_post));
 
-                var u = FORJ.config.editing_post ? 
+                var u = FORJ.config.editing_post ?
                     FORJ.getData(in_post).to_user_id :
                     FORJ.getData(in_post).user_id;
                 FORJ.ui.selReplyTo.val(u);
@@ -133,12 +133,12 @@ FORJ.getData = function($obj) {
     return $obj.data("post_data") || FORJ.config.default_post_data;
 };
 
-FORJ.sanitiseInput = function(inp) {
-    // Turns <script> tags into plain text and prevents CSS-based positioning
-    // attack.
+FORJ.markup = function(inp) {
+    // Converts the Markdown-formatted input into sanitised HTML
     if (typeof inp === "string") {
         // Convert numeric HTML character codes into their actual characters,
         // to prevent stuff like 'p&#111;sition: absolute'
+        inp = FORJ.ui.showdown.makeHtml(inp || " ");
         inp = inp.replace(/&#(\d+);/g, function(m, n) {
             return String.fromCharCode(n);
         });
@@ -149,16 +149,13 @@ FORJ.sanitiseInput = function(inp) {
             "$1$2$5");
 
         // Convert <script> to HTML character escaped plain text
-        return inp.replace(/<(\/)?script/gi, "&lt;$1script");//function(c) {
-            //return character[c];
-        //});
+        return inp.replace(/<(\/)?script/gi, "&lt;$1script");
     } else {
         return "";
     }
-}; // FORJ.sanitiseInput()
+}; // FORJ.markup()
 
 FORJ.getThread = function(thread_id) {
-    //return { id: 1, name: "Test Thread", post_count: 2 };
     // Returns a thread object with the given id, assuming it's in the cache.
     // If not, ideally I want to async fetch it, but I'm unsure how to let
     // the caller know the return value. For now it just returns undefined.
@@ -169,7 +166,22 @@ FORJ.getThread = function(thread_id) {
     }
 }; // FORJ.getThread()
 
+FORJ.getFolderFromId = function(folder_id) {
+    // Returns the jQuery object that represents the folder with the given ID
+    var result = $("#uncat_threads");
+    FORJ.ui.folder_list.children.each(function(i) {
+        if ($(this).data("id") === folder_id) {
+          result = $(this);
+          return false;
+        }
+    });
+    return result;
+}; // FORJ.getFolderFromId()
+
 FORJ.scrollToPost = function($post) {
+    // Supposedly scrolls to the given post, but doesn't actually work very
+    // well due to the moving about of the replybox messing with the size of
+    // the scrollable area.
     var offset = 100;
     var pos = FORJ.ui.replybox.position().top -
         (FORJ.ui.replybox.parent().position().top || 0) -
@@ -249,10 +261,8 @@ FORJ.addPost = function(p, opts) {
     // returned by getThread().post_count, the latter should be
     // updated.
 
-    $post.find(".post_body").html(FORJ.sanitiseInput(FORJ.ui.showdown.makeHtml(
-        p.body || " ")));
-    $post.find(".post_sig").html(FORJ.sanitiseInput(FORJ.ui.showdown.makeHtml(
-        p.from.sig || " ")));
+    $post.find(".post_body").html(FORJ.markup(p.body));
+    $post.find(".post_sig").html(FORJ.markup(p.from.sig));
 
     reply_url = FORJ.config.reply_url + p.post_index;
     $post.find(".post_foot_reply").attr("href", reply_url);
@@ -411,27 +421,37 @@ FORJ.populateUserLists = function(users) {
     });
 }; // FORJ.populateUserLists()
 
-FORJ.populateThreadsList = function(threads) {
-    // Fills the temporary threads list. For now there is only one static
-    // folder to which all threads are added.
-    var $thread_list = $("#temp_thread_list");
-    $thread_list.empty();
+FORJ.populateThreadsList = function(folders) {
+    // Fills the temporary threads list.
+    var $folder;
 
-    var folders = [];
     FORJ.threads = [];
-    _(threads).each(function(thread) {
-        var new_item = $("<li/>").
-            addClass("thread_list_item").
-            data("id", thread.id).
-            append($("<a/>").
-                attr("href", [FORJ.config.threads_url, thread.id].join("/")).
-                text(thread.title));
-        if (thread.id === FORJ.config.current_thread) {
-            new_item.addClass("current_thread");
-        }
-        $thread_list.append(new_item);
-        FORJ.threads.push(thread);
-    });
+    _(folders).each(function(folder) {
+        var new_folder = $("<li />").
+            data("id", folder.id).
+            append($("<a />").
+                addClass("folder_name").
+                text(folder.name)).
+            appendTo(FORJ.ui.folder_list);
+
+        var $thread_list = $("<ul />").
+            addClass("thread_list").
+            appendTo(new_folder);
+
+        _(folder.threads).each(function(thread) {
+            var new_item = $("<li/>").
+                addClass("thread_list_item").
+                data("id", thread.id).
+                append($("<a/>").
+                    attr("href", [FORJ.config.threads_url, thread.id].join("/")).
+                    text(thread.title));
+            if (thread.id === FORJ.config.current_thread) {
+                new_item.addClass("current_thread");
+            }
+            $thread_list.append(new_item);
+            FORJ.threads.push(thread);
+        }); // folder.threads.each()
+    }); // folders.each()
 }; // FORJ.populateThreadsList()
 
 FORJ.newPostCallback = function(newpost) {
@@ -485,7 +505,7 @@ FORJ.postTextChange = function(sig) {
     }
 
     window.setTimeout(function() {
-        var h = FORJ.sanitiseInput(FORJ.ui.showdown.makeHtml(txt));
+        var h = FORJ.markup(txt);
         FORJ.ui.post_preview.find(FORJ.config.post_preview_target).html(h);
     }, 0);
 }; // FORJ.postTextChange()

@@ -26,7 +26,41 @@ def get_post_info(post)
     }
 end
 
+def generate_random_content
+    words =<<EOS
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer in
+mi a mauris ornare sagittis. Suspendisse potenti. Suspendisse dapibus
+dignissim dolor. Nam sapien tellus, tempus et, tempus ac, tincidunt
+in, arcu. Duis dictum. Proin magna nulla, pellentesque non, commodo
+et, iaculis sit amet, mi. Mauris condimentum massa ut metus. Donec
+viverra, sapien mattis rutrum tristique, lacus eros semper tellus, et
+molestie nisi sapien eu massa. Vestibulum ante ipsum primis in
+faucibus orci luctus et ultrices posuere cubilia Curae; Fusce erat
+tortor, mollis ut, accumsan ut, lacinia gravida, libero. Curabitur
+massa felis, accumsan feugiat, convallis sit amet, porta vel, neque.
+Duis et ligula non elit ultricies rutrum. Suspendisse tempor.
+EOS
+    words.gsub!(/\n/,' ')
+    words
+end
+
 class PostsController < ApplicationController
+    def create_lots_of_test_posts(params)
+        (1...40).each do |i|
+            post = current_user.posts.build(
+                :content => generate_random_content,
+                :post_index => Post.find(:all,
+                    :conditions => ["msg_thread_id = ?",
+                                    params[:thread]]).last.post_index + 1)
+
+            post.reply_user_id = params[:reply_to].to_i
+            post.msg_thread_id = params[:thread].to_i
+            post.reply_index = params[:reply_index].to_i
+            post.msg_thread.post_count += 1
+            post.save
+        end
+    end
+
     def index
         posts = Post.find(:all,
                           :conditions => ["msg_thread_id = ?",
@@ -46,8 +80,11 @@ class PostsController < ApplicationController
     end
 
     def create
-        user = current_user
-        post = user.posts.build(
+        if params[:textData] == "DOTEST"
+            create_lots_of_test_posts params
+        end
+
+        post = current_user.posts.build(
             :content => params[:textData],
             :post_index => Post.find(:all,
                 :conditions => ["msg_thread_id = ?",
@@ -56,6 +93,7 @@ class PostsController < ApplicationController
         post.reply_user_id = params[:reply_to].to_i
         post.msg_thread_id = params[:thread].to_i
         post.reply_index = params[:reply_index].to_i
+        post.msg_thread.post_count += 1
         post.save
 
         render :json => get_post_info(post)

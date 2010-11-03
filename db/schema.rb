@@ -10,7 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101026191727) do
+ActiveRecord::Schema.define(:version => 20101103201541) do
+
+  create_table "folders", :force => true do |t|
+    t.string   "name"
+    t.boolean  "public",     :default => true
+    t.boolean  "admin",      :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "msg_threads", :force => true do |t|
     t.decimal  "user_id"
