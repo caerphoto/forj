@@ -444,7 +444,8 @@ FORJ.populateThreadsList = function(folders) {
                 text(folder.name).
                 append($("<span />").
                     addClass("item_count").
-                    text(" " + folder.thread_count + " threads"))).
+                    text(" " + folder.thread_count +
+                         (folder.thread_count === 1 ? " thread" : " threads")))).
             appendTo(FORJ.ui.folder_list);
 
         FORJ.ui.selThreadFolder.append(
@@ -466,7 +467,8 @@ FORJ.populateThreadsList = function(folders) {
                     text(thread.title)).
                 append($("<span/>").
                     addClass("item_count").
-                    text(" " + thread.post_count + " posts"));
+                    text(" " + thread.post_count +
+                         (thread.post_count === 1 ? " post" : " posts")));
             if (thread.id === FORJ.config.current_thread) {
                 new_item.addClass("current_thread");
             }
