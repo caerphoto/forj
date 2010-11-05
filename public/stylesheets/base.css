@@ -156,6 +156,7 @@ strong {
 
 .folder_contracted {
     background-image: url('/images/icon_expand.gif');
+    font-weight: bold;
 }
 
 .thread_list {
