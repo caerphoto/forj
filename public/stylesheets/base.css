@@ -133,6 +133,11 @@ strong {
     margin: 0 0.5em;
 }
 
+.folder_list_item {
+    border-bottom: 1px solid #FC5;
+    padding-bottom: 0.5em;
+}
+
 .loading_msg {
     border-color: #ACD;
     border-style: solid;

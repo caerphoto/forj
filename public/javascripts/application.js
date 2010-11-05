@@ -439,6 +439,7 @@ FORJ.populateThreadsList = function(folders) {
     _(folders).each(function(folder) {
         var new_folder = $("<li />").
             data("id", folder.id).
+            addClass("folder_list_item").
             append($("<a />").
                 addClass("folder_name").
                 text(folder.name).
