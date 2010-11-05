@@ -1,7 +1,8 @@
 def get_folder_info(folder)
     { :name => folder.name,
       :id => folder.id,
-      :threads => [] }
+      :threads => [],
+      :thread_count => folder.msg_threads.length }
 end
 
 def get_thread_info(thread)
@@ -14,7 +15,7 @@ def get_thread_info(thread)
     { :title => thread.title,
       :id => thread.id,
       :folder_id => f,
-      :post_count => thread.post_count }
+      :post_count => thread.posts.length }
 end
 
 def reset_folder_ids
@@ -26,32 +27,30 @@ end
 
 class MsgThreadsController < ApplicationController
     def  index
-        q_folders = Folder.all
-        folders = []
-        q_folders.each do |folder|
-            folders.push get_folder_info(folder)
-            threads = MsgThread.all :conditions => ["folder_id = ?", folder.id]
-            threads.each do |thread|
-                folders.last[:threads].push get_thread_info(thread)
+        folders = Folder.all
+        result = []
+        folders.each do |folder|
+            result.push get_folder_info(folder)
+            folder.msg_threads.each do |thread|
+                result.last[:threads].push get_thread_info(thread)
             end
         end
 
-        folders.push :name => "Uncategorised", :id => 0, :threads => []
         threads = MsgThread.all :conditions => "folder_id = 0"
+        result.push :name => "Uncategorised", :id => 0, :threads => [],
+            :thread_count => threads.length
         threads.each do |thread|
-            folders.last[:threads].push get_thread_info(thread)
+            result.last[:threads].push get_thread_info(thread)
         end
 
-        render :json => folders.to_json
+        render :json => result.to_json
     end
 
     def create
-        user = current_user #User.find(params[:from].to_i)
-
-        thread = user.msg_threads.build(
+        thread = current_user.msg_threads.build(
             :title => params[:title],
             :folder_id => params[:folder].to_i,
-            :first_post => user.posts.build(
+            :first_post => current_user.posts.build(
                 :content => params[:textData],
                 :post_index => 0,
                 :reply_index => 0,

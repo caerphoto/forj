@@ -10,7 +10,7 @@
  * Brown: #EC4
  *
  * Pale red: #FBA
- * Pastel red: #F85
+ * Pastel red: #D86
  *
  * Light blue: #4AC
  * Dark teal: #157
@@ -182,6 +182,13 @@ strong {
 .current_thread {
     background-color: #DEF;
     border-color: #ACD;
+}
+
+.item_count {
+    font-size: 77%;
+    color: #D86;
+    margin-left: 1em;
+    text-align: right;
 }
 
 .pinned_thread {

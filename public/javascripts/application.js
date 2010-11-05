@@ -249,20 +249,25 @@ FORJ.addPost = function(p, opts) {
     $post.find(".post_head_from").
         attr("href", [FORJ.config.users_url, p.from.id].join("/")).
         text(p.from.name);
-    $post.find(".post_head_to").
-        attr("href", [FORJ.config.users_url, p.to_user.id].join("/")).
-        text(p.to_user.name);
+    if (p.to_user.id === 0) {
+        $post.find(".post_head_to").after(
+            document.createTextNode(p.to_user.name));
+        $post.find(".post_head_to").remove();
+    } else {
+        $post.find(".post_head_to").
+            attr("href", p.to_user.id ? 
+                [FORJ.config.users_url, p.to_user.id].join("/") :
+                ""
+                ).
+            text(p.to_user.name);
+    }
 
     $post.find(".post_head_date").
         text(p.date);
     $post.find(".post_head_index").
         text(p.post_index + 1);
     $post.find(".post_head_count").
-        text("0");//post_data.count);
-    // NOTE: should the thread's post count be loaded from the server
-    // every time that thread is loaded? If it's different to the one
-    // returned by getThread().post_count, the latter should be
-    // updated.
+        text(typeof opts === "number" ? opts : 0);
 
     $post.find(".post_body").html(FORJ.markup(p.body));
     $post.find(".post_sig").html(FORJ.markup(p.from.sig));
@@ -274,7 +279,6 @@ FORJ.addPost = function(p, opts) {
 
     $post.find(".post_foot_delete").
         attr("href", FORJ.config.delete_post_url + p.id);
-    //$post.find(".post_foot_edit");
 
     // Remove Edit and Delete links if the post is not the current user's,
     // and the current user is not an admin.
@@ -294,7 +298,7 @@ FORJ.addPost = function(p, opts) {
         body: p.body
     });
 
-    if (opts && opts.insert_after) {
+    if (typeof opts === "object" && opts.insert_after) {
         $post.insertAfter(opts.insert_after);
         if (opts.remove_previous) {
             opts.insert_after.remove();
@@ -387,7 +391,7 @@ FORJ.showPosts = function(thread_id, offset, limit) {
         var time_start = new Date();
 
         _(post_data.posts).each(function(p) {
-            FORJ.addPost(p);
+            FORJ.addPost(p, post_data.count);
         }); // FORJ.posts.each()
 
         var time_end = new Date();
@@ -437,7 +441,10 @@ FORJ.populateThreadsList = function(folders) {
             data("id", folder.id).
             append($("<a />").
                 addClass("folder_name").
-                text(folder.name)).
+                text(folder.name).
+                append($("<span />").
+                    addClass("item_count").
+                    text(" " + folder.thread_count + " threads"))).
             appendTo(FORJ.ui.folder_list);
 
         FORJ.ui.selThreadFolder.append(
@@ -456,7 +463,10 @@ FORJ.populateThreadsList = function(folders) {
                 data("id", thread.id).
                 append($("<a/>").
                     attr("href", [FORJ.config.threads_url, thread.id].join("/")).
-                    text(thread.title));
+                    text(thread.title)).
+                append($("<span/>").
+                    addClass("item_count").
+                    text(" " + thread.post_count + " posts"));
             if (thread.id === FORJ.config.current_thread) {
                 new_item.addClass("current_thread");
             }

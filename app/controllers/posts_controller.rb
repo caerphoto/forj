@@ -56,27 +56,25 @@ class PostsController < ApplicationController
             post.reply_user_id = params[:reply_to].to_i
             post.msg_thread_id = params[:thread].to_i
             post.reply_index = params[:reply_index].to_i
-            post.msg_thread.post_count += 1
             post.save
         end
     end
 
     def index
-        posts = Post.find(:all,
-                          :conditions => ["msg_thread_id = ?",
-                                          params[:thread]],
-                          :order => "id")
         post_array = []
-        posts.each do |post|
+        thread = MsgThread.find(params[:thread])
+        for post in thread.posts(:all,
+            :order => "id",
+            :include => [:user, :reply_user])
+
             post_array.push get_post_info(post)
         end
 
         result = {
             :posts => post_array,
-            :count => posts.length
+            :count => thread.posts.length
         }
         render :json => result.to_json
-
     end
 
     def create
@@ -84,16 +82,16 @@ class PostsController < ApplicationController
             create_lots_of_test_posts params
         end
 
+        thread = MsgThread.find(params[:thread])
+
         post = current_user.posts.build(
             :content => params[:textData],
-            :post_index => Post.find(:all,
-                :conditions => ["msg_thread_id = ?",
-                                params[:thread]]).last.post_index + 1)
+            :post_index => thread.posts.last.post_index + 1,
+            :reply_index => params[:reply_index].to_i,
+            :msg_thread => thread,
+            :reply_user_id => params[:reply_to].to_i
+        )
 
-        post.reply_user_id = params[:reply_to].to_i
-        post.msg_thread_id = params[:thread].to_i
-        post.reply_index = params[:reply_index].to_i
-        #post.msg_thread.post_count += 1
         post.save
 
         render :json => get_post_info(post)
