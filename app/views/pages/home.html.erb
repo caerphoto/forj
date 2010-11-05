@@ -1,8 +1,8 @@
 <div id="threadspane" class="ui-layout-west">
     <% if user_signed_in? %>
-    <button id="btnNewThread">New Thread</button>
+        <button id="btnNewFolder">New Folder</button>
+        <button id="btnNewThread">New Thread</button>
     <% end %>
-    <h2>Threads List:</h2>
     <ul id="folder_list">
     </ul>
 </div>
@@ -16,10 +16,15 @@
     <div id="replybox">
         <div id="replybox_thread_title">
             <h2>Thread Title:</h2>
-            <input type="text" />
+            <input type="text" /><br />
+            <label for="thread_folder">Folder:</label>
+            <select id="selThreadFolder">
+                <option value="0">(uncategorised)</option>
+            </select>
         </div>
         <div id="replybox_options">
-            To: <select id="selReplyTo">
+            <label for="selReplyTo">To:</label>
+            <select id="selReplyTo">
                 <option value="0">(all)</option>
             </select>
 

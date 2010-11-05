@@ -40,11 +40,13 @@ if (typeof FORJ === "undefined") var FORJ = {
         reply_text: $("#replybox texarea").first(),
         thread_loading_msg: $("#thread_loading_msg"),
         post_preview: undefined,
+        btnNewFolder: $("#btnNewFolder"),
         btnNewThread: $("#btnNewThread"),
         btnPostReply: $("#btnPostReply"),
         btnCancelReply: $("#btnCancelReply"),
         selReplyTo: $("#selReplyTo"),
-        showdown: Attacklab && new Attacklab.showdown.converter(),
+        selThreadFolder: $("#selThreadFolder"),
+        showdown: Attacklab ? new Attacklab.showdown.converter() : undefined,
 
         showReplyBox: function(in_post, new_thread) {
             var show_speed;
@@ -111,6 +113,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         posts_url: "/posts",
         users_url: "/users",
         threads_url: "/msg_threads",
+        new_folder_url: "/folders",
         reply_url: "/posts?reply_to="
     },
 
@@ -426,6 +429,9 @@ FORJ.populateThreadsList = function(folders) {
     var $folder;
 
     FORJ.threads = [];
+    FORJ.ui.folder_list.empty();
+    FORJ.ui.selThreadFolder.empty();
+
     _(folders).each(function(folder) {
         var new_folder = $("<li />").
             data("id", folder.id).
@@ -433,6 +439,12 @@ FORJ.populateThreadsList = function(folders) {
                 addClass("folder_name").
                 text(folder.name)).
             appendTo(FORJ.ui.folder_list);
+
+        FORJ.ui.selThreadFolder.append(
+            $("<option />").
+            text(folder.name).
+            val(folder.id)
+        );
 
         var $thread_list = $("<ul />").
             addClass("thread_list").
@@ -452,6 +464,7 @@ FORJ.populateThreadsList = function(folders) {
             FORJ.threads.push(thread);
         }); // folder.threads.each()
     }); // folders.each()
+    FORJ.folders = folders;
 }; // FORJ.populateThreadsList()
 
 FORJ.newPostCallback = function(newpost) {
@@ -521,7 +534,7 @@ FORJ.btnPostReplyClick = function() {
         url = FORJ.config.threads_url;
         url += [
             "?title=", encodeURIComponent(title),
-            "&folder=0" // no folder choice yet - coming soon!
+            "&folder=", FORJ.ui.selThreadFolder.val()
         ].join("");
     } else {
         var post_data = FORJ.getData(FORJ.ui.replybox);
@@ -567,7 +580,19 @@ FORJ.lnkThreadClick = function(event) {
     $(this).addClass("current_thread");
     FORJ.config.current_thread = 0; // force reload of thread when clicked
     FORJ.showThread($(this).data("id"));
-}; // FORJ.threadClick()
+}; // FORJ.lnkThreadClick()
+
+FORJ.lnkFolderClick = function(event) {
+    var folder = $(this);
+    if (folder.hasClass("folder_contracted")) {
+        folder.removeClass("folder_contracted");
+        folder.next().slideDown(200);
+    } else {
+        folder.addClass("folder_contracted");
+        folder.next().slideUp(200);
+    }
+
+}; // FORJ.lnkFolderClick()
 
 FORJ.btnNewThreadClick = function() {
     FORJ.config.previous_thread = FORJ.config.current_thread;
@@ -582,6 +607,20 @@ FORJ.btnNewThreadClick = function() {
     FORJ.ui.replybox_thread_title.show();
     FORJ.ui.replybox_thread_title.find("input").focus();
 }; // FORJ.btnNewThreadClick()
+
+FORJ.btnNewFolderClick = function() {
+    var folder_name = prompt("What would you like to call the new folder?");
+    if (folder_name) {
+        var _newFolder = function(folder) {
+            FORJ.folders.push(folder);
+            FORJ.populateThreadsList(FORJ.folders);
+        }; // newFolderCallback()
+
+        var url = [FORJ.config.new_folder_url,
+            "?name=", encodeURIComponent(folder_name)].join("");
+        $.post(url, _newFolder);
+    } // if (folder_name)
+}; // FORJ.btnNewFolderClick()
 
 FORJ.logoClick = function() {
     window.location = "/";
@@ -642,11 +681,13 @@ FORJ.initForum = function(config) {
     FORJ.ui.posts_pane.
         delegate("#replybox textarea", "keyup", FORJ.postTextChange);
     FORJ.ui.folder_list.
-        delegate(".thread_list_item", "click", FORJ.lnkThreadClick);
+        delegate(".thread_list_item", "click", FORJ.lnkThreadClick).
+        delegate(".folder_name", "click", FORJ.lnkFolderClick);
 
     FORJ.ui.btnPostReply.button().click(FORJ.btnPostReplyClick);
     FORJ.ui.btnCancelReply.button().click(FORJ.btnCancelReplyClick);
     FORJ.ui.btnNewThread.button().click(FORJ.btnNewThreadClick);
+    FORJ.ui.btnNewFolder.button().click(FORJ.btnNewFolderClick);
 
     FORJ.createPostPreview();
     FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox.find("#replybox_options"));

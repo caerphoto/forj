@@ -55,7 +55,9 @@ class MsgThreadsController < ApplicationController
                 :content => params[:textData],
                 :post_index => 0,
                 :reply_index => 0,
-                :reply_user_id => 0))
+                :reply_user_id => 0
+            )
+        )
         thread.save
 
         render :json => get_post_info(thread.first_post).to_json
