@@ -278,6 +278,11 @@ strong {
     text-align: right;
 }
 
+.post_head_index, .post_head_reply_index {
+    font-weight: bold;
+    cursor: pointer;
+}
+
 .post_foot {
     height: 1.5em;
 }

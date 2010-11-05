@@ -245,7 +245,6 @@ FORJ.getCacheIndexFromId = function(id) {
 FORJ.addPost = function(p, opts) {
     var $post = $(FORJ.ui.post_fragment).clone();
     var reply_url = "";
-    $post.find(".post_id").text(p.id);
     $post.find(".post_head_from").
         attr("href", [FORJ.config.users_url, p.from.id].join("/")).
         text(p.from.name);
@@ -266,8 +265,8 @@ FORJ.addPost = function(p, opts) {
         text(p.date);
     $post.find(".post_head_index").
         text(p.post_index + 1);
-    $post.find(".post_head_count").
-        text(typeof opts === "number" ? opts : 0);
+    $post.find(".post_head_reply_index").
+        text(p.to_index + 1);
 
     $post.find(".post_body").html(FORJ.markup(p.body));
     $post.find(".post_sig").html(FORJ.markup(p.from.sig));
@@ -371,7 +370,8 @@ FORJ.deletePost = function(post_id) {
             } // switch (next_post_id)
         }; // _deleted()
         if (window.confirm("Are you sure you want to delete this post?\n\n" +
-            "Post ID: " + post_id)) {
+            "Post number: " +
+            (FORJ.getData(FORJ.getPostFromId(post_id)).post_index + 1))) {
             var url = FORJ.config.delete_post_url + post_id;
             $.get(url, _deleted);
         }
