@@ -63,9 +63,9 @@ class PostsController < ApplicationController
     def index
         post_array = []
         thread = MsgThread.find(params[:thread])
-        for post in thread.posts(:all,
+        thread.posts.all(
             :order => "id",
-            :include => [:user, :reply_user])
+            :include => [:user, :reply_user]).each do |post|
 
             post_array.push get_post_info(post)
         end

@@ -26,6 +26,9 @@ body {
     font-family: sans-serif;
     font-size: 85%;
     overflow: hidden;
+    /*background-image: url("/bggrad.png");*/
+    background-repeat: repeat-x;
+    background-position: left 4em;
 }
 
 html {

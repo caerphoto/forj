@@ -27,7 +27,9 @@ end
 
 class MsgThreadsController < ApplicationController
     def  index
-        folders = Folder.all
+        folders = Folder.all(
+            :order => "updated_at",
+            :include => :msg_threads)
         result = []
         folders.each do |folder|
             result.push get_folder_info(folder)
