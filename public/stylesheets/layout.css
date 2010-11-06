@@ -1,0 +1,378 @@
+/*
+ * Standard colours:
+ * =================
+ *
+ * Pale orange: #FEC
+ * Pastel orange: #FC5
+ *
+ * Pale yellow: #FFD
+ * Burnt yellow: #FEA
+ * Brown: #EC4
+ *
+ * Pale red: #FBA
+ * Pastel red: #D86
+ *
+ * Light blue: #4AC
+ * Dark teal: #157
+ *
+ * Pastel blue: #DEF
+ * Mid-pastel blue: #ACD
+ *
+ */
+
+/* Common border styles: */
+ * {
+    /* Everything has a solid border style, but most elements have a
+     * border-width of 0.
+     * Doing this allows us to simply specify border widths in this file, since
+     * colours are specified in colours.css. */
+    border-style: solid;
+    border-width: 0;
+}
+
+.bb {
+    border-width: 1px 1px 4px 1px;
+}
+
+.br {
+    border-width: 1px 4px 1px 1px;
+}
+
+.bl {
+    border-width: 1px 1px 1px 4px;
+}
+
+body {
+    font-family: sans-serif;
+    font-size: 85%;
+    overflow: hidden;
+}
+
+li {
+    font-size: inherit;
+    font-style: normal;
+}
+
+h1 {
+    font-size: 167%;
+    font-weight: bold;
+}
+
+#logo {
+    padding: 0.5em 0.5em 0.5em 1em;
+    width: 10em;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#sign {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    padding: 0.5em;
+}
+
+h2 {
+    font-size: 138.5%;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 123.1%;
+    font-weight: bold;
+    font-style: italic;
+}
+
+input[type="text"], input[type="password"], textarea {
+    border-width: 2px;
+    height: 1.5em;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
+#header, #footer {
+    width: 100%;
+    clear: both;
+}
+
+#header {
+    padding: 1em;
+    border-bottom-width: 4px;
+    margin-bottom: 0.5em;
+}
+
+#footer {
+    border-top-width: 4px;
+    padding: 1em;
+}
+
+.current_user {
+    font-weight: bold;
+}
+
+#static_wrapper {
+    padding: 1em 3em;
+}
+
+#static_wrapper p {
+    margin-bottom: 0.8em;
+}
+
+#static_wrapper ul {
+    margin: 0.75em 1em;
+}
+
+#static_wrapper ul li {
+    list-style: disc outside;
+    margin-left: 1em;
+    margin-bottom: 0.5em
+}
+
+#static_wrapper .signtextbox {
+    width: 20em;
+    font-size: 100%;
+    padding: 0.25em;
+}
+
+#folder_list {
+    margin: 0 0.5em;
+}
+
+.folder_list_item {
+    border-bottom-width: 1px;
+    padding-bottom: 0.5em;
+}
+
+.loading_msg {
+    padding: 0.5em 30px;
+    font-weight: bold;
+    background-position: 8px;
+    background-repeat: no-repeat;
+    margin-bottom: 1em;
+}
+
+.folder_name {
+    display: block;
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left: 16px;
+    margin-top: 0.5em;
+    margin-bottom: 0.25em;
+
+    cursor: pointer;
+    font-size: 108%;
+}
+
+.folder_contracted {
+    font-weight: bold;
+}
+
+.thread_list {
+    margin-left: 1em;
+}
+
+.thread_list_item {
+    padding-bottom: 0.25em;
+    padding-left: 24px;
+    background-position: 4px;
+    background-repeat: no-repeat;
+}
+
+.thread_list_item:hover {
+    cursor: pointer;
+}
+
+.item_count {
+    font-size: 77%;
+    margin-left: 1em;
+    text-align: right;
+}
+
+#threadspane, #postspane {
+    margin-bottom: 0.5em;
+}
+
+#threadspane {
+    float: left;
+    width: 30%;
+    padding: 0.5em;
+
+    overflow: auto;
+}
+
+#postspane {
+    float: right;
+    width: 67%;
+    padding-right: 0.5%;
+    overflow: auto;
+}
+
+#thread_title {
+    margin-bottom: 0.5em;
+}
+
+.posts_container {
+    overflow: auto;
+}
+
+.post {
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+
+    list-style: none;
+}
+
+.post_head {
+    text-align: center;
+}
+
+.post_head_fromto, .post_head_info {
+    position: relative;
+    margin-bottom: 0.5em;
+}
+
+.post_head_fromto, .post_foot_replylinks {
+    float: left;
+}
+
+.post_head_info, .post_foot_editlinks {
+    float: right;
+    text-align: right;
+}
+
+.post_head_index, .post_head_reply_index {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.post_foot {
+    height: 1.5em;
+}
+
+.post_body, .post_sig {
+    clear: both;
+    padding: 0.5em 0.75em;
+    border-width: 1px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.post_sig {
+    border-top-width: 0;
+    margin-bottom: 0.5em;
+}
+
+.post p, .post pre {
+    margin-bottom: 0.5em;
+}
+
+.post del {
+    text-decoration: line-through;
+}
+
+sarcasm {
+    color: #44F;
+}
+
+.post pre {
+    border-width: 1px;
+    padding: 0.5em;
+    line-height: 1.5em;
+}
+
+.post blockquote {
+    margin: 0.5em 1em;
+    padding: 0.5em;
+    border-width: 1px;
+}
+
+.post em {
+    font-style: italic;
+}
+
+.post strong {
+    font-weight: bold;
+}
+
+.post ul, .post ol {
+    margin: 0.5em 1em;
+}
+
+.post ul {
+    list-style: disc outside;
+}
+
+.post ol {
+    list-style: decimal outside;
+}
+
+.post li {
+    margin-left: 1em;
+    list-style: inherit;
+}
+
+.post_preview {
+    margin-top: 0.5em;
+}
+
+#sigeditor .post_preview {
+    width: 65%;
+}
+
+#replybox {
+    margin: 0.5em 0 1em 0;
+    clear: both;
+}
+
+#replybox_thread_title {
+    margin-bottom: 0.5em;
+}
+
+#replybox_thread_title h2 {
+    display: inline;
+    margin-right: 0.5em;
+}
+
+#replybox_thread_title input {
+    width: 50%;
+}
+
+#sigeditor textarea, #replybox textarea {
+    padding: 0.5em;
+    margin: 0.5em 0;
+}
+
+#sigeditor textarea {
+    width: 64.9%;
+}
+
+#replybox textarea {
+    width: 95%;
+    height: 18em;
+    vertical-align: top;
+}
+
+.post_too_long, .field_with_errors {
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.ui-selectmenu {
+    display: inline-block;
+}
+
+#btnNewThread {
+    margin-bottom: 0.5em;
+}

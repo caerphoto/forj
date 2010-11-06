@@ -461,7 +461,7 @@ FORJ.populateThreadsList = function(folders) {
 
         _(folder.threads).each(function(thread) {
             var new_item = $("<li/>").
-                addClass("thread_list_item").
+                addClass("thread_list_item bl").
                 data("id", thread.id).
                 append($("<a/>").
                     attr("href", [FORJ.config.threads_url, thread.id].join("/")).
@@ -525,9 +525,9 @@ FORJ.postTextChange = function(sig) {
     var length_thingy = $("#post_length");
     length_thingy.text(txt.length);
     if (txt.length > FORJ.config.MAX_POST_LENGTH) {
-        length_thingy.addClass("post_too_long");
+        length_thingy.addClass("field_with_error");
     } else {
-        length_thingy.removeClass("post_too_long");
+        length_thingy.removeClass("field_with_error");
     }
 
     window.setTimeout(function() {
@@ -674,7 +674,7 @@ FORJ.createPostPreview = function(sig) {
             addClass("sig_body_preview");
     } else {
         FORJ.ui.post_preview.find(".post_sig").remove();
-    } 
+    }
 }; // FORJ.createPostPreview()
 
 // Initialise the FORJ application

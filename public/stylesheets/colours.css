@@ -1,0 +1,141 @@
+/*
+ * Standard colours:
+ * =================
+ *
+ * Pale orange: #FEC
+ * Pastel orange: #FC5
+ *
+ * Pale yellow: #FFD
+ * Burnt yellow: #FEA
+ * Brown: #EC4
+ *
+ * Pale red: #FBA
+ * Pastel red: #D86
+ *
+ * Light blue: #4AC
+ * Dark teal: #157
+ *
+ * Pastel blue: #DEF
+ * Mid-pastel blue: #ACD
+ *
+ */
+
+body {
+    background-color: #FFD;
+}
+
+/* .clr1, .clr2 and .clr3 are the three main colours used on the site
+ * ==================================================================
+ *
+/* This is the colour of the header and footer. */
+.clr1, html {
+    background-color: #FEA;
+    border-color: #EC4;
+    color: #000;
+}
+
+/* This is the colour of the threads pane and individual posts. */
+.clr2, .folder_list_item {
+    background-color: #FEC;
+    border-color: #FC5;
+}
+
+/* Items in thread lists that are not the current thread and don't have the
+ * mouse cursor over them still have a border, but it's the same colour as the
+ * background. This is to prevent the layout jumping around if we just add a
+ * border to something in the list.
+ *
+ * NOTE: this needs to come before .current_thread in order for that rule to
+ * take precedence when setting border colour.
+ */
+.thread_list_item {
+    border-color: #FEC;
+    background-image: url('/images/icon_nonewposts.png');
+}
+
+/* This is the accent colour. Static page elements can have the "clr3" class
+ * added to them, but for dynamic elements it's easier to just include their
+ * class specifically in the selector here.
+ */
+.clr3, .loading_msg, .current_thread {
+    background-color: #DEF;
+    border-color: #ACD;
+}
+
+.loading_msg {
+    background-image: url("/images/loading_blue.gif");
+}
+
+.folder_name {
+    background-image: url('/images/icon_contract.gif');
+}
+
+.folder_contracted {
+    background-image: url('/images/icon_expand.gif');
+}
+
+/* Common grey border colour */
+.thread_list_item:hover, .post_body, .post_sig, pre {
+    border-color: #CCC;
+}
+
+.thread_list_item:hover {
+    background-color: #EEE;
+}
+
+.item_count {
+    color: #D86;
+}
+
+.pinned_thread {
+    background-image: url('/images/icon_pin.png');
+}
+
+.post_body, .post_sig {
+    background-color: #FFF;
+}
+
+/* Colour of the dummy text shown when a user is editing their sig */
+.sig_body_preview {
+    color: #CCC;
+}
+
+.field_with_errors {
+    color: #F00;
+}
+
+/* Element styles
+ * ============== */
+
+a {
+    color: #157;
+}
+
+a:hover {
+    color: #4AC;
+}
+
+/* Prevent thread list items from changing colour on :hover (it looks odd if
+ * they do) */
+.thread_list_item a:hover {
+    color: #157;
+}
+
+/* Similar to .clr2 but has a white background */
+input[type="text"], input[type="password"], textarea {
+    border-color: #FC5;
+    background-color: #FFF;
+}
+
+del {
+    color: #AAA;
+}
+
+pre, code {
+    background-color: #EEE;
+}
+
+blockquote {
+    background-color: #FFE;
+    border-color: #FEA;
+}

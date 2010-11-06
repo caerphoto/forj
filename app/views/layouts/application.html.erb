@@ -5,14 +5,15 @@
   <%= stylesheet_link_tag "reset.css" %>
   <%= stylesheet_link_tag "jquery-ui.css" %>
   <!-- <%= stylesheet_link_tag "jquery-ui-selectmenu.css" %>-->
-  <%= stylesheet_link_tag "base.css" %>
+  <%= stylesheet_link_tag "layout.css" %>
+  <%= stylesheet_link_tag "colours.css" %>
   <%= csrf_meta_tag %>
 </head>
 <body>
-    <div id="header" class="ui-layout-north">
-        <a id="logo" class="clr3" href="/">FORJ Forum /</a>
+    <div id="header" class="clr1">
+        <a id="logo" class="clr3 bb" href="/">FORJ Forum /</a>
 
-        <div id="sign">
+        <div id="sign" class="clr3 bb">
   <% if user_signed_in? %>
       Signed in as <span class="current_user"><%= current_user.email %></span>
       (<%= current_user.name %>) |
@@ -35,7 +36,7 @@
 
         <%= yield %>
 
-    <div id="footer" class="ui-layout-south">
+    <div id="footer" class="clr1">
         <a href="/about">Forj Forum</a> by <a href="mailto:forj@caerphoto.com">Andy Farrell</a>
     </div> <!-- #footer -->
     <div id="log"></div>
