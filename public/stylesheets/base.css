@@ -217,8 +217,6 @@ strong {
 }
 
 #footer {
-    /*position: absolute;
-    bottom: 0;*/
     border-top: 4px solid #EC4;
     padding: 1em;
 }
@@ -237,6 +235,8 @@ strong {
     border-style: solid;
 
     background-color: #FEC;
+
+    overflow: auto;
 }
 
 #postspane {
