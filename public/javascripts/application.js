@@ -211,7 +211,7 @@ FORJ.showThread = function(i) {
     }
 
     FORJ.posts = [];
-    FORJ.ui.thread_loading_msg.slideDown(200);
+    FORJ.ui.thread_loading_msg.fadeIn(100);
     FORJ.ui.thread_title.show().text(t.title);
     FORJ.ui.replybox.detach();
     FORJ.showPosts(i, 0, t.post_count < 50 ? t.post_count : 50);
@@ -400,7 +400,7 @@ FORJ.showPosts = function(thread_id, offset, limit) {
         FORJ.post_cache = post_data;
         FORJ.config.current_thread = thread_id;
 
-        FORJ.ui.thread_loading_msg.slideUp(200);
+        FORJ.ui.thread_loading_msg.fadeOut(100);
         FORJ.ui.showReplyBox();
         FORJ.ui.posts_container.scrollTo(0);
     }; // _fetched()
@@ -653,6 +653,12 @@ FORJ.layoutSetup = function() {
         FORJ.ui.page_footer.outerHeight(true) + threads_pane_margins)
     );
     FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.outerHeight());
+
+    var o = FORJ.ui.posts_pane.offset();
+    FORJ.ui.thread_loading_msg.
+        show().
+        offset(o).
+        hide();
 };
 
 FORJ.lipsum = function() {
@@ -708,12 +714,8 @@ FORJ.initForum = function(config) {
     FORJ.ui.replybox_thread_title.hide();
     FORJ.ui.replybox.hide();
 
-    FORJ.ui.thread_loading_msg.hide();
-
     FORJ.layoutSetup();
     $(window).resize(FORJ.layoutSetup);
-    //FORJ.ui.panes = $("body").layout();
-    //FORJ.ui.panes.sizePane("west", $(window).width() / 4);
 
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
     $.get(FORJ.config.threads_url, FORJ.populateThreadsList);

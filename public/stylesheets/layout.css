@@ -152,11 +152,17 @@ strong {
 }
 
 .loading_msg {
-    padding: 0.5em 30px;
+    padding: 0.5em 5em;
     font-weight: bold;
-    background-position: 8px;
+    background-position: 12px;
     background-repeat: no-repeat;
     margin-bottom: 1em;
+}
+
+#thread_loading_msg {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .folder_name {
