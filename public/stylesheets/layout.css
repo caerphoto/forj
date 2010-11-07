@@ -26,7 +26,7 @@ body {
     word-spacing: 0.1em;
 }
 
-body, textarea, input {
+body, textarea, input, .ui-widget {
     font-family: 'Cantarell', sans-serif;
 }
 
@@ -181,11 +181,12 @@ strong {
 }
 
 .thread_list_item {
+    padding: 0.25em 24px;
     padding-bottom: 0.25em;
     padding-left: 24px;
     background-position: 4px;
     background-repeat: no-repeat;
-    line-height: 1.1em;
+    line-height: 1em;
 }
 
 .thread_list_item:hover {
