@@ -21,13 +21,13 @@
 }
 
 body {
-    font-size: 77%;
+    font-size: 85%;
     overflow: hidden;
     word-spacing: 0.1em;
 }
 
 body, textarea, input {
-    font-family: 'Nobile', sans-serif;
+    font-family: 'Cantarell', sans-serif;
 }
 
 p, blockquote, li {
@@ -46,7 +46,7 @@ h1 {
 
 code {
     font-family: 'Droid Sans Mono', monospace;
-    font-size: 93%;
+    font-size: 85%;
 }
 
 #logo {
