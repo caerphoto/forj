@@ -692,6 +692,10 @@ FORJ.initForum = function(config) {
         $.extend(FORJ.config, config);
     }
 
+    $.ajaxSetup({
+        cache: false,
+    });
+
     console.log("Starting application...");
 
     FORJ.ui.posts_container.
