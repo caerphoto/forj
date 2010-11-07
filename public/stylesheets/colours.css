@@ -75,6 +75,12 @@
     background-color: #EEE;
 }
 
+/* This is needed to prevent each line of code being clipped by the one below
+ * it if the line-height property is too low. */
+pre code {
+    background: none;
+}
+
 .item_count {
     color: #D86; /* Similar to .clr2 border colour, but a bit darker */
 }

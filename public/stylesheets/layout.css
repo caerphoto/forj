@@ -21,12 +21,13 @@
 }
 
 body {
-    font-size: 85%;
+    font-size: 77%;
     overflow: hidden;
+    word-spacing: 0.1em;
 }
 
 body, textarea, input {
-    font-family: 'Hanuman', sans-serif;
+    font-family: 'Nobile', sans-serif;
 }
 
 li {
@@ -41,7 +42,7 @@ h1 {
 
 code {
     font-family: 'Droid Sans Mono', monospace;
-    font-size: 85%;
+    font-size: 93%;
 }
 
 #logo {
@@ -50,7 +51,8 @@ code {
     cursor: pointer;
     display: block;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
+    text-shadow: 2px 2px 2px #ACD;
 }
 
 #sign {
@@ -278,7 +280,7 @@ sarcasm {
 .post pre {
     border-width: 1px;
     padding: 0.5em;
-    line-height: 1.1em;
+    line-height: 1.3em;
 }
 
 .post blockquote {
