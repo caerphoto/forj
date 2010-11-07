@@ -64,4 +64,10 @@ class MsgThreadsController < ApplicationController
         render :json => get_post_info(thread.first_post).to_json
     end
 
+    def destroy
+        thread = MsgThread.find(params[:id])
+        thread.destroy
+        render :text => ""
+    end
+
 end

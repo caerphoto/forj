@@ -109,6 +109,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         },
         precache: false,
         delete_post_url: "/delete_post/",
+        delete_thread_url: "/delete_thread/",
         edit_post_url: "/edit_post/",
         posts_url: "/posts",
         users_url: "/users",
@@ -343,7 +344,7 @@ FORJ.deletePost = function(post_id) {
         }; // _deleted_thread()
 
         if (window.prompt("Deleting the first post of a thread will also delete the entire thread.\n\nAre you sure you want to do this?\n\nType 'delete' into the box below to confirm:").toLowerCase() === "delete") {
-            var url = FORJ.config.delete_post_url + post_id;
+            var url = FORJ.config.delete_thread_url + FORJ.config.current_thread;
             $.get(url, _deleted_thread);
         }
     } else {

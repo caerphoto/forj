@@ -4,4 +4,8 @@ class MsgThread < ActiveRecord::Base
     belongs_to :user
     belongs_to :folder
     validates :title, :presence => true
+
+    before_destroy do |thread|
+        Post.destroy_all "msg_thread_id = #{thread.id}"
+    end
 end

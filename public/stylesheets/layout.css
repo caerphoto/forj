@@ -181,12 +181,12 @@ strong {
 }
 
 .thread_list_item {
-    padding: 0.25em 24px;
+    padding: 0.2em 0.5em 0 24px;
     padding-bottom: 0.25em;
     padding-left: 24px;
     background-position: 4px;
     background-repeat: no-repeat;
-    line-height: 1em;
+    line-height: 1.2em;
 }
 
 .thread_list_item:hover {
