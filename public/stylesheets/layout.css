@@ -1,25 +1,3 @@
-/*
- * Standard colours:
- * =================
- *
- * Pale orange: #FEC
- * Pastel orange: #FC5
- *
- * Pale yellow: #FFD
- * Burnt yellow: #FEA
- * Brown: #EC4
- *
- * Pale red: #FBA
- * Pastel red: #D86
- *
- * Light blue: #4AC
- * Dark teal: #157
- *
- * Pastel blue: #DEF
- * Mid-pastel blue: #ACD
- *
- */
-
 /* Common border styles: */
  * {
     /* Everything has a solid border style, but most elements have a
@@ -43,7 +21,7 @@
 }
 
 body {
-    font-family: sans-serif;
+    font-family: 'Hanuman', sans-serif;
     font-size: 85%;
     overflow: hidden;
 }
@@ -56,6 +34,10 @@ li {
 h1 {
     font-size: 167%;
     font-weight: bold;
+}
+
+code {
+    font-family: 'Inconsolata', monospace;
 }
 
 #logo {
