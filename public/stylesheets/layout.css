@@ -30,6 +30,10 @@ body, textarea, input {
     font-family: 'Nobile', sans-serif;
 }
 
+p, blockquote, li {
+    line-height: 1.5em;
+}
+
 li {
     font-size: inherit;
     font-style: normal;
@@ -134,6 +138,9 @@ strong {
     margin: 0 0.5em;
 }
 
+.folder_list li {
+}
+
 .folder_list_item {
     border-bottom-width: 1px;
     padding-bottom: 0.5em;
@@ -178,6 +185,7 @@ strong {
     padding-left: 24px;
     background-position: 4px;
     background-repeat: no-repeat;
+    line-height: 1.1em;
 }
 
 .thread_list_item:hover {
@@ -265,7 +273,7 @@ strong {
     margin-bottom: 0.5em;
 }
 
-.post p, .post pre {
+.post p, .post_body pre, .post li {
     margin-bottom: 0.5em;
 }
 
