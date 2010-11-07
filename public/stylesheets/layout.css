@@ -21,9 +21,12 @@
 }
 
 body {
-    font-family: 'Hanuman', sans-serif;
     font-size: 85%;
     overflow: hidden;
+}
+
+body, textarea, input {
+    font-family: 'PT Sans', sans-serif;
 }
 
 li {
@@ -37,7 +40,8 @@ h1 {
 }
 
 code {
-    font-family: 'Inconsolata', monospace;
+    font-family: 'Droid Sans Mono', monospace;
+    font-size: 85%;
 }
 
 #logo {
@@ -274,7 +278,7 @@ sarcasm {
 .post pre {
     border-width: 1px;
     padding: 0.5em;
-    line-height: 1.5em;
+    line-height: 1.1em;
 }
 
 .post blockquote {
