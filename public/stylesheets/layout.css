@@ -27,7 +27,7 @@ body {
 }
 
 body, textarea, input, .ui-widget {
-    font-family: 'Cantarell', sans-serif;
+    font-family: 'Ubuntu', 'Verdana', 'Helvetica', sans-serif;
 }
 
 p, blockquote, li {
@@ -45,7 +45,7 @@ h1 {
 }
 
 code {
-    font-family: 'Droid Sans Mono', monospace;
+    font-family: 'Liberation Mono', 'Consolas', 'Lucida Sans Console',  monospace;
     font-size: 85%;
 }
 
