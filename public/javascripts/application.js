@@ -404,6 +404,7 @@ FORJ.showPosts = function(thread_id, offset, limit) {
         FORJ.ui.thread_loading_msg.fadeOut(100);
         FORJ.ui.showReplyBox();
         FORJ.ui.posts_container.scrollTo(0);
+        document.title = FORJ.getThread(thread_id).title + " - FORJ Forum";
     }; // _fetched()
 
     console.log("Cur thread: ", FORJ.config.current_thread,

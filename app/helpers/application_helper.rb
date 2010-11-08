@@ -2,7 +2,7 @@ module ApplicationHelper
 
     #Return a default title if none is specified
     def title
-        base_title = "Forj Forum"
+        base_title = "FORJ Forum"
         if @title.nil?
             base_title
         else
