@@ -1,26 +1,31 @@
 # Nothing fancy in here - most actions just return JSON data
 
-def get_user_details(user)
-    if current_user.admin?
-        result = { :user_type => user.admin? ? "A" : "N" }
-    else
-        result = {}
-    end
-
+def get_basic_user_details(user)
     unless user.nil?
-        result.merge!({
+        result = {
             :name => user.name,
-            :email => user.email,
             :id => user.id,
-            :joined => user.created_at.to_s
-        })
+        }
     else
-        result.merge!({
+        result = {
             :name => "(unknown)",
-            :email => "(unknown email)",
             :id => 0,
-            :joined => "(unknown join date)"
-        })
+        }
+    end
+end
+
+def get_full_user_details(user)
+    if user.nil?
+        return nil
+    else
+        result = get_basic_user_details(user)
+        if current_user.admin?
+            result.merge!({
+                :user_type => user.admin? ? "A" : "N",
+                :email => user.email
+            })
+        end
+        return result
     end
 end
 
@@ -28,7 +33,7 @@ class UsersController < ApplicationController
     def show
         user = User.find(params[:id])
 
-        result = get_user_details(user)
+        result = get_full_user_details(user)
 
         render :json => result.to_json
     end
@@ -39,7 +44,7 @@ class UsersController < ApplicationController
         result = []
 
         allusers.each do |user|
-            result.push get_user_details(user)
+            result.push get_basic_user_details(user)
         end
         render :json => result.to_json
     end
