@@ -26,7 +26,6 @@ end
 
 class UsersController < ApplicationController
     def show
-        sleep 2
         user = User.find(params[:id])
 
         result = get_user_details(user)
