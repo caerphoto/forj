@@ -71,6 +71,11 @@
     border-color: #CCC;
 }
 
+/* Inline <code> elements look better with a slightly lighter border */
+code {
+    border-color: #DDD;
+}
+
 .thread_list_item:hover, pre, code {
     background-color: #EEE;
 }

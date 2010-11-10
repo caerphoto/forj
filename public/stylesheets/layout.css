@@ -27,6 +27,8 @@ body {
 }
 
 body, textarea, input, .ui-widget {
+    /* What's a good Ubuntu/Verdana equivalent for Mac? Helvetica's a bit too
+     * narrow I think. */
     font-family: 'Ubuntu', 'Verdana', 'Helvetica', sans-serif;
 }
 
@@ -47,6 +49,7 @@ h1 {
 code {
     font-family: 'Liberation Mono', 'Consolas', 'Lucida Sans Console',  monospace;
     font-size: 85%;
+    border-width: 1px;
 }
 
 #logo {
@@ -290,6 +293,10 @@ sarcasm {
     border-width: 1px;
     padding: 0.5em;
     line-height: 1.3em;
+}
+
+pre code {
+    border-width: 0px;
 }
 
 .post blockquote {
