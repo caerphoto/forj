@@ -1,6 +1,8 @@
 <div id="threadspane" class="clr2 br">
     <% if user_signed_in? %>
-        <button id="btnNewFolder">New Folder</button>
+        <% if user_signed_in? and current_user.admin? %>
+            <button id="btnNewFolder">New Folder</button>
+        <% end %>
         <button id="btnNewThread">New Thread</button>
     <% end %>
     <ul id="folder_list">
@@ -36,7 +38,7 @@
         <span id="max_post_length">300</span>).
     </div>
     <% end %>
-    <% if current_user.admin? %>
+    <% if user_signed_in? and current_user.admin? %>
         <%= render :partial => "layouts/useredit_partial" %>
     <% end %>
 </div>
