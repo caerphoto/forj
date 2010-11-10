@@ -8,8 +8,8 @@ needs are relatively basic. Its main features are:
     <li><strong>Easy to format:</strong> Forj uses <a href="http://daringfireball.net/projects/markdown/">Markdown</a> for post input, meaning it's easy even for web novices to create nicely-formatted posts without having to learn HTML or BBCode. Post content is stored in the database just as the user typed it, and converted to HTML on the fly using <a href="http://attacklab.net/showdown/">Showdown</a>, a Javascript port of the original Perl version of Markdown.</li>
     <li><strong>Real-time post preview:</strong> users can see what their posts will look like as they type, so posts can be tweaked to get them looking just right, and mistakes are easy to spot and correct before submitting.</li>
 </ul>
-    
 </p>
 </div> <!-- #static_wrapper -->
   <%= javascript_include_tag "jquery.js" %>
   <%= javascript_include_tag "jquery-ui-min.js" %>
+  <%= javascript_include_tag "showdown.js" %>

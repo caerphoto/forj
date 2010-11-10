@@ -14,8 +14,8 @@
     </div> <!-- .post_body -->
     <div class="post_sig">
     </div> <!-- .post_sig -->
+    <% if user_signed_in? %>
     <div class="post_foot">
-        <% if user_signed_in? %>
         <div class="post_foot_replylinks">
             <a href="#" class="post_foot_reply">Reply</a> |
             <a href="#" class="post_foot_quote">Reply + Quote</a>
@@ -24,6 +24,6 @@
             <a href="#" class="post_foot_edit">Edit</a> |
             <a href="#" class="post_foot_delete">Delete</a>
         </div>
-        <% end %>
     </div> <!-- .post_foot -->
+    <% end %>
 </li>
