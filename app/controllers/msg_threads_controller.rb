@@ -8,7 +8,7 @@ end
 def get_thread_info(thread)
     if thread.folder.nil?
         f = 0
-    else 
+    else
         f = thread.folder.id
     end
 

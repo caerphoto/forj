@@ -163,6 +163,10 @@ strong {
     left: 0;
 }
 
+#UE_loading {
+    font-size: 85%;
+}
+
 .folder_name {
     display: block;
     background-position: left;
@@ -385,4 +389,8 @@ pre code {
 
 #btnNewThread {
     margin-bottom: 0.5em;
+}
+
+.user_detail {
+    font-weight: bold;
 }

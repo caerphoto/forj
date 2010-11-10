@@ -90,6 +90,8 @@ if (typeof FORJ === "undefined") var FORJ = {
             });
         }
     },
+
+
     config: {
         default_post_data: {
             user_id: 0,
@@ -248,6 +250,7 @@ FORJ.addPost = function(p, opts) {
     var reply_url = "";
     $post.find(".post_head_from").
         attr("href", [FORJ.config.users_url, p.from.id].join("/")).
+        data("id", p.from.id).
         text(p.from.name);
     if (p.to_user.id === 0) {
         $post.find(".post_head_to").after(
@@ -255,10 +258,11 @@ FORJ.addPost = function(p, opts) {
         $post.find(".post_head_to").remove();
     } else {
         $post.find(".post_head_to").
-            attr("href", p.to_user.id ? 
+            attr("href", p.to_user.id ?
                 [FORJ.config.users_url, p.to_user.id].join("/") :
                 ""
                 ).
+            data("id", p.to_user.id).
             text(p.to_user.name);
     }
 
@@ -573,7 +577,25 @@ FORJ.btnPostReplyClick = function() {
     $.post(url, { textData: txt }, FORJ.newPostCallback);
 }; // FORJ.btnPostReplyClick()
 
+FORJ.btnUE_CancelClick = function() {
+    $(this).dialog("close");
+}; // FORJ.btnUE_CancelClick()
+
+FORJ.btnUE_OKClick = function() {
+    // Update the user's details (TODO)
+}; // FORJ.btnUE_OKClick()
+
+FORJ.lnkUserClick = function(event) {
+    event.preventDefault();
+    user_id = $(this).data("id");
+    FORJ.user_editor.open(user_id);
+}; // FORJ.lnkUserClick()
+
 FORJ.btnCancelReplyClick = function() {
+    // TODO! Instead of showing the replybox at the end of the posts container
+    // if it's not attached to a post, attach it to a "Reply To All" link, then
+    // only show it when that link is clicked. This should alleviate some of
+    // the scrolling bugs.
     FORJ.ui.replybox_thread_title.hide();
     if (FORJ.config.previous_thread) {
         FORJ.config.current_thread = FORJ.config.previous_thread;
@@ -685,7 +707,77 @@ FORJ.createPostPreview = function(sig) {
     }
 }; // FORJ.createPostPreview()
 
-// Initialise the FORJ application
+FORJ.initUserEditor = function() {
+    FORJ.user_editor = (function() {
+        var _dlg = $("#dlgUserEditor");
+
+        // Check if the element exists, and bail out if it doesn't...
+        if (!_dlg) return;
+
+        // ...otherwise, let us continue:
+        _dlg.dialog({
+            autoOpen: false,
+            modal: true,
+            //show: "fade",
+            title: "Edit User",
+            button: {
+                "OK": FORJ.btnUE_OKClick,
+                "Cancel": FORJ.btnUE_CancelClick
+            }
+        });
+
+        FORJ.ui.posts_container.
+            delegate(".post_head_fromto a", "click", FORJ.lnkUserClick);
+
+        var _UE_name = $("#UE_name"),
+            _UE_email = $("#UE_email"),
+            _UE_loading = $("#UE_loading");
+
+        return {
+            // Public methods
+            name: function(new_name) {
+                if (new_name) {
+                    _UE_name.text(new_name);
+                } else {
+                    return _UE_name.text();
+                }
+            }, // name()
+
+            email: function(new_email) {
+                if (new_email) {
+                    _UE_email.text(new_email);
+                } else {
+                    return _UE_email.text();
+                }
+            }, // email()
+
+            open: function(user_id) {
+                // Resets fields, makes the 'Loading' message visible,
+                // then shows the dialog.
+                _UE_loading.show();
+                _UE_name.text("");
+                _UE_email.text("");
+
+                var url = [FORJ.config.users_url, user_id].join("/"),
+                    self = this;
+                var _userCallback = function(user) {
+                    _UE_loading.slideUp(100);
+                    self.name(user.name);
+                    self.email(user.email);
+                }; // _dataFetched()
+
+                _dlg.dialog("open");
+                $.get(url, _userCallback);
+            },
+
+            close: function() {
+                _dlg.dialog("close");
+            }
+        }
+    })();
+}; // FORJ.initUserEditor()
+
+// Initialise the FORJ forum application
 FORJ.initForum = function(config) {
     // Add whatever's in the supplied 'config' parameter to our existing
     // FORJ.config object.
@@ -713,6 +805,7 @@ FORJ.initForum = function(config) {
     FORJ.ui.btnCancelReply.button().click(FORJ.btnCancelReplyClick);
     FORJ.ui.btnNewThread.button().click(FORJ.btnNewThreadClick);
     FORJ.ui.btnNewFolder.button().click(FORJ.btnNewFolderClick);
+    FORJ.initUserEditor();
 
     FORJ.createPostPreview();
     FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox.find("#replybox_options"));
@@ -722,6 +815,7 @@ FORJ.initForum = function(config) {
 
     FORJ.layoutSetup();
     $(window).resize(FORJ.layoutSetup);
+
 
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
     $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
@@ -734,8 +828,11 @@ FORJ.initForum = function(config) {
 };
 
 FORJ.initOther = function() {
+    // Initialisation for pages other than the main forum page, e.g. Signup and
+    // About
     FORJ.ui.buttons.button();
-    FORJ.config.MAX_POST_LENGTH = 255;
+    FORJ.config.MAX_POST_LENGTH = 255; // "POST" in this case actually means
+                                       // "signature"
 
     // Create a clone of #post_fragment, insert it before the original, then
     // remove the original

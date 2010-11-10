@@ -32,9 +32,12 @@
         <textarea id="reply_text"></textarea><br />
         <button id="btnPostReply">Post</button>
         <button id="btnCancelReply">Cancel</button>
-        Post length: <span id="post_length">0</span> characters (maximum 
-  <span id="max_post_length">300</span>).
+        Post length: <span id="post_length">0</span> characters (maximum
+        <span id="max_post_length">300</span>).
     </div>
+    <% end %>
+    <% if current_user.admin? %>
+        <%= render :partial => "layouts/useredit_partial" %>
     <% end %>
 </div>
 
@@ -47,6 +50,5 @@ one here gets removed on app init() -->
   <%= javascript_include_tag "scrollto-min.js" %>
   <%= javascript_include_tag "jquery-ui-min.js" %>
   <!--<%= javascript_include_tag "jquery-ui-selectmenu.js" %>-->
-  <!--<%= javascript_include_tag "jquery.layout.min.js" %>-->
   <%= javascript_include_tag "underscore-min.js" %>
   <%= javascript_include_tag "showdown.js" %>

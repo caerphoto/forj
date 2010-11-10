@@ -1,4 +1,5 @@
 def get_post_user_info(user)
+    # Kinda like get_user_details, except it returns info pertinent to posts
     unless user.nil?
         {
             :name => user.name,
@@ -18,7 +19,7 @@ def get_post_info(post)
     { :from => get_post_user_info(post.user),
       :to_index => post.reply_index,
       :to_user => get_post_user_info(post.reply_user),
-      :date => post.created_at,
+      :date => post.created_at.to_s,
       :post_index => post.post_index,
       :body => post.content,
       #:thread => post.msg_thread.id,

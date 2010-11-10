@@ -6,6 +6,9 @@ class MsgThread < ActiveRecord::Base
     validates :title, :presence => true
 
     before_destroy do |thread|
-        Post.destroy_all "msg_thread_id = #{thread.id}"
+        # This does not work, it just sets each of the posts' msg_thread_id to
+        # null:
+        #thread.posts.delete_all
+        Post.delete_all "msg_thread_id = #{thread.id}"
     end
 end
