@@ -786,7 +786,7 @@ FORJ.initForum = function(config) {
     }
 
     $.ajaxSetup({
-        cache: false,
+        cache: false
     });
 
     console.log("Starting application...");
