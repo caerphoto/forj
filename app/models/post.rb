@@ -4,6 +4,7 @@ class Post < ActiveRecord::Base
     belongs_to :msg_thread
 
     after_create :timestamp_thread
+    after_save :timestamp_thread
 
     private
     # Ensure folder is marked as updated when a new thread is added to it, so
