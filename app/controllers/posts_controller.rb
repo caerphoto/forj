@@ -21,7 +21,7 @@ def get_post_info(post)
     if d.to_date == Date.today
         post_date = "Today at " + d.strftime("%H:%M")
     else
-        if d.to_date == Date.today.prev_day
+        if d.to_date == Date.today.-(1)
             post_date = "Yesterday at " + d.strftime("%H:%M")
         else
             post_date = d.to_date.to_s
