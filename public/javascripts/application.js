@@ -48,6 +48,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         btnCancelReply: $("#btnCancelReply"),
         selReplyTo: $("#selReplyTo"),
         selThreadFolder: $("#selThreadFolder"),
+        selThreadsView: $("#selThreadsView"),
         showdown: (function() {
             if (Attacklab) {
                 return new Attacklab.showdown.converter();
@@ -437,13 +438,18 @@ FORJ.showPosts = function(thread_id, offset, limit) {
 
 FORJ.populateUserLists = function(users) {
     // Fills in the temporary <select>s used for testing
-    var $user_list = $("#replybox select");
     _(users).each(function(user) {
-        $user_list.append($("<option/>").
+        FORJ.ui.selReplyTo.append($("<option/>").
             val(user.id).
             text(user.name)
         );
     });
+    FORJ.ui.replybox.show();
+    FORJ.ui.selReplyTo.selectmenu({
+        style: "dropdown"
+    });
+    FORJ.ui.replybox.hide();
+
 }; // FORJ.populateUserLists()
 
 FORJ.populateThreadsList = function(folder_info) {
@@ -844,6 +850,10 @@ FORJ.initForum = function(config) {
             primary: "btn-icon-reload"
         }
     }).click(FORJ.loadThreadsList);
+    FORJ.ui.selThreadsView.selectmenu({
+        style: "dropdown",
+        width: "14em"
+    });
 
     FORJ.initUserEditor();
 

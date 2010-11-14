@@ -28,7 +28,7 @@ class MsgThreadsController < ApplicationController
             # last_read data is pushed to the JS so it can be dealt with there
             # in real-time, allowing the user easy selection of different
             # thread views ('Unread Only', 'Interesting' etc).
-            :last_read => current_user.last_read,
+            :last_read => user_signed_in? ? current_user.last_read : "",
             :folders => []
         }
 
