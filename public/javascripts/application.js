@@ -39,9 +39,11 @@ if (typeof FORJ === "undefined") var FORJ = {
         replybox_thread_title: $("#replybox_thread_title"),
         reply_text: $("#replybox texarea").first(),
         thread_loading_msg: $("#thread_loading_msg"),
+        folders_loading_msg: $("#folders_loading_msg"),
         post_preview: undefined,
         btnNewFolder: $("#btnNewFolder"),
         btnNewThread: $("#btnNewThread"),
+        btnReloadThreadsList: $("#btnReloadThreadsList"),
         btnPostReply: $("#btnPostReply"),
         btnCancelReply: $("#btnCancelReply"),
         selReplyTo: $("#selReplyTo"),
@@ -494,6 +496,7 @@ FORJ.populateThreadsList = function(folder_info) {
         }); // folder.threads.each()
     }); // folders.each()
     FORJ.folders = folder_info.folders;
+    FORJ.ui.folders_loading_msg.fadeOut(100);
 }; // FORJ.populateThreadsList()
 
 FORJ.newPostCallback = function(newpost) {
@@ -501,8 +504,7 @@ FORJ.newPostCallback = function(newpost) {
     // new threads.
     FORJ.ui.replybox_thread_title.hide();
     if (newpost.post_index == 0) {
-        $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
-        console.log("Data returned:", newpost);
+        FORJ.loadThreadsList();
         FORJ.status.current_thread = newpost.thread;
     }
     FORJ.resetReplyBox();
@@ -672,6 +674,11 @@ FORJ.btnNewFolderClick = function() {
     } // if (folder_name)
 }; // FORJ.btnNewFolderClick()
 
+FORJ.loadThreadsList = function() {
+    FORJ.ui.folders_loading_msg.fadeIn(100);
+    $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
+}; // FORJ.loadThreadsList()
+
 FORJ.logoClick = function() {
     window.location = "/";
 };
@@ -693,6 +700,20 @@ FORJ.layoutSetup = function() {
 
     var o = FORJ.ui.posts_pane.offset();
     FORJ.ui.thread_loading_msg.
+        show().
+        offset(o).
+        hide();
+
+    // Position 'Threads loading...' message so it appears on top of the New
+    // Thread/New Folder buttons.
+    o = FORJ.ui.threads_pane.offset();
+    var padding = FORJ.ui.threads_pane.innerHeight() -
+        FORJ.ui.threads_pane.height();
+
+    o.top += padding / 2;
+    o.left += padding / 2;
+
+    FORJ.ui.folders_loading_msg.
         show().
         offset(o).
         hide();
@@ -818,6 +839,12 @@ FORJ.initForum = function(config) {
     FORJ.ui.btnCancelReply.button().click(FORJ.btnCancelReplyClick);
     FORJ.ui.btnNewThread.button().click(FORJ.btnNewThreadClick);
     FORJ.ui.btnNewFolder.button().click(FORJ.btnNewFolderClick);
+    FORJ.ui.btnReloadThreadsList.button({
+        icons: {
+            primary: "btn-icon-reload"
+        }
+    }).click(FORJ.loadThreadsList);
+
     FORJ.initUserEditor();
 
     FORJ.createPostPreview();
@@ -830,7 +857,7 @@ FORJ.initForum = function(config) {
     $(window).resize(FORJ.layoutSetup);
 
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
-    $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
+    FORJ.loadThreadsList();
 
     // Load post template
     FORJ.ui.post_fragment.detach().

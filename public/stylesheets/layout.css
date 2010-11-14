@@ -157,6 +157,13 @@ strong {
     margin-bottom: 1em;
 }
 
+#folders_loading_msg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
 #thread_loading_msg {
     position: absolute;
     top: 0;

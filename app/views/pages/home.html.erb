@@ -1,9 +1,12 @@
 <div id="threadspane" class="clr2 br">
+    <div id="folders_loading_msg" class="loading_msg bb">Loading threads...</div>
     <% if user_signed_in? %>
         <% if user_signed_in? and current_user.admin? %>
             <button id="btnNewFolder">New Folder</button>
         <% end %>
-        <button id="btnNewThread">New Thread</button><br />
+        <button id="btnNewThread">New Thread</button>
+        <button id="btnReloadThreadsList">Refresh</button>
+        <br />
         <!--<label for="selThreadsView">Threads:</label> <select id="selThreadsView">
             <option value="UNREAD">unread</option>
             <option value="ME_UNREAD">unread, replies to me</option>

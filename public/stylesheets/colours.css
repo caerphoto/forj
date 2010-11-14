@@ -58,6 +58,11 @@
     background-image: url("/images/loading_blue.gif");
 }
 
+.btn-icon-reload {
+    background-image: url("/images/ui-icon-reload.png") !important;
+    background-position: right bottom;
+}
+
 .folder_name {
     background-image: url('/images/icon_contract.gif');
 }
