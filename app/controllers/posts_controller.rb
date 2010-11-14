@@ -16,10 +16,22 @@ def get_post_user_info(user)
 end
 
 def get_post_info(post)
+    d = post.created_at
+    post_date = ""
+    if d.to_date == Date.today
+        post_date = "Today at " + d.strftime("%H:%M")
+    else
+        if d.to_date == Date.today.prev_day
+            post_date = "Yesterday at " + d.strftime("%H:%M")
+        else
+            post_date = d.to_date.to_s
+        end
+    end
+
     { :from => get_post_user_info(post.user),
       :to_index => post.reply_index,
       :to_user => get_post_user_info(post.reply_user),
-      :date => post.created_at.to_s,
+      :date => post_date,
       :post_index => post.post_index,
       :body => post.content,
       :thread => post.msg_thread_id,
