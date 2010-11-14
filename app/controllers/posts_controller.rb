@@ -17,14 +17,15 @@ end
 
 def get_post_info(post)
     d = post.created_at
-    post_date = ""
+    post_date = d.strftime(" at %H:%M")
+
     if d.to_date == Date.today
-        post_date = "Today at " + d.strftime("%H:%M")
+        post_date = "Today" + post_date
     else
         if d.to_date == Date.today.-(1)
-            post_date = "Yesterday at " + d.strftime("%H:%M")
+            post_date = "Yesterday" + post_date
         else
-            post_date = d.to_date.to_s
+            post_date = d.to_date.to_s + post_date
         end
     end
 
