@@ -73,12 +73,12 @@ if (typeof FORJ === "undefined") var FORJ = {
                 var u = FORJ.status.editing_post ?
                     FORJ.getData(in_post).to_user_id :
                     FORJ.getData(in_post).user_id;
-                FORJ.ui.selReplyTo.val(u);
+                FORJ.ui.selReplyTo.selectmenu("value", u);
             } else {
                 show_speed = 0;
                 $element = FORJ.ui.posts_container;
                 FORJ.ui.btnCancelReply.button(new_thread ? "enable" : "disable");
-                FORJ.ui.selReplyTo.val(0);
+                FORJ.ui.selReplyTo.selectmenu("value", 0);
             }
 
             FORJ.ui.replybox.fadeTo(0, 1).
@@ -444,11 +444,11 @@ FORJ.populateUserLists = function(users) {
             text(user.name)
         );
     });
-    FORJ.ui.replybox.show();
+
     FORJ.ui.selReplyTo.selectmenu({
-        style: "dropdown"
+        style: "dropdown",
+        width: "10em"
     });
-    FORJ.ui.replybox.hide();
 
 }; // FORJ.populateUserLists()
 
@@ -501,7 +501,14 @@ FORJ.populateThreadsList = function(folder_info) {
             FORJ.threads.push(thread);
         }); // folder.threads.each()
     }); // folders.each()
+
+    FORJ.ui.selThreadFolder.selectmenu({
+        style: "dropdown",
+        width: "20em"
+    });
+
     FORJ.folders = folder_info.folders;
+    FORJ.status.user_last_read = folder_info.last_read;
     FORJ.ui.folders_loading_msg.fadeOut(100);
 }; // FORJ.populateThreadsList()
 
@@ -669,9 +676,13 @@ FORJ.btnNewThreadClick = function() {
 FORJ.btnNewFolderClick = function() {
     var folder_name = prompt("What would you like to call the new folder?");
     if (folder_name) {
+        // Callback:
         var _newFolder = function(folder) {
-            FORJ.folders.push(folder);
-            FORJ.populateThreadsList(FORJ.folders);
+            FORJ.folders.unshift(folder);
+            FORJ.populateThreadsList({
+                last_read: FORJ.status.user_last_read,
+                folders: FORJ.folders
+            });
         }; // newFolderCallback()
 
         var url = [FORJ.config.new_folder_url,
