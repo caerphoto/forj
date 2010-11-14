@@ -22,7 +22,7 @@ def get_post_info(post)
       :date => post.created_at.to_s,
       :post_index => post.post_index,
       :body => post.content,
-      #:thread => post.msg_thread.id,
+      :thread => post.msg_thread_id,
       :id => post.id
     }
 end
@@ -203,18 +203,25 @@ class PostsController < ApplicationController
     end
 
     def index
+        # Assums the presence of a 'thread' parameter in the query string,
+        # otherwise it won't load anything.
+
+        # It's up to the JS to set appropriate :limit and :offset
         post_array = []
         thread = MsgThread.find(params[:thread])
         thread.posts.all(
             :order => "id",
-            :include => [:user, :reply_user]).each do |post|
-
+            :limit => params[:limit],
+            :offset => params[:offset],
+            :include => [:user, :reply_user]
+        ).each do |post|
             post_array.push get_post_info(post)
         end
 
         result = {
             :posts => post_array,
-            :count => thread.posts.length
+            :count => thread.posts.length,
+            :thread => thread.id
         }
         render :json => result.to_json
     end

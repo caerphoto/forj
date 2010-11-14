@@ -6,11 +6,7 @@ def get_folder_info(folder)
 end
 
 def get_thread_info(thread)
-    if thread.folder.nil?
-        f = 0
-    else
-        f = thread.folder.id
-    end
+    f = thread.folder.nil? ? 0 : thread.folder.id
 
     { :title => thread.title,
       :id => thread.id,
@@ -19,6 +15,7 @@ def get_thread_info(thread)
 end
 
 def reset_folder_ids
+  # Not necessary any more - a leftover from before I'd implemented folders
   MsgThread.all.each do |thread|
       thread.folder_id = 0
       thread.save
@@ -27,41 +24,60 @@ end
 
 class MsgThreadsController < ApplicationController
     def  index
+        result = {
+            # last_read data is pushed to the JS so it can be dealt with there
+            # in real-time, allowing the user easy selection of different
+            # thread views ('Unread Only', 'Interesting' etc).
+            :last_read => current_user.last_read,
+            :folders => []
+        }
+
         folders = Folder.all(
-            :order => "updated_at",
+            :order => "updated_at DESC",
             :include => :msg_threads)
-        result = []
+
+        # Add each folder, and for each folder, add info for its threads
         folders.each do |folder|
-            result.push get_folder_info(folder)
-            folder.msg_threads.each do |thread|
-                result.last[:threads].push get_thread_info(thread)
+            f = get_folder_info(folder)
+
+            folder.msg_threads.all(
+                :order => "updated_at DESC"
+            ).each do |thread|
+                f[:threads].push get_thread_info(thread)
             end
+
+            result[:folders].push f
         end
 
-        threads = MsgThread.all :conditions => "folder_id = 0"
-        result.push :name => "Uncategorised", :id => 0, :threads => [],
+        # Add 'Uncategorised' threads. Once FORJ is production-ready this won't
+        # be necessary.
+        threads = MsgThread.all(
+            :conditions => "folder_id = 0",
+            :order => "updated_at DESC")
+        result[:folders].push :name => "Uncategorised", :id => 0, :threads => [],
             :thread_count => threads.length
         threads.each do |thread|
-            result.last[:threads].push get_thread_info(thread)
+            result[:folders].last[:threads].push get_thread_info(thread)
         end
 
         render :json => result.to_json
     end
 
     def create
-        thread = current_user.msg_threads.build(
+        thread = Folder.find(params[:folder]).msg_threads.build(
             :title => params[:title],
-            :folder_id => params[:folder].to_i,
-            :first_post => current_user.posts.build(
-                :content => params[:textData],
-                :post_index => 0,
-                :reply_index => 0,
-                :reply_user_id => 0
-            )
+            :user_id => current_user.id
+        )
+        thread.posts.build(
+            :content => params[:textData],
+            :user_id => thread.user_id,
+            :post_index => 0,
+            :reply_index => 0,
+            :reply_user_id => 0
         )
         thread.save
 
-        render :json => get_post_info(thread.first_post).to_json
+        render :json => get_post_info(thread.posts.first).to_json
     end
 
     def destroy

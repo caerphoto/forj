@@ -46,7 +46,15 @@ if (typeof FORJ === "undefined") var FORJ = {
         btnCancelReply: $("#btnCancelReply"),
         selReplyTo: $("#selReplyTo"),
         selThreadFolder: $("#selThreadFolder"),
-        showdown: Attacklab ? new Attacklab.showdown.converter() : undefined,
+        showdown: (function() {
+            if (Attacklab) {
+                return new Attacklab.showdown.converter();
+            } else {
+                return {
+                    makeHtml: function(text) { return text }
+                }
+            }
+        })(),
 
         showReplyBox: function(in_post, new_thread) {
             var show_speed;
@@ -59,7 +67,7 @@ if (typeof FORJ === "undefined") var FORJ = {
 
                 FORJ.setData(FORJ.ui.replybox, FORJ.getData(in_post));
 
-                var u = FORJ.config.editing_post ?
+                var u = FORJ.status.editing_post ?
                     FORJ.getData(in_post).to_user_id :
                     FORJ.getData(in_post).user_id;
                 FORJ.ui.selReplyTo.val(u);
@@ -91,6 +99,14 @@ if (typeof FORJ === "undefined") var FORJ = {
         }
     },
 
+    status: {
+        current_thread: 0, previous_thread: 0,
+        editing_post: undefined,
+        current_user: {
+            id: parseInt(($("#sign input").val()).slice(1), 10),
+            isAdmin: ($("#sign input").val()).slice(0, 1) === "A"
+        },
+    },
 
     config: {
         default_post_data: {
@@ -100,15 +116,9 @@ if (typeof FORJ === "undefined") var FORJ = {
             id: 0,
             body: ""
         },
-        maxposts: 100,
+        maxposts: 50, // max number of posts to display at once
         MAX_POST_LENGTH: 9001,
-        current_thread: 0, previous_thread: 0,
-        editing_post: undefined,
         post_preview_target: ".post_body",
-        current_user: {
-            id: parseInt(($("#sign input").val()).slice(1), 10),
-            isAdmin: ($("#sign input").val()).slice(0, 1) === "A"
-        },
         precache: false,
         delete_post_url: "/delete_post/",
         delete_thread_url: "/delete_thread/",
@@ -289,8 +299,8 @@ FORJ.addPost = function(p, opts) {
     // Note: this check is also done server-side, so even if someone sends a
     // request via hax0ry means, it still won't work - the client-side link
     // removal is more just a UI thing than any kind of real security.
-    if (FORJ.config.current_user.id !== p.from.id &&
-        !FORJ.config.current_user.isAdmin) {
+    if (FORJ.status.current_user.id !== p.from.id &&
+        !FORJ.status.current_user.isAdmin) {
         $post.find(".post_foot_editlinks").remove();
     }
 
@@ -322,7 +332,7 @@ FORJ.deletePost = function(post_id) {
         // Callback for thread/post deletion $.get()
         var _deleted_thread = function(response) {
             console.log("Deleting: post_id: ", post_id, "and thread id: ",
-                FORJ.config.current_thread);
+                FORJ.status.current_thread);
             if (response === "WRONG_USER") {
                 // This is unlikely to happen normally
                 alert("Sorry, you're not authorised to delete this thread.");
@@ -335,7 +345,7 @@ FORJ.deletePost = function(post_id) {
 
             // Find and remove thread from list
             $(".thread_list_item").each(function(i, $item) {
-                if ($(this).data("id") === FORJ.config.current_thread) {
+                if ($(this).data("id") === FORJ.status.current_thread) {
                     $(this).fadeTo(200, 0.01, function() {
                         $(this).slideUp(100, function () {
                             $(this).remove();
@@ -348,7 +358,7 @@ FORJ.deletePost = function(post_id) {
         }; // _deleted_thread()
 
         if (window.prompt("Deleting the first post of a thread will also delete the entire thread.\n\nAre you sure you want to do this?\n\nType 'delete' into the box below to confirm:").toLowerCase() === "delete") {
-            var url = FORJ.config.delete_thread_url + FORJ.config.current_thread;
+            var url = FORJ.config.delete_thread_url + FORJ.status.current_thread;
             $.get(url, _deleted_thread);
         }
     } else {
@@ -400,10 +410,10 @@ FORJ.showPosts = function(thread_id, offset, limit) {
         }); // FORJ.posts.each()
 
         var time_end = new Date();
-        console.log("Time taken: ", time_end - time_start, "ms");
+        console.log("Post view render time:", time_end - time_start, "ms");
 
         FORJ.post_cache = post_data;
-        FORJ.config.current_thread = thread_id;
+        FORJ.status.current_thread = thread_id;
 
         FORJ.ui.thread_loading_msg.fadeOut(100);
         FORJ.ui.showReplyBox();
@@ -411,9 +421,9 @@ FORJ.showPosts = function(thread_id, offset, limit) {
         document.title = FORJ.getThread(thread_id).title + " - FORJ Forum";
     }; // _fetched()
 
-    console.log("Cur thread: ", FORJ.config.current_thread,
+    console.log("Cur thread: ", FORJ.status.current_thread,
         ", thread_id: ", thread_id);
-    if (thread_id === FORJ.config.current_thread) {
+    if (thread_id === FORJ.status.current_thread) {
         _fetched(FORJ.post_cache);
     } else {
         var url = FORJ.config.posts_url + "?thread=";
@@ -434,7 +444,7 @@ FORJ.populateUserLists = function(users) {
     });
 }; // FORJ.populateUserLists()
 
-FORJ.populateThreadsList = function(folders) {
+FORJ.populateThreadsList = function(folder_info) {
     // Fills the temporary threads list.
     var $folder;
 
@@ -442,7 +452,7 @@ FORJ.populateThreadsList = function(folders) {
     FORJ.ui.folder_list.empty();
     FORJ.ui.selThreadFolder.empty();
 
-    _(folders).each(function(folder) {
+    _(folder_info.folders).each(function(folder) {
         var new_folder = $("<li />").
             data("id", folder.id).
             addClass("folder_list_item").
@@ -476,30 +486,33 @@ FORJ.populateThreadsList = function(folders) {
                     addClass("item_count").
                     text(" " + thread.post_count +
                          (thread.post_count === 1 ? " post" : " posts")));
-            if (thread.id === FORJ.config.current_thread) {
+            if (thread.id === FORJ.status.current_thread) {
                 new_item.addClass("current_thread");
             }
             $thread_list.append(new_item);
             FORJ.threads.push(thread);
         }); // folder.threads.each()
     }); // folders.each()
-    FORJ.folders = folders;
+    FORJ.folders = folder_info.folders;
 }; // FORJ.populateThreadsList()
 
 FORJ.newPostCallback = function(newpost) {
+    // Generic handler for both replies to existing threads, and first posts in
+    // new threads.
     FORJ.ui.replybox_thread_title.hide();
     if (newpost.post_index == 0) {
         $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
-        FORJ.config.current_thread = newpost.thread;
+        console.log("Data returned:", newpost);
+        FORJ.status.current_thread = newpost.thread;
     }
     FORJ.resetReplyBox();
     FORJ.ui.hideReplyBox();
     // remove_previous can be set to true in all cases since it doesn't get
     // checked unless insert_after is also true.
     FORJ.addPost(newpost, { scroll: true,
-                            insert_after: FORJ.config.editing_post,
+                            insert_after: FORJ.status.editing_post,
                             remove_previous: true });
-    FORJ.config.editing_post = undefined;
+    FORJ.status.editing_post = undefined;
 };
 
 FORJ.lnkReplyClick = function(event) {
@@ -511,7 +524,7 @@ FORJ.lnkReplyClick = function(event) {
 FORJ.lnkEditClick = function(event) {
     event.preventDefault();
     var post = $(this).parents(".post");
-    FORJ.config.editing_post = post;
+    FORJ.status.editing_post = post;
     FORJ.ui.replybox.find("textarea").val(FORJ.getData(post).body);
     FORJ.ui.showReplyBox(post);
     FORJ.ui.replybox.find("textarea").trigger("keyup");
@@ -547,7 +560,7 @@ FORJ.btnPostReplyClick = function() {
     FORJ.ui.btnPostReply.button("disable");
 
     var url = "";
-    if (FORJ.config.current_thread === 0) {
+    if (FORJ.status.current_thread === 0) {
         // Starting a new thread
         var title = FORJ.ui.replybox_thread_title.find("input").val();
         url = FORJ.config.threads_url;
@@ -558,15 +571,15 @@ FORJ.btnPostReplyClick = function() {
     } else {
         var post_data = FORJ.getData(FORJ.ui.replybox);
 
-        if (FORJ.config.editing_post) {
+        if (FORJ.status.editing_post) {
             url = FORJ.config.edit_post_url + post_data.id;
         } else {
             url = FORJ.config.reply_url;
             url += [
                 FORJ.ui.selReplyTo.val(),
-                "&thread=", FORJ.config.current_thread,
+                "&thread=", FORJ.status.current_thread,
                 "&reply_index=", post_data.post_index || 0,
-                "&post_index=", FORJ.config.current_thread ? 1 : 0
+                "&post_index=", FORJ.status.current_thread ? 1 : 0
             ].join("");
         }
     }
@@ -597,14 +610,14 @@ FORJ.btnCancelReplyClick = function() {
     // only show it when that link is clicked. This should alleviate some of
     // the scrolling bugs.
     FORJ.ui.replybox_thread_title.hide();
-    if (FORJ.config.previous_thread) {
-        FORJ.config.current_thread = FORJ.config.previous_thread;
-        FORJ.config.previous_thread = 0;
-        FORJ.showThread(FORJ.config.current_thread);
+    if (FORJ.status.previous_thread) {
+        FORJ.status.current_thread = FORJ.status.previous_thread;
+        FORJ.status.previous_thread = 0;
+        FORJ.showThread(FORJ.status.current_thread);
     } else {
-        if (FORJ.config.editing_post) {
-            FORJ.config.editing_post.show();
-            FORJ.config.editing_post = undefined;
+        if (FORJ.status.editing_post) {
+            FORJ.status.editing_post.show();
+            FORJ.status.editing_post = undefined;
         }
         FORJ.resetReplyBox();
         FORJ.ui.hideReplyBox();
@@ -615,7 +628,7 @@ FORJ.lnkThreadClick = function(event) {
     event.preventDefault();
     $(".current_thread").removeClass("current_thread");
     $(this).addClass("current_thread");
-    FORJ.config.current_thread = 0; // force reload of thread when clicked
+    FORJ.status.current_thread = 0; // force reload of thread when clicked
     FORJ.showThread($(this).data("id"));
 }; // FORJ.lnkThreadClick()
 
@@ -632,8 +645,8 @@ FORJ.lnkFolderClick = function(event) {
 }; // FORJ.lnkFolderClick()
 
 FORJ.btnNewThreadClick = function() {
-    FORJ.config.previous_thread = FORJ.config.current_thread;
-    FORJ.config.current_thread = 0;
+    FORJ.status.previous_thread = FORJ.status.current_thread;
+    FORJ.status.current_thread = 0;
 
     FORJ.ui.thread_title.hide();
 
@@ -816,7 +829,6 @@ FORJ.initForum = function(config) {
     FORJ.layoutSetup();
     $(window).resize(FORJ.layoutSetup);
 
-
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
     $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
 
@@ -824,7 +836,7 @@ FORJ.initForum = function(config) {
     FORJ.ui.post_fragment.detach().
         removeAttr("id").
         removeClass("hidden");
-    console.log("Current user: ", FORJ.config.current_user.id);
+    console.log("Current user: ", FORJ.status.current_user.id);
 };
 
 FORJ.initOther = function() {
