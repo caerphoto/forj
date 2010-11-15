@@ -12,19 +12,15 @@ def update_last_read(thread_id, post_count)
         lr = current_user.last_read
         if lr
             if lr.match /(^|,)#{thread_id}:(\d+)(,|$)/
-                puts "Found a match"
                 new_lr = lr.gsub /(^|,)(#{thread_id}):(\d+)(,|$)/,
                     "\\1\\2:#{post_count}\\4"
             else
-                puts "No match"
                 new_lr = lr + "," + [thread_id, post_count].join(":")
             end
         else
-            puts "No pre-existing LR"
             new_lr = [thread_id, post_count].join(":")
         end
 
-        puts "new_lr = ", new_lr
         current_user.last_read = new_lr
         current_user.save
     end
