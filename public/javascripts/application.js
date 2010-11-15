@@ -107,7 +107,8 @@ if (typeof FORJ === "undefined") var FORJ = {
         editing_post: undefined,
         current_user: {
             id: parseInt(($("#sign input").val()).slice(1), 10),
-            isAdmin: ($("#sign input").val()).slice(0, 1) === "A"
+            isAdmin: ($("#sign input").val()).slice(0, 1) === "A",
+            unread_counts: []
         },
     },
 
@@ -459,6 +460,8 @@ FORJ.populateThreadsList = function(folder_info) {
     FORJ.threads = [];
     FORJ.ui.folder_list.empty();
     FORJ.ui.selThreadFolder.empty();
+    
+    console.log("folder_info:", folder_info);
 
     _(folder_info.folders).each(function(folder) {
         var new_folder = $("<li />").
@@ -486,14 +489,20 @@ FORJ.populateThreadsList = function(folder_info) {
         _(folder.threads).each(function(thread) {
             var new_item = $("<li/>").
                 addClass("thread_list_item bl").
+                addClass(thread.unread_count > 0 ? "has_unread" : "").
                 data("id", thread.id).
                 append($("<a/>").
                     attr("href", [FORJ.config.threads_url, thread.id].join("/")).
                     text(thread.title)).
                 append($("<span/>").
                     addClass("item_count").
-                    text(" " + thread.post_count +
-                         (thread.post_count === 1 ? " post" : " posts")));
+                    text([
+                        thread.unread_count,
+                        "new of",
+                        thread.post_count,
+                        thread.post_count === 1 ? "" : ""
+                    ].join(" "))
+                );
             if (thread.id === FORJ.status.current_thread) {
                 new_item.addClass("current_thread");
             }

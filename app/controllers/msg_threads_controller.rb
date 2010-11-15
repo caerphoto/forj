@@ -1,19 +1,3 @@
-def get_folder_info(folder)
-    { :name => folder.name,
-      :id => folder.id,
-      :threads => [],
-      :thread_count => folder.msg_threads.length }
-end
-
-def get_thread_info(thread)
-    f = thread.folder.nil? ? 0 : thread.folder.id
-
-    { :title => thread.title,
-      :id => thread.id,
-      :folder_id => f,
-      :post_count => thread.posts.length }
-end
-
 def reset_folder_ids
   # Not necessary any more - a leftover from before I'd implemented folders
   MsgThread.all.each do |thread|
@@ -23,12 +7,40 @@ def reset_folder_ids
 end
 
 class MsgThreadsController < ApplicationController
+    def get_folder_info(folder)
+        { :name => folder.name,
+          :id => folder.id,
+          :threads => [],
+          :thread_count => folder.msg_threads.length }
+    end
+
+    def get_thread_info(thread)
+        f = thread.folder.nil? ? 0 : thread.folder.id
+
+        last_read = 0
+        if user_signed_in? and current_user.last_read
+            # Extract the number of posts the user has read in this thread, if
+            # possible
+            m = current_user.last_read.match(/(^|,)#{thread.id}:(\d+)(,|$)/)
+            if m
+                last_read = m[2].to_i
+            else
+                last_read = 0
+            end
+        end
+
+        { :title => thread.title,
+          :id => thread.id,
+          :folder_id => f,
+          :unread_count => thread.posts.length - last_read,
+          :post_count => thread.posts.length }
+    end
+
     def  index
         result = {
             # last_read data is pushed to the JS so it can be dealt with there
             # in real-time, allowing the user easy selection of different
             # thread views ('Unread Only', 'Interesting' etc).
-            :last_read => user_signed_in? ? current_user.last_read : "",
             :folders => []
         }
 

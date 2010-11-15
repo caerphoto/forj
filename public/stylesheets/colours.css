@@ -42,7 +42,11 @@
  */
 .thread_list_item {
     border-color: #FEC;
-    background-image: url('/images/icon_nonewposts.png');
+    background-image: url('/images/icon_nonewposts.gif');
+}
+
+.has_unread {
+    background-image: url("/images/icon_newposts.gif");
 }
 
 /* This is the accent colour. Static page elements can have the "clr3" class

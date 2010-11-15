@@ -1,45 +1,3 @@
-def get_post_user_info(user)
-    # Kinda like get_user_details, except it returns info pertinent to posts
-    unless user.nil?
-        {
-            :name => user.name,
-            :sig => user.sig,
-            :id => user.id
-        }
-    else
-        {
-            :name => "(all)",
-            :sig => "no sig",
-            :id => 0
-        }
-    end
-end
-
-def get_post_info(post)
-    d = post.created_at
-    post_date = d.strftime(" at %H:%M")
-
-    if d.to_date == Date.today
-        post_date = "Today" + post_date
-    else
-        if d.to_date == Date.today.-(1)
-            post_date = "Yesterday" + post_date
-        else
-            post_date = d.to_date.to_s + post_date
-        end
-    end
-
-    { :from => get_post_user_info(post.user),
-      :to_index => post.reply_index,
-      :to_user => get_post_user_info(post.reply_user),
-      :date => post_date,
-      :post_index => post.post_index,
-      :body => post.content,
-      :thread => post.msg_thread_id,
-      :id => post.id
-    }
-end
-
 def lorem(word_count = 20)
 
     #===== words
@@ -201,6 +159,48 @@ EOS
 end
 
 class PostsController < ApplicationController
+    def get_post_user_info(user)
+        # Kinda like get_user_details, except it returns info pertinent to posts
+        unless user.nil?
+            {
+                :name => user.name,
+                :sig => user.sig,
+                :id => user.id
+            }
+        else
+            {
+                :name => "(all)",
+                :sig => "no sig",
+                :id => 0
+            }
+        end
+    end
+
+    def get_post_info(post)
+        d = post.created_at
+        post_date = d.strftime(" at %H:%M")
+
+        if d.to_date == Date.today
+            post_date = "Today" + post_date
+        else
+            if d.to_date == Date.today.-(1)
+                post_date = "Yesterday" + post_date
+            else
+                post_date = d.to_date.to_s + post_date
+            end
+        end
+
+        { :from => get_post_user_info(post.user),
+          :to_index => post.reply_index,
+          :to_user => get_post_user_info(post.reply_user),
+          :date => post_date,
+          :post_index => post.post_index,
+          :body => post.content,
+          #:thread => post.msg_thread_id,
+          :id => post.id
+        }
+    end
+
     def create_lots_of_test_posts thread_id
         thread = MsgThread.find(thread_id)
         first_index = thread.posts.last.post_index
@@ -230,6 +230,13 @@ class PostsController < ApplicationController
         ).each do |post|
             post_array.push get_post_info(post)
         end
+
+        post_count = params[:offset].to_i + params[:limit].to_i
+
+        if post_count > thread.posts.length
+            post_count = thread.posts.length
+        end
+        update_last_read thread.id, post_count
 
         result = {
             :posts => post_array,

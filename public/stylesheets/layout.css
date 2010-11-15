@@ -198,9 +198,26 @@ strong {
     padding: 0.2em 0.5em 0 24px;
     padding-bottom: 0.25em;
     padding-left: 24px;
-    background-position: 4px;
+    background-position: 3px;
     background-repeat: no-repeat;
     line-height: 1.2em;
+}
+
+.thread_list_item a {
+    text-decoration: none;
+}
+
+
+.has_unread {
+    background-position: 2px;
+}
+
+.has_unread a {
+    text-decoration: underline;
+}
+
+.has_unread .item_count {
+    font-weight: bold;
 }
 
 .thread_list_item:hover {
@@ -391,7 +408,7 @@ pre code {
 }
 
 .ui-selectmenu {
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 #btnNewThread {
