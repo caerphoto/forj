@@ -145,7 +145,7 @@ strong {
     top: 5.5em;
     bottom: 3.7em;
     left: 0.5em;
-    right: 70%;
+    width: 24.5em;
 
     padding: 0.5em;
 
@@ -154,7 +154,7 @@ strong {
 
 #postspane {
     position: absolute;
-    left: 31%;
+    left: 27em;
     top: 0;
     right: 0.5em;
     z-index: 3;
