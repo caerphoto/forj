@@ -82,7 +82,7 @@ if (typeof FORJ === "undefined") var FORJ = {
             }
 
             FORJ.ui.replybox.
-                show().
+                fadeTo(0, 1).
                 detach().
                 insertAfter($element);
                 //fadeIn(show_speed, function() {
