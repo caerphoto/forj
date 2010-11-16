@@ -437,12 +437,12 @@ FORJ.showPosts = function(thread_id, offset, limit) {
 }; // FORJ.showPosts()
 
 FORJ.populateUserLists = function(users) {
-    // Fills in the temporary <select>s used for testing
     _(users).each(function(user) {
         FORJ.ui.selReplyTo.append($("<option/>").
             val(user.id).
             text(user.name)
         );
+        console.log("User:", user.name, ", ID:", user.id);
     });
 
     FORJ.ui.selReplyTo.selectmenu({
