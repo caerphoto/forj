@@ -73,6 +73,10 @@ if (typeof FORJ === "undefined") var FORJ = {
                 var u = FORJ.status.editing_post ?
                     FORJ.getData(in_post).to_user_id :
                     FORJ.getData(in_post).user_id;
+                console.log("Replying.");
+                console.log("getData(in_post).user_id =",
+                    FORJ.getData(in_post).user_id);
+                console.log("u =", u);
                 FORJ.ui.selReplyTo.selectmenu("value", u);
             } else {
                 show_speed = 0;
