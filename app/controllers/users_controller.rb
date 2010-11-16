@@ -66,7 +66,7 @@ class UsersController < ApplicationController
     end
 
     def index
-        allusers = User.all
+        allusers = User.all :order => "name"
 
         result = []
 

@@ -17,50 +17,50 @@ $.widget("ui.selectmenu", {
 	options: {
 		transferClasses: true,
 		style: 'popup',
-		width: null, 
-		menuWidth: null, 
-		handleWidth: 26, 
+		width: null,
+		menuWidth: null,
+		handleWidth: 26,
 		maxHeight: null,
-		icons: null, 
+		icons: null,
 		format: null
-	},	
-	
+	},
+
 	_create: function() {
 		var self = this, o = this.options;
-		
+
 		// set a default id value
 		var selectmenuId = this.element.attr('id') || 'ui-selectmenu-' +  Math.random().toString(16).slice(2, 10);
-				
+
 		//quick array of button and menu id's
 		this.ids = [selectmenuId + '-' + 'button', selectmenuId + '-' + 'menu'];
-				
+
 		//define safe mouseup for future toggling
 		this._safemouseup = true;
-		
+
 		//create menu button wrapper
 		this.newelement = $('<a class="'+ this.widgetBaseClass +' ui-widget ui-state-default ui-corner-all" id="'+this.ids[0]+'" role="button" href="#" aria-haspopup="true" aria-owns="'+this.ids[1]+'"></a>')
 			.insertAfter(this.element);
-		
+
 		//transfer tabindex
 		var tabindex = this.element.attr('tabindex');
 		if(tabindex){ this.newelement.attr('tabindex', tabindex); }
-		
+
 		//save reference to select in data for ease in calling methods
 		this.newelement.data('selectelement', this.element);
-		
+
 		//menu icon
 		this.selectmenuIcon = $('<span class="'+ this.widgetBaseClass +'-icon ui-icon"></span>')
 			.prependTo(this.newelement)
 			.addClass( (o.style == "popup")? 'ui-icon-triangle-2-n-s' : 'ui-icon-triangle-1-s' );	
 
-			
+
 		//make associated form label trigger focus
 		$('label[for='+this.element.attr('id')+']')
 			.attr('for', this.ids[0])
 			.bind('click', function(){
 				self.newelement[0].focus();
 				return false;
-			});	
+			});
 
 		//click toggle for menu visibility
 		this.newelement
@@ -112,7 +112,7 @@ $.widget("ui.selectmenu", {
 			.bind('mouseout blur', function(){  
 				if (!o.disabled) $(this).removeClass(self.widgetBaseClass+'-focus ui-state-hover'); 
 			});
-		
+
 		//document click closes menu
 		$(document).mousedown(function(event){
 			self.close(event);
@@ -123,11 +123,11 @@ $.widget("ui.selectmenu", {
 			.click(function(){ this._refreshValue(); })
             // newelement can be null under unclear circumstances in IE8 
 			.focus(function () { if (this.newelement) { this.newelement[0].focus(); } });
-		
+
 		//create menu portion, append to body
 		var cornerClass = (o.style == "dropdown")? " ui-corner-bottom" : " ui-corner-all";
-		this.list = $('<ul class="' + self.widgetBaseClass + '-menu ui-widget ui-widget-content'+cornerClass+'" aria-hidden="true" role="listbox" aria-labelledby="'+this.ids[0]+'" id="'+this.ids[1]+'"></ul>').appendTo('body');				
-		
+		this.list = $('<ul class="' + self.widgetBaseClass + '-menu ui-widget ui-widget-content'+cornerClass+'" aria-hidden="true" role="listbox" aria-labelledby="'+this.ids[0]+'" id="'+this.ids[1]+'"></ul>').appendTo('body');
+
 		//serialize selectmenu element options	
 		var selectOptionData = [];
 		this.element
@@ -140,11 +140,11 @@ $.widget("ui.selectmenu", {
 					classes: $(this).attr('class'),
 					parentOptGroup: $(this).parent('optgroup').attr('label')
 				});
-			});		
-				
+			});
+
 		//active state class is only used in popup style
 		var activeClass = (self.options.style == "popup") ? " ui-state-active" : "";
-		
+
 		//write li's
 		for (var i = 0; i < selectOptionData.length; i++) {
 			var thisLi = $('<li role="presentation"><a href="#" tabindex="-1" role="option" aria-selected="false">'+ selectOptionData[i].text +'</a></li>')
@@ -473,9 +473,19 @@ $.widget("ui.selectmenu", {
 	},
 	value: function(newValue) {
 		if (arguments.length) {
-			this.element[0].selectedIndex = newValue;
-			this._refreshValue();
-			this._refreshPosition();
+                    switch (typeof newValue) {
+                        case "number": {
+                            this.element[0].selectedIndex = newValue;
+                            break;
+                        }
+                        case "string": {
+                            this.element[0].value = newValue;
+                            break;
+                        }
+                        default: { }
+                    }
+                    this._refreshValue();
+                    this._refreshPosition();
 		}
 		return this.element[0].selectedIndex;
 	},

@@ -62,6 +62,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         showReplyBox: function(in_post, new_thread) {
             var show_speed;
             var $element;
+            var u = "u0";
 
             if (in_post) {
                 show_speed = 100;
@@ -70,31 +71,23 @@ if (typeof FORJ === "undefined") var FORJ = {
 
                 FORJ.setData(FORJ.ui.replybox, FORJ.getData(in_post));
 
-                var u = FORJ.status.editing_post ?
+                u = "u" + (FORJ.status.editing_post ?
                     FORJ.getData(in_post).to_user_id :
-                    FORJ.getData(in_post).user_id;
-                console.log("Replying.");
-                console.log("getData(in_post).user_id =",
                     FORJ.getData(in_post).user_id);
-                console.log("u =", u);
-                FORJ.ui.selReplyTo.selectmenu("value", u);
             } else {
                 show_speed = 0;
                 $element = FORJ.ui.posts_container;
                 FORJ.ui.btnCancelReply.button(new_thread ? "enable" : "disable");
-                FORJ.ui.selReplyTo.selectmenu("value", 0);
             }
 
             FORJ.ui.replybox.
                 fadeTo(0, 1).
                 detach().
                 insertAfter($element);
-                //fadeIn(show_speed, function() {
-                    if (in_post) {
-                        FORJ.ui.replybox.find("textarea").focus();
-                        //FORJ.scrollToPost(in_post);
-                    }
-                //});
+                FORJ.ui.selReplyTo.selectmenu("value", u);
+                if (in_post) {
+                    FORJ.ui.replybox.find("textarea").focus();
+                }
         },
 
         hideReplyBox: function() {
@@ -443,10 +436,9 @@ FORJ.showPosts = function(thread_id, offset, limit) {
 FORJ.populateUserLists = function(users) {
     _(users).each(function(user) {
         FORJ.ui.selReplyTo.append($("<option/>").
-            val(user.id).
+            val("u" + user.id).
             text(user.name)
         );
-        console.log("User:", user.name, ", ID:", user.id);
     });
 
     FORJ.ui.selReplyTo.selectmenu({
