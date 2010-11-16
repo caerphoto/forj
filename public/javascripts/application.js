@@ -95,7 +95,6 @@ if (typeof FORJ === "undefined") var FORJ = {
 
         hideReplyBox: function() {
             FORJ.ui.btnPostReply.button("enable");
-            FORJ.ui.replybox.hide();//slideUp(100, function() {
             FORJ.setData(FORJ.ui.replybox);
             FORJ.ui.showReplyBox();
             //});
@@ -675,9 +674,8 @@ FORJ.btnNewThreadClick = function() {
 
     FORJ.ui.thread_title.hide();
 
-    FORJ.ui.replybox.detach();
-    FORJ.ui.posts_container.empty();
     FORJ.ui.showReplyBox(undefined, true);
+    FORJ.ui.posts_container.empty();
 
     FORJ.ui.replybox_thread_title.show();
     FORJ.ui.replybox_thread_title.find("input").focus();
@@ -747,6 +745,9 @@ FORJ.layoutSetup = function() {
 };
 
 FORJ.lipsum = function() {
+    // I'm really not sure what this is here for. It's only used by the sig
+    // editor, and I should probably just have it be the default text for the
+    // main forum when the app page is loaded.
     return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget tempor lacus. Aenean condimentum sem velit. Nulla fringilla, ligula in fringilla dignissim, erat enim malesuada nibh, sit amet convallis lectus mi quis nibh. Suspendisse congue dolor diam. Phasellus faucibus dignissim ligula ut lacinia. Phasellus mattis luctus elit ut porta. Cras.";
 }; // FORJ.lipsum()
 
