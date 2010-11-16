@@ -81,24 +81,24 @@ if (typeof FORJ === "undefined") var FORJ = {
                 FORJ.ui.selReplyTo.selectmenu("value", 0);
             }
 
-            FORJ.ui.replybox.fadeTo(0, 1).
-                hide().
+            FORJ.ui.replybox.
+                show().
                 detach().
-                insertAfter($element).
-                slideDown(show_speed, function() {
+                insertAfter($element);
+                //fadeIn(show_speed, function() {
                     if (in_post) {
                         FORJ.ui.replybox.find("textarea").focus();
-                        FORJ.scrollToPost(in_post);
+                        //FORJ.scrollToPost(in_post);
                     }
-                });
+                //});
         },
 
         hideReplyBox: function() {
             FORJ.ui.btnPostReply.button("enable");
-            FORJ.ui.replybox.slideUp(100, function() {
-                FORJ.setData(FORJ.ui.replybox);
-                FORJ.ui.showReplyBox();
-            });
+            FORJ.ui.replybox.hide();//slideUp(100, function() {
+            FORJ.setData(FORJ.ui.replybox);
+            FORJ.ui.showReplyBox();
+            //});
         }
     },
 
@@ -460,7 +460,7 @@ FORJ.populateThreadsList = function(folder_info) {
     FORJ.threads = [];
     FORJ.ui.folder_list.empty();
     FORJ.ui.selThreadFolder.empty();
-    
+
     console.log("folder_info:", folder_info);
 
     _(folder_info.folders).each(function(folder) {
@@ -489,7 +489,8 @@ FORJ.populateThreadsList = function(folder_info) {
         _(folder.threads).each(function(thread) {
             var new_item = $("<li/>").
                 addClass("thread_list_item bl").
-                addClass(thread.unread_count > 0 ? "has_unread" : "").
+                addClass(thread.unread_count > 0 ? "has_unread" :
+                    "").
                 data("id", thread.id).
                 append($("<a/>").
                     attr("href", [FORJ.config.threads_url, thread.id].join("/")).
@@ -716,13 +717,13 @@ FORJ.layoutSetup = function() {
     // than it was previously. This has the unfortunate effect of allowing the
     // window to be scrolled even if it doesn't look like it should.
 
-    var threads_pane_margins = FORJ.ui.threads_pane.outerHeight(true) -
+    /*var threads_pane_margins = FORJ.ui.threads_pane.outerHeight(true) -
         FORJ.ui.threads_pane.height();
     FORJ.ui.threads_pane.height(
         $(window).height() - (FORJ.ui.page_header.outerHeight(true) +
         FORJ.ui.page_footer.outerHeight(true) + threads_pane_margins)
     );
-    FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.outerHeight());
+    FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.outerHeight());*/
 
     var o = FORJ.ui.posts_pane.offset();
     FORJ.ui.thread_loading_msg.

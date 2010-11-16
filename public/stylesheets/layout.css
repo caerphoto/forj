@@ -22,7 +22,6 @@
 
 body {
     font-size: 85%;
-    overflow: hidden;
     word-spacing: 0.1em;
 }
 
@@ -94,19 +93,21 @@ strong {
 }
 
 #header, #footer {
-    width: 100%;
-    clear: both;
+    position: fixed;
+    left: 0;
+    right: 0;
 }
 
 #header {
     padding: 1em;
     border-bottom-width: 4px;
-    margin-bottom: 0.5em;
+    top: 0;
 }
 
 #footer {
     border-top-width: 4px;
     padding: 1em;
+    bottom: 0;
 }
 
 .current_user {
@@ -135,6 +136,28 @@ strong {
     width: 20em;
     font-size: 100%;
     padding: 0.25em;
+}
+
+#threadspane {
+    position: fixed;
+    top: 5.5em;
+    bottom: 3.7em;
+    left: 0.5em;
+    right: 70%;
+
+    padding: 0.5em;
+
+    overflow: auto;
+}
+
+#postspane {
+    position: absolute;
+    left: 31%;
+    top: 0;
+    right: 0.5em;
+    z-index: -1;
+
+    padding: 5.5em 0 3.7em 0;
 }
 
 #folder_list {
@@ -232,21 +255,6 @@ strong {
 
 #threadspane, #postspane {
     margin-bottom: 0.5em;
-}
-
-#threadspane {
-    float: left;
-    width: 30%;
-    padding: 0.5em;
-
-    overflow: auto;
-}
-
-#postspane {
-    float: right;
-    width: 67%;
-    padding-right: 0.5%;
-    overflow: auto;
 }
 
 #thread_title {
