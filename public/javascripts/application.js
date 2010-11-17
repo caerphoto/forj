@@ -116,10 +116,14 @@ if (typeof FORJ === "undefined") var FORJ = {
             id: 0,
             body: ""
         },
-        maxposts: 50, // max number of posts to display at once
+        show_unread: false,      // Modified by the 'Threads:' select menu and
+                                // read by populateThreadList()
+        unread_priority: false, // put folders/threads with unread messages before
+                                // others
+        maxposts: 50, // max number of posts to load at once
+        precache: false, // doesn't do anything yet
         MAX_POST_LENGTH: 9001,
         post_preview_target: ".post_body",
-        precache: false,
         delete_post_url: "/delete_post/",
         delete_thread_url: "/delete_thread/",
         edit_post_url: "/edit_post/",
@@ -175,12 +179,40 @@ FORJ.getThread = function(thread_id) {
     // Returns a thread object with the given id, assuming it's in the cache.
     // If not, ideally I want to async fetch it, but I'm unsure how to let
     // the caller know the return value. For now it just returns undefined.
-    for (var i = 0, l = FORJ.threads.length; i < l; i++) {
-        if (FORJ.threads[i].id === thread_id) {
-            return FORJ.threads[i];
-        }
-    }
+    var result = undefined;
+    _(FORJ.folders).each(function(folder) {
+        _(folder.threads).each(function(thread) {
+            if (thread.id === thread_id) {
+                result = thread;
+                _.breakLoop();
+            }
+        });
+        if (result) _.breakLoop();
+    });
+    return result;
 }; // FORJ.getThread()
+
+FORJ.updateThreadItem = function(thread_id) {
+    // updates the item on the threads list whose ID === thread_id to reflect
+    // changes in, for example, unread count.
+    $(".thread_list_item").each(function(i, ele) {
+        if ($(ele).data("id") === thread_id) {
+            var thread = FORJ.getThread(thread_id);
+            if (thread.unread_count === 0) {
+                $(ele).removeClass("has_unread");
+            }
+            $(ele).find("span").
+                text([
+                    thread.unread_count,
+                    "new of",
+                    thread.post_count,
+                    thread.post_count === 1 ? "" : ""
+                ].join(" "));
+            return false; // halt thread item iteration
+        }
+    });
+         
+};
 
 FORJ.getFolderFromId = function(folder_id) {
     // Returns the jQuery object that represents the folder with the given ID
@@ -213,22 +245,6 @@ FORJ.resetReplyBox = function() {
     $("#replybox textarea").val("");
     FORJ.ui.replybox.find("textarea").trigger("keyup");
 }; // FORJ.resetReplyBox()
-
-FORJ.showThread = function(i) {
-    // Loads a new thread and renders it in the posts pane.
-    FORJ.ui.replybox_thread_title.hide();
-    var t = FORJ.getThread(i);
-    if (!t) {
-        alert("Tried to load thread of id " + i + " but not in cache.");
-        return;
-    }
-
-    FORJ.posts = [];
-    FORJ.ui.thread_loading_msg.fadeIn(100);
-    FORJ.ui.thread_title.show().text(t.title);
-    FORJ.ui.replybox.detach();
-    FORJ.showPosts(i, 0, t.post_count < 50 ? t.post_count : 50);
-}; // FORJ.showThread()
 
 FORJ.getPostFromId = function(id) {
     // Returns the $(.post) object with the given id as its data, if found.
@@ -396,6 +412,24 @@ FORJ.deletePost = function(post_id) {
     } // if post_index === 0
 };
 
+FORJ.showThread = function(i) {
+    // Loads a new thread and renders it in the posts pane.
+    FORJ.ui.replybox_thread_title.hide();
+    var t = FORJ.getThread(i);
+    if (!t) {
+        alert("Tried to load thread of id " + i + " but not in cache.");
+        return;
+    }
+
+    FORJ.posts = [];
+    FORJ.ui.thread_loading_msg.fadeIn(100);
+    FORJ.ui.thread_title.show().text(t.title);
+    FORJ.ui.replybox.detach();
+    var o = t.post_count - t.unread_count;
+    if (o >= t.post_count) o = 0;
+    FORJ.showPosts(i, o, t.post_count < 50 ? t.post_count : 50);
+}; // FORJ.showThread()
+
 FORJ.showPosts = function(thread_id, offset, limit) {
     // Async-requests the specified posts.
     // Eventually this will only fetch posts not already cached, but
@@ -405,7 +439,6 @@ FORJ.showPosts = function(thread_id, offset, limit) {
         // Callback that renders the posts sent from the server
         FORJ.ui.posts_container.empty(); // will need deleting once we start to 
                                       // append posts to the current thread
-        console.log("post_data.length: ", post_data.posts.length);
         var time_start = new Date();
 
         _(post_data.posts).each(function(p) {
@@ -418,14 +451,22 @@ FORJ.showPosts = function(thread_id, offset, limit) {
         FORJ.post_cache = post_data;
         FORJ.status.current_thread = thread_id;
 
+        // Modify the thread in the list to show that the just-loaded messages
+        // have now been read.
+        var thread = FORJ.getThread(thread_id),
+            has_read = thread.post_count - thread.unread_count,
+            u = thread.unread_count;
+        u -= limit;
+        if (u < 0) u = 0;
+    
+        thread.unread_count = u;
+        FORJ.updateThreadItem(thread.id);
+
         FORJ.ui.thread_loading_msg.fadeOut(100);
         FORJ.ui.showReplyBox();
-        FORJ.ui.posts_container.scrollTo(0);
         document.title = FORJ.getThread(thread_id).title + " - FORJ Forum";
     }; // _fetched()
 
-    console.log("Cur thread: ", FORJ.status.current_thread,
-        ", thread_id: ", thread_id);
     if (thread_id === FORJ.status.current_thread) {
         _fetched(FORJ.post_cache);
     } else {
@@ -451,7 +492,7 @@ FORJ.populateUserLists = function(users) {
 
 }; // FORJ.populateUserLists()
 
-FORJ.populateThreadsList = function(folder_info) {
+FORJ.populateThreadsList = function(folders) {
     // Fills the temporary threads list.
     var $folder;
 
@@ -459,9 +500,9 @@ FORJ.populateThreadsList = function(folder_info) {
     FORJ.ui.folder_list.empty();
     FORJ.ui.selThreadFolder.empty();
 
-    console.log("folder_info:", folder_info);
+    console.log("folder_info:", folders);
 
-    _(folder_info.folders).each(function(folder) {
+    _(folders).each(function(folder) {
         var new_folder = $("<li />").
             data("id", folder.id).
             addClass("folder_list_item").
@@ -485,27 +526,29 @@ FORJ.populateThreadsList = function(folder_info) {
             appendTo(new_folder);
 
         _(folder.threads).each(function(thread) {
-            var new_item = $("<li/>").
-                addClass("thread_list_item bl").
-                addClass(thread.unread_count > 0 ? "has_unread" :
-                    "").
-                data("id", thread.id).
-                append($("<a/>").
-                    attr("href", [FORJ.config.threads_url, thread.id].join("/")).
-                    text(thread.title)).
-                append($("<span/>").
-                    addClass("item_count").
-                    text([
-                        thread.unread_count,
-                        "new of",
-                        thread.post_count,
-                        thread.post_count === 1 ? "" : ""
-                    ].join(" "))
-                );
-            if (thread.id === FORJ.status.current_thread) {
-                new_item.addClass("current_thread");
+            if (thread.unread_count || FORJ.config.show_unread) {
+                var new_item = $("<li/>").
+                    addClass("thread_list_item bl").
+                    addClass(thread.unread_count > 0 ? "has_unread" :
+                        "").
+                    data("id", thread.id).
+                    append($("<a/>").
+                        attr("href", [FORJ.config.threads_url, thread.id].join("/")).
+                        text(thread.title)).
+                    append($("<span/>").
+                        addClass("item_count").
+                        text([
+                            thread.unread_count,
+                            "new of",
+                            thread.post_count,
+                            thread.post_count === 1 ? "" : ""
+                        ].join(" "))
+                    );
+                if (thread.id === FORJ.status.current_thread) {
+                    new_item.addClass("current_thread");
+                }
+                $thread_list.append(new_item);
             }
-            $thread_list.append(new_item);
             FORJ.threads.push(thread);
         }); // folder.threads.each()
     }); // folders.each()
@@ -515,8 +558,7 @@ FORJ.populateThreadsList = function(folder_info) {
         width: "20em"
     });
 
-    FORJ.folders = folder_info.folders;
-    FORJ.status.user_last_read = folder_info.last_read;
+    FORJ.folders = folders;
     FORJ.ui.folders_loading_msg.fadeOut(100);
 }; // FORJ.populateThreadsList()
 
@@ -698,6 +740,22 @@ FORJ.btnNewFolderClick = function() {
     } // if (folder_name)
 }; // FORJ.btnNewFolderClick()
 
+FORJ.selThreadsViewChange = function() {
+    switch (this.value) {
+        case "UNREAD": {
+            FORJ.config.show_unread = false;
+            break;
+        }
+        case "ALL": {
+            FORJ.config.show_unread = true;
+            break;
+        }
+        default: {}
+    }
+
+    FORJ.populateThreadsList(FORJ.folders);
+};
+
 FORJ.loadThreadsList = function() {
     FORJ.ui.folders_loading_msg.fadeIn(100);
     $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
@@ -708,6 +766,8 @@ FORJ.logoClick = function() {
 };
 
 FORJ.layoutSetup = function() {
+    // This function doesn't really need to be here any more, as the positioning is mostly handled with CSS now (IE6 be damned).
+
     // Resized panes so the app fills the window.
     // NOTE: the Chrome extension SmoothScroll has a bug where it won't resize
     // the underlay <div> it creates if the window is sized vertically smaller
@@ -871,10 +931,13 @@ FORJ.initForum = function(config) {
             primary: "btn-icon-reload"
         }
     }).click(FORJ.loadThreadsList);
-    FORJ.ui.selThreadsView.selectmenu({
-        style: "dropdown",
-        width: "14em"
-    });
+    FORJ.ui.selThreadsView.
+        change(FORJ.selThreadsViewChange).
+        val("UNREAD").
+        selectmenu({
+            style: "dropdown",
+            width: "14em"
+        });
 
     FORJ.initUserEditor();
 

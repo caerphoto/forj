@@ -37,12 +37,7 @@ class MsgThreadsController < ApplicationController
     end
 
     def  index
-        result = {
-            # last_read data is pushed to the JS so it can be dealt with there
-            # in real-time, allowing the user easy selection of different
-            # thread views ('Unread Only', 'Interesting' etc).
-            :folders => []
-        }
+        result = []
 
         folders = Folder.all(
             :order => "updated_at DESC",
@@ -58,7 +53,7 @@ class MsgThreadsController < ApplicationController
                 f[:threads].push get_thread_info(thread)
             end
 
-            result[:folders].push f
+            result.push f
         end
 
         # Add 'Uncategorised' threads. Once FORJ is production-ready this won't
@@ -66,10 +61,10 @@ class MsgThreadsController < ApplicationController
         threads = MsgThread.all(
             :conditions => "folder_id = 0",
             :order => "updated_at DESC")
-        result[:folders].push :name => "Uncategorised", :id => 0, :threads => [],
+        result.push :name => "Uncategorised", :id => 0, :threads => [],
             :thread_count => threads.length
         threads.each do |thread|
-            result[:folders].last[:threads].push get_thread_info(thread)
+            result.last[:threads].push get_thread_info(thread)
         end
 
         render :json => result.to_json
