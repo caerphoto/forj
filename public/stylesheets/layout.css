@@ -193,6 +193,7 @@ strong {
     position: fixed;
     top: 5.5em;
     left: 27em;
+    display: none;
 }
 
 #UE_loading {
