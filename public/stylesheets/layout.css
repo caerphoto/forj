@@ -273,7 +273,8 @@ strong {
 
     list-style: none;
     position: relative;
-    top: 5.5em;
+    top: -5.5em;
+    margin-top: 5.5em;
 }
 
 .post_head {
