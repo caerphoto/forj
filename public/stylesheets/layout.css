@@ -274,6 +274,14 @@ strong {
     list-style: none;
 }
 
+.post:before {
+    display: block;
+    content: " ";
+    margin-top: 5.5em;
+    height: 5.5em;
+    visibility: hidden;
+}
+
 .post_head {
     text-align: center;
 }
