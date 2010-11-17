@@ -277,6 +277,8 @@ strong {
 .post_shim {
     margin-top: -5.5em;
     padding-bottom: 5.5em;
+    height: 0;
+    overflow: hidden;
 }
 
 .post_head {
