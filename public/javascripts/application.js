@@ -105,7 +105,7 @@ if (typeof FORJ === "undefined") var FORJ = {
             id: parseInt(($("#sign input").val()).slice(1), 10),
             isAdmin: ($("#sign input").val()).slice(0, 1) === "A",
             unread_counts: []
-        },
+        }
     },
 
     config: {
@@ -723,6 +723,7 @@ FORJ.layoutSetup = function() {
     FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.outerHeight());*/
 
     var o = FORJ.ui.posts_pane.offset();
+    o.top += FORJ.ui.page_header.height();
     FORJ.ui.thread_loading_msg.
         show().
         offset(o).

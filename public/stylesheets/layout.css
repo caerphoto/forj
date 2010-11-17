@@ -193,6 +193,7 @@ strong {
     position: absolute;
     top: 0;
     left: 0;
+    margin-top: 5.5em;
 }
 
 #UE_loading {
