@@ -722,16 +722,15 @@ FORJ.layoutSetup = function() {
     );
     FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.outerHeight());*/
 
-    var o = FORJ.ui.posts_pane.offset();
-    o.top += FORJ.ui.page_header.height();
+    /*var o = FORJ.ui.posts_pane.offset();
     FORJ.ui.thread_loading_msg.
         show().
         offset(o).
-        hide();
+        hide();*/
 
     // Position 'Threads loading...' message so it appears on top of the New
     // Thread/New Folder buttons.
-    o = FORJ.ui.threads_pane.offset();
+    /*o = FORJ.ui.threads_pane.offset();
     var padding = FORJ.ui.threads_pane.innerHeight() -
         FORJ.ui.threads_pane.height();
 
@@ -741,7 +740,7 @@ FORJ.layoutSetup = function() {
     FORJ.ui.folders_loading_msg.
         show().
         offset(o).
-        hide();
+        hide();*/
 };
 
 FORJ.lipsum = function() {

@@ -183,17 +183,16 @@ strong {
 }
 
 #folders_loading_msg {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: fixed;
+    top: 6em;
+    left: 1em;
     z-index: 3;
 }
 
 #thread_loading_msg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-top: 5.5em;
+    position: fixed;
+    top: 5.5em;
+    left: 27em;
 }
 
 #UE_loading {
