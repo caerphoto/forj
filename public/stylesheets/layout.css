@@ -274,7 +274,7 @@ strong {
     list-style: none;
 }
 
-.post:before {
+.FAILSpost:before {
     display: block;
     content: " ";
     margin-top: 5.5em;
