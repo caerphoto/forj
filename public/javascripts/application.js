@@ -258,7 +258,7 @@ FORJ.getCacheIndexFromId = function(id) {
 FORJ.addPost = function(p, opts) {
     var $post = $(FORJ.ui.post_fragment).clone();
     var reply_url = "";
-    $post.attr("id", p.post_index + 1);
+    $post.find(".post_shim").attr("id", p.post_index + 1);
     $post.find(".post_head_from").
         attr("href", [FORJ.config.users_url, p.from.id].join("/")).
         data("id", p.from.id).

@@ -274,12 +274,9 @@ strong {
     list-style: none;
 }
 
-.FAILSpost:before {
-    display: block;
-    content: " ";
-    margin-top: 5.5em;
-    height: 5.5em;
-    visibility: hidden;
+.post_shim {
+    margin-top: -5.5em;
+    padding-bottom: 5.5em;
 }
 
 .post_head {
