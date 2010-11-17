@@ -280,10 +280,10 @@ FORJ.addPost = function(p, opts) {
         text(p.date);
     $post.find(".post_head_index").
         text(p.post_index + 1).
-        attr("href", "#" + p.post_index + 1);
+        attr("href", "#" + (p.post_index + 1));
     $post.find(".post_head_reply_index").
         text(p.to_index + 1).
-        attr("href", "#" + p.to_index + 1);
+        attr("href", "#" + (p.to_index + 1));
 
     $post.find(".post_body").html(FORJ.markup(p.body));
     $post.find(".post_sig").html(FORJ.markup(p.from.sig));
