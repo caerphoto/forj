@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="reload_icon.svg">
   <defs
      id="defs4">
     <marker
@@ -112,9 +112,9 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1"
      inkscape:cx="337.81557"
-     inkscape:cy="422.5"
+     inkscape:cy="577.28805"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="g5423"
      showgrid="true"
      inkscape:window-width="876"
      inkscape:window-height="953"
@@ -168,19 +168,25 @@
          transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,300.20101,-140.74935)"
          sodipodi:open="true"
          sodipodi:end="10.995574"
-         sodipodi:start="5.8249234"
-         d="M 520.8883,220.90464 A 224,224 0 1 1 319.99994,96"
+         sodipodi:start="6.052643"
+         d="M 538.07355,268.81476 A 224,224 0 1 1 319.99994,96"
          sodipodi:ry="224"
          sodipodi:rx="224"
          sodipodi:cy="320"
          sodipodi:cx="320"
          id="path2818"
          style="fill:none;stroke:#115577;stroke-width:80;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none;marker-end:none;display:inline"
-         sodipodi:type="arc" />
+         sodipodi:type="arc"
+         inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-reload.png"
+         inkscape:export-xdpi="2.55"
+         inkscape:export-ydpi="2.55" />
       <path
          id="path5400"
          d="M 562.28284,32 337.18585,257.09698 599.79899,294.61313 562.28284,32 z"
-         style="fill:#115577;fill-opacity:1;stroke:none" />
+         style="fill:#115577;fill-opacity:1;stroke:none"
+         inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-reload.png"
+         inkscape:export-xdpi="2.55"
+         inkscape:export-ydpi="2.55" />
     </g>
   </g>
 </svg>
