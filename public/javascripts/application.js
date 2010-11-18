@@ -192,6 +192,15 @@ FORJ.getThread = function(thread_id) {
     return result;
 }; // FORJ.getThread()
 
+FORJ.counts = function(thread) {
+    return [
+        thread.unread_count,
+        "new of",
+        thread.post_count,
+        thread.post_count === 1 ? "" : ""
+    ].join("&nbsp;");
+};
+
 FORJ.updateThreadItem = function(thread_id) {
     // updates the item on the threads list whose ID === thread_id to reflect
     // changes in, for example, unread count.
@@ -202,12 +211,7 @@ FORJ.updateThreadItem = function(thread_id) {
                 $(ele).removeClass("has_unread");
             }
             $(ele).find("span").
-                text([
-                    thread.unread_count,
-                    "new of",
-                    thread.post_count,
-                    thread.post_count === 1 ? "" : ""
-                ].join(" "));
+                html(FORJ.counts(thread));
             return false; // halt thread item iteration
         }
     });
@@ -500,8 +504,6 @@ FORJ.populateThreadsList = function(folders) {
     FORJ.ui.folder_list.empty();
     FORJ.ui.selThreadFolder.empty();
 
-    console.log("folder_info:", folders);
-
     _(folders).each(function(folder) {
         var new_folder = $("<li />").
             data("id", folder.id).
@@ -537,12 +539,7 @@ FORJ.populateThreadsList = function(folders) {
                         text(thread.title)).
                     append($("<span/>").
                         addClass("item_count").
-                        text([
-                            thread.unread_count,
-                            "new of",
-                            thread.post_count,
-                            thread.post_count === 1 ? "" : ""
-                        ].join(" "))
+                        html(FORJ.counts(thread))
                     );
                 if (thread.id === FORJ.status.current_thread) {
                     new_item.addClass("current_thread");

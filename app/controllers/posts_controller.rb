@@ -195,7 +195,7 @@ def get_post_info(post)
       :date => post_date,
       :post_index => post.post_index,
       :body => post.content,
-      #:thread => post.msg_thread_id,
+      :thread => post.msg_thread_id,
       :id => post.id
     }
 end
