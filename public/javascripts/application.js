@@ -695,15 +695,19 @@ FORJ.lnkThreadClick = function(event) {
 }; // FORJ.lnkThreadClick()
 
 FORJ.lnkFolderClick = function(event) {
-    var folder = $(this);
-    if (folder.hasClass("folder_contracted")) {
-        folder.removeClass("folder_contracted");
-        folder.next().slideDown(200);
-    } else {
-        folder.addClass("folder_contracted");
-        folder.next().slideUp(200);
-    }
+    // simplified version based on a suggestion by Pete Boughton
+    $(this).
+        toggleClass("folder_contracted").
+        next().slideToggle(200);
 
+//    var folder = $(this);
+//    if (folder.hasClass("folder_contracted")) {
+//        folder.removeClass("folder_contracted");
+//        folder.next().slideDown(200);
+//    } else {
+//        folder.addClass("folder_contracted");
+//        folder.next().slideUp(200);
+//    }
 }; // FORJ.lnkFolderClick()
 
 FORJ.btnNewThreadClick = function() {
