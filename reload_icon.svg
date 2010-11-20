@@ -13,7 +13,7 @@
    height="640"
    id="svg2"
    version="1.1"
-   inkscape:version="0.47 r22583"
+   inkscape:version="0.48.0 r9654"
    sodipodi:docname="reload_icon.svg">
   <defs
      id="defs4">
@@ -112,7 +112,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1"
      inkscape:cx="337.81557"
-     inkscape:cy="577.28805"
+     inkscape:cy="245.54842"
      inkscape:document-units="px"
      inkscape:current-layer="g5423"
      showgrid="true"
@@ -178,15 +178,15 @@
          style="fill:none;stroke:#115577;stroke-width:80;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none;marker-end:none;display:inline"
          sodipodi:type="arc"
          inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-reload.png"
-         inkscape:export-xdpi="2.55"
-         inkscape:export-ydpi="2.55" />
+         inkscape:export-xdpi="2.1522634"
+         inkscape:export-ydpi="2.1522634" />
       <path
          id="path5400"
          d="M 562.28284,32 337.18585,257.09698 599.79899,294.61313 562.28284,32 z"
          style="fill:#115577;fill-opacity:1;stroke:none"
          inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-reload.png"
-         inkscape:export-xdpi="2.55"
-         inkscape:export-ydpi="2.55" />
+         inkscape:export-xdpi="2.1522634"
+         inkscape:export-ydpi="2.1522634" />
     </g>
   </g>
 </svg>

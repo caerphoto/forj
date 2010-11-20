@@ -195,7 +195,7 @@ FORJ.getThread = function(thread_id) {
 FORJ.counts = function(thread) {
     return [
         thread.unread_count,
-        "new of",
+        "new&nbsp;of",
         thread.post_count,
         thread.post_count === 1 ? "" : ""
     ].join("&nbsp;");
@@ -441,7 +441,7 @@ FORJ.showPosts = function(thread_id, offset, limit) {
 
     var _fetched = function(post_data) {
         // Callback that renders the posts sent from the server
-        FORJ.ui.posts_container.empty(); // will need deleting once we start to 
+        FORJ.ui.posts_container.empty(); // will need deleting once we start to
                                       // append posts to the current thread
         var time_start = new Date();
 
@@ -462,7 +462,7 @@ FORJ.showPosts = function(thread_id, offset, limit) {
             u = thread.unread_count;
         u -= limit;
         if (u < 0) u = 0;
-    
+
         thread.unread_count = u;
         FORJ.updateThreadItem(thread.id);
 
@@ -745,7 +745,7 @@ FORJ.selThreadsViewChange = function() {
         }
         case "ALL": {
             FORJ.config.show_unread = true;
-            break;
+            break
         }
         default: {}
     }
@@ -763,6 +763,7 @@ FORJ.logoClick = function() {
 };
 
 FORJ.layoutSetup = function() {
+
     // This function doesn't really need to be here any more, as the positioning is mostly handled with CSS now (IE6 be damned).
 
     // Resized panes so the app fills the window.
@@ -824,6 +825,7 @@ FORJ.createPostPreview = function(sig) {
         FORJ.ui.post_preview.find(".post_sig").remove();
     }
 }; // FORJ.createPostPreview()
+
 
 FORJ.initUserEditor = function() {
     FORJ.user_editor = (function() {
