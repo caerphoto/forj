@@ -193,7 +193,7 @@ FORJ.getThread = function(thread_id) {
 }; // FORJ.getThread()
 
 FORJ.counts = function(thread) {
-    return [
+    return " " + [
         thread.unread_count,
         "new&nbsp;of",
         thread.post_count,
