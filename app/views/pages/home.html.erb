@@ -41,13 +41,15 @@
             <select id="selReplyTo">
                 <option value="u0">(all)</option>
             </select>
+            Note: you can format your posts using <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown syntax</a>.
 
         </div>
-        <textarea id="reply_text"></textarea><br />
+        <textarea id="reply_text"></textarea>
+        <p id="post_preview_info">Post preview:</p>
+        <p id="post_length_info">Post length <span id="post_length">0</span>
+        characters out of <span id="max_post_length">300</span> maximum.</p>
         <button id="btnPostReply">Post</button>
         <button id="btnCancelReply">Cancel</button>
-        Post length: <span id="post_length">0</span> characters (maximum
-        <span id="max_post_length">300</span>).
     </div>
     <% end %>
     <% if user_signed_in? and current_user.admin? %>

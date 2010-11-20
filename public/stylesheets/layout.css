@@ -323,7 +323,7 @@ strong {
     margin-bottom: 0.5em;
 }
 
-.post p, .post_body pre, .post li {
+.post p, .post_body pre, .post li, #post_length_info {
     margin-bottom: 0.5em;
 }
 

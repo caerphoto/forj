@@ -122,7 +122,7 @@ if (typeof FORJ === "undefined") var FORJ = {
                                 // others
         maxposts: 50, // max number of posts to load at once
         precache: false, // doesn't do anything yet
-        MAX_POST_LENGTH: 9001,
+        MAX_POST_LENGTH: 10000,
         post_preview_target: ".post_body",
         delete_post_url: "/delete_post/",
         delete_thread_url: "/delete_thread/",
@@ -599,16 +599,16 @@ FORJ.lnkDeleteClick = function(event) {
     FORJ.deletePost(FORJ.getData($(this).parents(".post")).id);
 };
 
-FORJ.postTextChange = function(sig) {
+FORJ.postTextChange = function(is_sig) {
     // Updates post length counter, changing its class to "post_too_long" if
     // necessary.
     var txt = $(this).val() || " ";
     var length_thingy = $("#post_length");
     length_thingy.text(txt.length);
     if (txt.length > FORJ.config.MAX_POST_LENGTH) {
-        length_thingy.addClass("field_with_error");
+        length_thingy.addClass("field_with_errors");
     } else {
-        length_thingy.removeClass("field_with_error");
+        length_thingy.removeClass("field_with_errors");
     }
 
     window.setTimeout(function() {
@@ -941,7 +941,7 @@ FORJ.initForum = function(config) {
     FORJ.initUserEditor();
 
     FORJ.createPostPreview();
-    FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox.find("#replybox_options"));
+    FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox.find("#post_preview_info"));
 
     FORJ.ui.replybox_thread_title.hide();
     FORJ.ui.replybox.hide();
