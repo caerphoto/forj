@@ -11,7 +11,8 @@ def update_last_read(thread_id, post_count)
         # of posts in that thread that the user has seen."
         lr = current_user.last_read
         if lr
-            if lr.match /(^|,)#{thread_id}:(\d+)(,|$)/
+            old_count = lr.match /(^|,)#{thread_id}:(\d+)(,|$)/
+            if old_count and old_count[2].to_i < post_count
                 new_lr = lr.gsub /(^|,)(#{thread_id}):(\d+)(,|$)/,
                     "\\1\\2:#{post_count}\\4"
             else
