@@ -293,6 +293,7 @@ strong {
 
 .post_head_fromto, .post_foot_replylinks {
     float: left;
+    text-align: left;
 }
 
 .post_head_info, .post_foot_editlinks {
