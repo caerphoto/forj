@@ -233,11 +233,6 @@ strong {
     text-decoration: none;
 }
 
-
-.has_unread {
-    background-position: 2px;
-}
-
 .has_unread a {
     text-decoration: underline;
 }
@@ -263,6 +258,19 @@ strong {
 #thread_title {
     margin-bottom: 0.5em;
 }
+
+#post_buttons_prev, #post_buttons_next {
+    margin: 0.5em 0;
+    text-align: center;
+}
+
+/*#post_buttons_prev {*/
+/*    text-align: left;*/
+/*}*/
+
+/*#post_buttons_next {*/
+/*    text-align: center;*/
+/*}*/
 
 .posts_container {
     overflow: auto;

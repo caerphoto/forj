@@ -22,9 +22,20 @@
 </div>
 
 <div id="postspane">
-    <div id="thread_loading_msg" class="loading_msg bb">Loading posts...</div>
+    <div id="thread_loading_msg" class="loading_msg bb">Loading posts&hellip;</div>
     <h2 id="thread_title" class="thread_title"></h2>
+
+    <div id="post_buttons_prev" class="posts_nav">
+        <button id="btnFirstPosts">First Posts</button>
+        <button id="btnPrevPosts">More Posts</button>
+    </div>
+
     <ul id="posts_container"></ul>
+
+    <div id="post_buttons_next" class="posts_nav">
+        <button id="btnNextPosts">More Posts</button>
+        <button id="btnLastPosts">Last Posts</button>
+    </div>
 
    <% if user_signed_in? %>
     <div id="replybox">
@@ -41,8 +52,9 @@
             <select id="selReplyTo">
                 <option value="u0">(all)</option>
             </select>
-            Note: you can format your posts using <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown syntax</a>.
-
+            Note: you can format your posts using
+            <a href="http://daringfireball.net/projects/markdown/syntax"
+                target="_blank">Markdown syntax</a>.
         </div>
         <textarea id="reply_text"></textarea>
         <p id="post_preview_info">Post preview:</p>

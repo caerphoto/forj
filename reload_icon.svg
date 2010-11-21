@@ -112,9 +112,9 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1"
      inkscape:cx="337.81557"
-     inkscape:cy="245.54842"
+     inkscape:cy="325.54842"
      inkscape:document-units="px"
-     inkscape:current-layer="g5423"
+     inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="876"
      inkscape:window-height="953"
@@ -144,21 +144,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-412.36218)"
-     style="display:inline" />
-  <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Layer"
-     style="display:inline">
+     inkscape:label="Reload"
+     style="display:none">
     <g
        id="g5423"
        inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-reload.png"
@@ -186,7 +180,21 @@
          style="fill:#115577;fill-opacity:1;stroke:none"
          inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-reload.png"
          inkscape:export-xdpi="2.1522634"
-         inkscape:export-ydpi="2.1522634" />
+         inkscape:export-ydpi="2.1522634"
+         inkscape:connector-curvature="0" />
     </g>
+  </g>
+  <g
+     inkscape:label="Next"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-412.36218)"
+     style="display:inline">
+    <path
+       style="fill:#115577;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;color:#000000;fill-opacity:1;fill-rule:nonzero;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 64,32 64,608 608,320 z"
+       id="path3812"
+       inkscape:connector-curvature="0"
+       transform="translate(0,412.36218)" />
   </g>
 </svg>

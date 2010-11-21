@@ -42,11 +42,11 @@
  */
 .thread_list_item {
     border-color: #FEC;
-    background-image: url('/images/icon_nonewposts.gif');
+    background-image: url('/images/icon_nonewposts.png');
 }
 
 .has_unread {
-    background-image: url("/images/icon_newposts.gif");
+    background-image: url("/images/icon_newposts.png");
 }
 
 /* This is the accent colour. Static page elements can have the "clr3" class
@@ -65,6 +65,30 @@
 .btn-icon-reload {
     background-image: url("/images/ui-icon-reload.png") !important;
     background-position: right bottom;
+}
+
+.posts_nav .ui-icon {
+    background-position: right 60%;
+}
+
+#btnFirstPosts, #btnLastPosts {
+    width: 10em;
+}
+
+#btnPrevPosts, #btnNextPosts {
+    width: 15em;
+}
+
+.btn-icon-firstposts { background-image: url("/images/ui-icon-first_posts.png") !important;
+}
+
+.btn-icon-prevposts { background-image: url("/images/ui-icon-prev_posts.png") !important;
+}
+
+.btn-icon-nextposts { background-image: url("/images/ui-icon-next_posts.png") !important;
+}
+
+.btn-icon-lastposts { background-image: url("/images/ui-icon-last_posts.png") !important;
 }
 
 .folder_name {

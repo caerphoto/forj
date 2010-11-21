@@ -1,4 +1,9 @@
-def last_read_to_a
+def reset_last_read
+    # Resets the last_read for all users to blank
+    User.all.each do |user|
+        user.last_read = ""
+        user.save
+    end
 end
 
 def update_last_read(thread_id, post_count)
@@ -8,11 +13,24 @@ def update_last_read(thread_id, post_count)
         # The last_read string looks like this:
         # "1:33,2:20,3:50,5:11"
         # The digit before the : is the thread_id, the one after is the number
-        # of posts in that thread that the user has seen."
+        # of posts in that thread that the user has seen.
         lr = current_user.last_read
-        if lr
+        puts "User's current last_read = '#{lr}'"
+        if lr != ""
             old_count = lr.match /(^|,)#{thread_id}:(\d+)(,|$)/
-            if old_count and old_count[2].to_i < post_count
+            last = 0
+            last = old_count[2].to_i if old_count
+            numposts = MsgThread.find(thread_id).posts.length
+
+            puts "Last read for thread #{thread_id} = #{last}"
+            puts "post_count parameter = #{post_count}"
+            puts "Number of posts in this thread = #{numposts}"
+
+            return if last >= numposts
+
+            puts "Last is not >= numposts"
+
+            if last < post_count and old_count
                 new_lr = lr.gsub /(^|,)(#{thread_id}):(\d+)(,|$)/,
                     "\\1\\2:#{post_count}\\4"
             else
@@ -22,6 +40,7 @@ def update_last_read(thread_id, post_count)
             new_lr = [thread_id, post_count].join(":")
         end
 
+        puts "Updating user's last_read with:", new_lr
         current_user.last_read = new_lr
         current_user.save
     end

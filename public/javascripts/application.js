@@ -29,27 +29,40 @@ if (typeof FORJ === "undefined") var FORJ = {
         buttons: $("input:submit"),
         page_header: $("#header"),
         page_footer: $("#footer"),
+
         threads_pane: $("#threadspane"),
         folder_list: $("#folder_list"),
+        folders_loading_msg: $("#folders_loading_msg"),
+        btnNewFolder: $("#btnNewFolder"),
+        btnNewThread: $("#btnNewThread"),
+        btnReloadThreadsList: $("#btnReloadThreadsList"),
+        selThreadsView: $("#selThreadsView"),
+
         posts_pane: $("#postspane"),
+        thread_loading_msg: $("#thread_loading_msg"),
         thread_title: $("#thread_title"),
         posts_container: $("#posts_container"),
+
+        post_buttons_prev: $("#post_buttons_prev"),
+        post_buttons_next: $("#post_buttons_next"),
+        btnFirstPosts: $("#btnFirstPosts"),
+        btnPrevPosts: $("#btnPrevPosts"),
+        btnNextPosts: $("#btnNextPosts"),
+        btnLastPosts: $("#btnLastPosts"),
+
         post_fragment: $("#post_template"),
         replybox: $("#replybox"),
         replybox_thread_title: $("#replybox_thread_title"),
         reply_text: $("#replybox texarea").first(),
-        thread_loading_msg: $("#thread_loading_msg"),
-        folders_loading_msg: $("#folders_loading_msg"),
         post_preview: undefined,
-        btnNewFolder: $("#btnNewFolder"),
-        btnNewThread: $("#btnNewThread"),
-        btnReloadThreadsList: $("#btnReloadThreadsList"),
+
         btnPostReply: $("#btnPostReply"),
         btnCancelReply: $("#btnCancelReply"),
         selReplyTo: $("#selReplyTo"),
         selThreadFolder: $("#selThreadFolder"),
-        selThreadsView: $("#selThreadsView"),
         showdown: (function() {
+            // Necessary otherwise it causes the JS interpreter to fall over
+            // if showdown-min.js is not included on the page.
             if (Attacklab) {
                 return new Attacklab.showdown.converter();
             } else {
@@ -76,14 +89,14 @@ if (typeof FORJ === "undefined") var FORJ = {
                     FORJ.getData(in_post).user_id);
             } else {
                 show_speed = 0;
-                $element = FORJ.ui.posts_container;
+                $element = FORJ.ui.post_buttons_next;
                 FORJ.ui.btnCancelReply.button(new_thread ? "enable" : "disable");
             }
 
             FORJ.ui.replybox.
-                fadeTo(0, 1).
                 detach().
-                insertAfter($element);
+                insertAfter($element).
+                show();
                 FORJ.ui.selReplyTo.selectmenu("value", u);
                 if (in_post) {
                     FORJ.ui.replybox.find("textarea").focus();
@@ -101,6 +114,8 @@ if (typeof FORJ === "undefined") var FORJ = {
     status: {
         current_thread: 0, previous_thread: 0,
         editing_post: undefined,
+        offset_top: 0, offset_bottom: 0,
+        prev_txt: "",
         current_user: {
             id: parseInt(($("#sign input").val()).slice(1), 10),
             isAdmin: ($("#sign input").val()).slice(0, 1) === "A",
@@ -120,7 +135,7 @@ if (typeof FORJ === "undefined") var FORJ = {
                                 // read by populateThreadList()
         unread_priority: false, // put folders/threads with unread messages before
                                 // others
-        maxposts: 50, // max number of posts to load at once
+        limit: 50, // max number of posts to load at once
         precache: false, // doesn't do anything yet
         MAX_POST_LENGTH: 10000,
         post_preview_target: ".post_body",
@@ -131,7 +146,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         users_url: "/users",
         threads_url: "/msg_threads",
         new_folder_url: "/folders",
-        reply_url: "/posts?reply_to="
+        reply_url: "/posts?reply_user="
     },
 
     folders: [],
@@ -193,12 +208,22 @@ FORJ.getThread = function(thread_id) {
 }; // FORJ.getThread()
 
 FORJ.counts = function(thread) {
-    return " " + [
-        thread.unread_count,
-        "new&nbsp;of",
-        thread.post_count,
-        thread.post_count === 1 ? "" : ""
-    ].join("&nbsp;");
+    if (thread.unread_count) {
+        return [
+            " ",
+            thread.unread_count,
+            "&nbsp;new&nbsp;of&nbsp;",
+            thread.post_count
+        ].join("");
+    } else {
+        return [
+            " ",
+            thread.post_count,
+            "&nbsp;post",
+            thread.post_count === 1 ? "" : "s"
+        ].join("");
+    }
+
 };
 
 FORJ.updateThreadItem = function(thread_id) {
@@ -275,7 +300,7 @@ FORJ.getCacheIndexFromId = function(id) {
     return result
 }; // FORJ.getCacheIndexFromId()
 
-FORJ.addPost = function(p, opts) {
+FORJ.addPost = function(p, opts, insert_direction) {
     var $post = $(FORJ.ui.post_fragment).clone();
     var reply_url = "";
     $post.find(".post_shim").attr("id", p.post_index + 1);
@@ -341,7 +366,11 @@ FORJ.addPost = function(p, opts) {
             opts.insert_after.remove();
         }
     } else {
-        $post.appendTo(FORJ.ui.posts_container);
+        if (insert_direction === -1) {
+            $post.prependTo(FORJ.ui.posts_container);
+        } else {
+            $post.appendTo(FORJ.ui.posts_container);
+        }
     }
 
     if (opts && opts.scroll) {
@@ -431,28 +460,64 @@ FORJ.showThread = function(i) {
     FORJ.ui.replybox.detach();
     var o = t.post_count - t.unread_count;
     if (o >= t.post_count) o = 0;
-    FORJ.showPosts(i, o, t.post_count < 50 ? t.post_count : 50);
+    FORJ.status.offset_top = o;
+    FORJ.showPosts(i, o, 0);
 }; // FORJ.showThread()
 
-FORJ.showPosts = function(thread_id, offset, limit) {
+FORJ.showPosts = function(thread_id, offset, insert_direction) {
     // Async-requests the specified posts.
     // Eventually this will only fetch posts not already cached, but
     // for now it just fetches what it's told.
+    if (offset < 0) offset = 0;
 
     var _fetched = function(post_data) {
         // Callback that renders the posts sent from the server
-        FORJ.ui.posts_container.empty(); // will need deleting once we start to
-                                      // append posts to the current thread
+
+        // insert_direction is -2 if jumping to the first posts of a thread,
+        // or 2 if jumping to the end
+        if (Math.abs(insert_direction) === 2 || insert_direction === 0) {
+            FORJ.ui.posts_container.empty();
+        }
+
         var time_start = new Date();
 
-        _(post_data.posts).each(function(p) {
-            FORJ.addPost(p, post_data.count);
-        }); // FORJ.posts.each()
+        // Insert posts in the appropriate direction.
+        // addPost() will prependTo() if insert_direction is -1 (i.e. the
+        // user clicked the Previous Posts button), hence why it's passed
+        // each post in reverse order.
+        if (insert_direction === -1) {
+            for (var i = post_data.posts.length; i--;) {
+                var p = post_data.posts[i];
+                FORJ.addPost(p, post_data.count, insert_direction);
+            }
+        } else {
+            for (var i = 0, l = post_data.posts.length; i < l; i++) {
+                var p = post_data.posts[i];
+                FORJ.addPost(p, post_data.count, insert_direction);
+            }
+        }
 
         var time_end = new Date();
         console.log("Post view render time:", time_end - time_start, "ms");
 
-        FORJ.post_cache = post_data;
+        // Record existing post data, then combine the new data with it
+        // according to which end the posts were added.
+        switch (insert_direction) {
+            case -1:
+                var post_a = FORJ.post_cache.posts;
+                FORJ.post_cache = post_data;
+                FORJ.post_cache.posts = FORJ.post_cache.posts.concat(post_a);
+                break;
+            case 1:
+                var post_a = FORJ.post_cache.posts;
+                FORJ.post_cache = post_data;
+                FORJ.post_cache.posts = post_a.concat(post_data.posts);
+                break;
+            default:
+                // insert_direction is either -2, 2, 0 or undefined
+                FORJ.post_cache = post_data;
+        }
+
         FORJ.status.current_thread = thread_id;
 
         // Modify the thread in the list to show that the just-loaded messages
@@ -460,22 +525,64 @@ FORJ.showPosts = function(thread_id, offset, limit) {
         var thread = FORJ.getThread(thread_id),
             has_read = thread.post_count - thread.unread_count,
             u = thread.unread_count;
-        u -= limit;
+        u -= FORJ.config.limit;
         if (u < 0) u = 0;
 
         thread.unread_count = u;
         FORJ.updateThreadItem(thread.id);
+
+        // Modify top and bottom offsets depending on how the posts were added
+        switch (insert_direction) {
+            case -2:
+                FORJ.status.offset_top = 0 - FORJ.config.limit;
+                FORJ.status.offset_bottom = FORJ.config.limit;
+                break;
+            case -1:
+                FORJ.status.offset_top = offset - FORJ.config.limit;
+                break;
+            case 0:
+                FORJ.status.offset_top = offset - FORJ.config.limit;
+                FORJ.status.offset_bottom = offset + FORJ.config.limit;
+            case 1:
+                FORJ.status.offset_bottom = offset + FORJ.config.limit;
+                break;
+            case 2:
+                FORJ.status.offset_top = thread.post_count - FORJ.config.limit * 2;
+                FORJ.status.offset_bottom = thread.post_count;
+                break;
+        }
+
+        console.log("FORJ.status.offset_top:", FORJ.status.offset_top);
+
+
+        // Hide or show post navigation buttons appropriately
+        if (FORJ.status.offset_top > 0 - FORJ.config.limit) {
+            FORJ.ui.post_buttons_prev.show();
+        } else {
+            FORJ.ui.post_buttons_prev.hide();
+        }
+        if (thread.post_count > FORJ.status.offset_bottom) {
+            FORJ.ui.post_buttons_next.show();
+        } else {
+            FORJ.ui.post_buttons_next.hide();
+        }
 
         FORJ.ui.thread_loading_msg.fadeOut(100);
         FORJ.ui.showReplyBox();
         document.title = FORJ.getThread(thread_id).title + " - FORJ Forum";
     }; // _fetched()
 
-    if (thread_id === FORJ.status.current_thread) {
+    // insert_direction will be 0 or undefined when re-showing a thread after
+    // clicking Cancel after starting to create a new thread
+    if (thread_id === FORJ.status.current_thread && !insert_direction) {
         _fetched(FORJ.post_cache);
     } else {
         var url = FORJ.config.posts_url + "?thread=";
-        url += [thread_id, "&offset=", offset, "&limit=", limit].join("");
+        url += [
+            thread_id,
+            "&offset=", offset,
+            "&limit=", FORJ.config.limit
+        ].join("");
         console.log("URL fetched: ", url);
         $.getJSON(url, _fetched);
     }
@@ -599,10 +706,43 @@ FORJ.lnkDeleteClick = function(event) {
     FORJ.deletePost(FORJ.getData($(this).parents(".post")).id);
 };
 
+FORJ.btnFirstPostsClick = function() {
+    FORJ.ui.thread_loading_msg.fadeIn(100);
+    FORJ.showPosts(FORJ.status.current_thread, 0, -2);
+};
+
+FORJ.btnPrevPostsClick = function() {
+    FORJ.ui.thread_loading_msg.fadeIn(100);
+    FORJ.showPosts(FORJ.status.current_thread, 
+        FORJ.status.offset_top,
+        -1);
+};
+
+FORJ.btnNextPostsClick = function() {
+    FORJ.ui.thread_loading_msg.fadeIn(100);
+    FORJ.showPosts(FORJ.status.current_thread,
+        FORJ.status.offset_bottom,
+        1);
+};
+
+FORJ.btnLastPostsClick = function() {
+    FORJ.ui.thread_loading_msg.fadeIn(100);
+    var t = FORJ.getThread(FORJ.status.current_thread);
+    FORJ.showPosts(FORJ.status.current_thread,
+        t.post_count - FORJ.config.limit,
+        2);
+};
+
 FORJ.postTextChange = function(is_sig) {
     // Updates post length counter, changing its class to "post_too_long" if
     // necessary.
     var txt = $(this).val() || " ";
+    if (txt === FORJ.status.prev_txt) {
+        return;
+    } else {
+        FORJ.status.prev_txt = txt;
+    }
+
     var length_thingy = $("#post_length");
     length_thingy.text(txt.length);
     if (txt.length > FORJ.config.MAX_POST_LENGTH) {
@@ -618,7 +758,6 @@ FORJ.postTextChange = function(is_sig) {
 }; // FORJ.postTextChange()
 
 FORJ.btnPostReplyClick = function() {
-    FORJ.ui.replybox.fadeTo(100, 0.5);
     FORJ.ui.btnPostReply.button("disable");
 
     var url = "";
@@ -631,6 +770,7 @@ FORJ.btnPostReplyClick = function() {
             "&folder=", FORJ.ui.selThreadFolder.val()
         ].join("");
     } else {
+        // Replying to an existing thread
         var post_data = FORJ.getData(FORJ.ui.replybox);
 
         if (FORJ.status.editing_post) {
@@ -638,10 +778,9 @@ FORJ.btnPostReplyClick = function() {
         } else {
             url = FORJ.config.reply_url;
             url += [
-                FORJ.ui.selReplyTo.val(),
+                FORJ.ui.selReplyTo.val().slice(1),
                 "&thread=", FORJ.status.current_thread,
                 "&reply_index=", post_data.post_index || 0,
-                "&post_index=", FORJ.status.current_thread ? 1 : 0
             ].join("");
         }
     }
@@ -941,6 +1080,33 @@ FORJ.initForum = function(config) {
             style: "dropdown",
             width: "14em"
         });
+
+    FORJ.ui.btnFirstPosts.
+        button({
+            icons: {
+                primary: "btn-icon-firstposts"
+            }
+        }).click(FORJ.btnFirstPostsClick);
+    FORJ.ui.btnPrevPosts.
+        button({
+            icons: {
+                primary: "btn-icon-prevposts"
+            }
+        }).click(FORJ.btnPrevPostsClick);
+    FORJ.ui.btnNextPosts.
+        button({
+            icons: {
+                primary: "btn-icon-nextposts"
+            }
+        }).click(FORJ.btnNextPostsClick);
+    FORJ.ui.btnLastPosts.
+        button({
+            icons: {
+                primary: "btn-icon-lastposts"
+            }
+        }).click(FORJ.btnLastPostsClick);
+
+    $(".posts_nav").hide();
 
     FORJ.initUserEditor();
 

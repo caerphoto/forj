@@ -29,10 +29,13 @@ class MsgThreadsController < ApplicationController
             end
         end
 
+        unread_count = thread.posts.length - last_read
+        unread_count = 0 if unread_count < 0
+
         { :title => thread.title,
           :id => thread.id,
           :folder_id => f,
-          :unread_count => thread.posts.length - last_read,
+          :unread_count => unread_count,
           :post_count => thread.posts.length }
     end
 

@@ -233,9 +233,7 @@ class PostsController < ApplicationController
 
         post_count = params[:offset].to_i + params[:limit].to_i
 
-        if post_count > thread.posts.length
-            post_count = thread.posts.length
-        end
+        post_count = thread.posts.length if post_count > thread.posts.length
         update_last_read thread.id, post_count
 
         result = {
@@ -250,6 +248,9 @@ class PostsController < ApplicationController
         if params[:textData] == "DOTEST"
             create_lots_of_test_posts params[:thread].to_i
             render :json => get_post_info(MsgThread.find(params[:thread].to_i).posts.last)
+        elsif params[:textData] == "RESET_LAST_READ"
+            reset_last_read
+            render :text => "RESET OK"
         else
             thread = MsgThread.find(params[:thread])
 
@@ -258,7 +259,7 @@ class PostsController < ApplicationController
                 :post_index => thread.posts.last.post_index + 1,
                 :reply_index => params[:reply_index].to_i,
                 :msg_thread => thread,
-                :reply_user_id => params[:reply_to].to_i
+                :reply_user_id => params[:reply_user].to_i
             )
 
             post.save
