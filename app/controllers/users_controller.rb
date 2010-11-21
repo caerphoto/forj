@@ -15,20 +15,13 @@ def update_last_read(thread_id, post_count)
         # The digit before the : is the thread_id, the one after is the number
         # of posts in that thread that the user has seen.
         lr = current_user.last_read
-        puts "User's current last_read = '#{lr}'"
         if lr != ""
             old_count = lr.match /(^|,)#{thread_id}:(\d+)(,|$)/
             last = 0
             last = old_count[2].to_i if old_count
             numposts = MsgThread.find(thread_id).posts.length
 
-            puts "Last read for thread #{thread_id} = #{last}"
-            puts "post_count parameter = #{post_count}"
-            puts "Number of posts in this thread = #{numposts}"
-
             return if last >= numposts
-
-            puts "Last is not >= numposts"
 
             if last < post_count and old_count
                 new_lr = lr.gsub /(^|,)(#{thread_id}):(\d+)(,|$)/,
@@ -40,7 +33,6 @@ def update_last_read(thread_id, post_count)
             new_lr = [thread_id, post_count].join(":")
         end
 
-        puts "Updating user's last_read with:", new_lr
         current_user.last_read = new_lr
         current_user.save
     end
