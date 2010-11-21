@@ -552,9 +552,6 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
                 break;
         }
 
-        console.log("FORJ.status.offset_top:", FORJ.status.offset_top);
-
-
         // Hide or show post navigation buttons appropriately
         if (FORJ.status.offset_top > 0 - FORJ.config.limit) {
             FORJ.ui.post_buttons_prev.show();

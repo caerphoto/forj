@@ -16,9 +16,9 @@
    version="1.1"
    inkscape:version="0.48.0 r9654"
    sodipodi:docname="icons.svg"
-   inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts.png"
-   inkscape:export-xdpi="2.27"
-   inkscape:export-ydpi="2.27">
+   inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-next_posts.png"
+   inkscape:export-xdpi="1.5625"
+   inkscape:export-ydpi="1.5625">
   <defs
      id="defs4">
     <linearGradient
@@ -137,10 +137,10 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="337.81557"
+     inkscape:cx="376.94595"
      inkscape:cy="325.54842"
      inkscape:document-units="px"
-     inkscape:current-layer="g3996"
+     inkscape:current-layer="g3850"
      showgrid="true"
      inkscape:window-width="876"
      inkscape:window-height="953"
@@ -219,28 +219,28 @@
      style="display:none">
     <path
        style="color:#000000;fill:#115577;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="M 32,444.36218 32,1020.3622 608,732.36218 z"
+       d="m 608.00001,444.36219 -576.00002,0 L 320,892.36218 z"
        id="path3812"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc"
        inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-next_posts.png"
-       inkscape:export-xdpi="2.03125"
-       inkscape:export-ydpi="2.03125" />
+       inkscape:export-xdpi="1.5625"
+       inkscape:export-ydpi="1.5625" />
   </g>
   <g
-     style="display:none"
+     style="display:inline"
      transform="translate(0,-412.36218)"
      id="g3850"
      inkscape:groupmode="layer"
      inkscape:label="Prev">
     <path
-       inkscape:export-ydpi="2.03125"
-       inkscape:export-xdpi="2.03125"
+       inkscape:export-ydpi="1.5625"
+       inkscape:export-xdpi="1.5625"
        inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-prev_posts.png"
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
        id="path3852"
-       d="M 608,444.36218 608,1020.3622 32,732.36218 z"
+       d="m 608.00001,1020.3622 -576.00002,0 L 320,572.36218 z"
        style="color:#000000;fill:#115577;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
   </g>
   <g
@@ -251,7 +251,7 @@
      style="display:none">
     <path
        style="color:#000000;fill:#115577;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="M 608,444.36218 608,1020.3622 160,732.36218 z"
+       d="m 608.00001,1020.3622 -576.00002,0 288.00002,-448.00001 z"
        id="path3858"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc"
@@ -259,9 +259,9 @@
        inkscape:export-xdpi="2.03125"
        inkscape:export-ydpi="2.03125" />
     <rect
-       transform="translate(0,412.36218)"
-       y="32"
-       x="32"
+       transform="matrix(0,1,-1,0,0,0)"
+       y="-608"
+       x="444.36218"
        height="576"
        width="128"
        id="rect3860"
@@ -283,7 +283,7 @@
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
        id="path3864"
-       d="M 32,444.36218 32,1020.3622 480,732.36218 z"
+       d="m 608.00001,444.36219 -576.00002,0 288.00002,448 z"
        style="color:#000000;fill:#115577;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <rect
        inkscape:export-ydpi="2.03125"
@@ -293,8 +293,9 @@
        id="rect3866"
        width="128"
        height="576"
-       x="480"
-       y="444.36218" />
+       x="892.36218"
+       y="-608"
+       transform="matrix(0,1,-1,0,0,0)" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -345,7 +346,7 @@
        inkscape:export-ydpi="2.3920267" />
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="no new posts"
      id="g3996"
      inkscape:groupmode="layer">
