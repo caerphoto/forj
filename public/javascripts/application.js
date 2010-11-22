@@ -84,8 +84,8 @@ if (typeof FORJ === "undefined") var FORJ = {
 
                 FORJ.setData(FORJ.ui.replybox, FORJ.getData(in_post));
 
-                u = "u" + (FORJ.status.editing_post ?
-                    FORJ.getData(in_post).to_user_id :
+                u = (FORJ.status.editing_post ?
+                    FORJ.getData(in_post).reply_user :
                     FORJ.getData(in_post).user_id);
             } else {
                 show_speed = 0;
@@ -97,7 +97,7 @@ if (typeof FORJ === "undefined") var FORJ = {
                 detach().
                 insertAfter($element).
                 show();
-                FORJ.ui.selReplyTo.selectmenu("value", u);
+                FORJ.ui.selReplyTo.selectmenu("value", u+"");
                 if (in_post) {
                     FORJ.ui.replybox.find("textarea").focus();
                 }
@@ -117,8 +117,8 @@ if (typeof FORJ === "undefined") var FORJ = {
         offset_top: 0, offset_bottom: 0,
         prev_txt: "",
         current_user: {
-            id: parseInt(($("#sign input").val()).slice(1), 10),
-            rank: +($("#sign input").val()).slice(0, 1),
+            id: parseInt(($("#sign input").val()).slice(1), 10) || 0,
+            rank: +($("#sign input").val()).slice(0, 1) || 0,
             unread_counts: []
         }
     },
@@ -126,12 +126,12 @@ if (typeof FORJ === "undefined") var FORJ = {
     config: {
         default_post_data: {
             user_id: 0,
-            to_user_id: 0,
+            reply_user: 0,
             post_index: 0,
             id: 0,
             body: ""
         },
-        show_unread: false,      // Modified by the 'Threads:' select menu and
+        show_unread: false,     // Modified by the 'Threads:' select menu and
                                 // read by populateThreadList()
         unread_priority: false, // put folders/threads with unread messages before
                                 // others
@@ -144,6 +144,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         delete_thread_url: "/delete_thread/",
         edit_post_url: "/edit_post/",
         edit_folder_url: "/edit_folder/",
+        edit_user_url: "/edit_user/",
         delete_folder_url: "/delete_folder/",
         posts_url: "/posts",
         users_url: "/users",
@@ -266,10 +267,9 @@ FORJ.scrollToPost = function($post) {
     var pos = FORJ.ui.replybox.position().top -
         (FORJ.ui.replybox.parent().position().top || 0) -
         offset;
-    console.log("Pos:", pos);
 
     pos = pos < 0 ? 0 : pos;
-    FORJ.ui.posts_pane.scrollTo(pos, 200);
+    //$(window).scrollTo(pos, 200);
 }; // FORJ.scrollToPost()
 
 FORJ.resetReplyBox = function() {
@@ -357,7 +357,7 @@ FORJ.addPost = function(p, opts, insert_direction) {
 
     FORJ.setData($post, {
         user_id: p.from.id,
-        to_user_id: p.to_user.id,
+        reply_user: p.to_user.id,
         post_index: p.post_index,
         id: p.id,
         body: p.body
@@ -377,8 +377,7 @@ FORJ.addPost = function(p, opts, insert_direction) {
     }
 
     if (opts && opts.scroll) {
-        console.log("Scrolling to: ", $post.position().top);
-        FORJ.scrollToPost($post);
+        //FORJ.scrollToPost($post);
     }
 }; // FORJ.addPost()
 
@@ -579,7 +578,6 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
             lim = 0, off = 0;
         lim = offset < 0 ? FORJ.config.limit + offset : FORJ.config.limit;
         off = offset < 0 ? 0 : offset;
-        console.log("Lim:", lim, ", off:", off);
 
         url += [
             thread_id,
@@ -594,7 +592,7 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
 FORJ.populateUserLists = function(users) {
     _(users).each(function(user) {
         FORJ.ui.selReplyTo.append($("<option/>").
-            val("u" + user.id).
+            val(user.id).
             text(user.name)
         );
     });
@@ -607,7 +605,26 @@ FORJ.populateUserLists = function(users) {
 }; // FORJ.populateUserLists()
 
 FORJ.populateThreadsList = function(folders) {
-    // Fills the temporary threads list.
+    // Populates the folders/threads list based on the contents of the
+    // 'folders' parameter, which is expected to be an array of objects like this:
+    // { 
+    //     name: "folder's name",
+    //     id: 0,
+    //     thread_count: 0,
+    //     threads: []
+    // }
+    // the structure has a separate thread_count property because the threads[]
+    // array will contain 10 items at most, whereas thread_count represents the
+    // total number of threads in the folder.
+    //
+    // Each folder's threads[] array contains objects like this:
+    // {
+    //     title: "thread's title",
+    //     id: 0,
+    //     unread_count: 0,
+    //     post_count: 0
+    // }
+
     var $folder;
 
     FORJ.threads = [];
@@ -630,7 +647,7 @@ FORJ.populateThreadsList = function(folders) {
                 ).
                 append(
                     (function() {
-                        return FORJ.status.current_user.rank > 0 && folder.id > 0 ?
+                        return FORJ.status.current_user.rank > 1 && folder.id > 0 ?
                             $("<a />").addClass("folder_settings") :
                             undefined;
                     })()
@@ -786,10 +803,16 @@ FORJ.btnPostReplyClick = function() {
 
         if (FORJ.status.editing_post) {
             url = FORJ.config.edit_post_url + post_data.id;
+            var d = FORJ.ui.selReplyTo.val();//selectmenu("value")
+            console.log("d =", d);
+            url += [
+                "?",
+                "reply_user=", d
+            ].join("");
         } else {
             url = FORJ.config.reply_url;
             url += [
-                FORJ.ui.selReplyTo.val().slice(1),
+                FORJ.ui.selReplyTo.val(),
                 "&thread=", FORJ.status.current_thread,
                 "&reply_index=", post_data.post_index || 0,
             ].join("");
@@ -934,66 +957,123 @@ FORJ.createPostPreview = function(sig) {
 
 FORJ.initUserEditor = function() {
     FORJ.user_editor = (function() {
-        var _dlg = $("#dlgUserEditor");
+        var dlg = $("#dlgUserEditor");
 
         // Check if the element exists, and bail out if it doesn't...
-        if (!_dlg) return;
+        if (!dlg) return;
 
         // ...otherwise, let us continue:
-        _dlg.dialog({
+        var user = {
+                id: 0,
+                name: "",
+                email: "",
+                rank: -1,
+                last_login: ""
+            },
+            UE_name = $("#UE_name"),
+            UE_email = $("#UE_email"),
+            UE_rank = $("#UE_rank"),
+            UE_loading = $("#UE_loading"),
+            UE_last_login = $("#UE_last_login"),
+            ranks = [
+                "Normal user",
+                "Moderator",
+                "Admin"
+            ];
+
+
+        dlg.dialog({
             autoOpen: false,
             modal: true,
-            title: "User Details",
-            buttons: {
-                "OK": function() {},
-                "Cancel": function() {
+            title: "User Details"
+        });
+
+        dlg.dialog("option", "buttons", [
+            {
+                enabled: FORJ.status.current_user.rank > 1,
+                text: "OK",
+                click: function() {
+                    console.log("UE OK clicked");
+                    var newrank = -1;
+                    dlg.find("input[name='user_type']").each(function() {
+                        if ($(this).attr("checked")) {
+                            newrank = +($(this).val());
+                            return false;
+                        }
+                    });
+
+                    console.log("newrank =", newrank);
+
+                    if (newrank === -1) {
+                        console.log("Failed to get new rank.");
+                        $(this).dialog("close");
+                    } else {
+                        var _editUserCallback = function(res) {
+                                console.log("Update user callback response:", res);
+                                dlg.dialog("close");
+                            },
+                            url = FORJ.config.edit_user_url + user.id;
+
+                        url += [
+                            "?",
+                            "newrank=", newrank
+                        ].join("");
+
+                        console.log("user.id =", user.id);
+                        console.log("current_user.rank =",
+                            FORJ.status.current_user.rank);
+
+                        if (FORJ.status.current_user.rank > 1) {
+                            console.log("POST to:", url);
+                            $.post(url, _editUserCallback);
+                        }
+                    }
+                } // "OK" button click()
+            }, // "OK" button
+            {
+                text: "Cancel",
+                click: function() {
                     $(this).dialog("close");
                 }
             }
-        });
+        ]);
 
         FORJ.ui.posts_container.
             delegate(".post_head_fromto a", "click", FORJ.lnkUserClick);
 
-        var _UE_name = $("#UE_name"),
-            _UE_email = $("#UE_email"),
-            _UE_loading = $("#UE_loading");
-
         return {
-            // Public methods
-            name: function(new_name) {
-                if (new_name) {
-                    _UE_name.text(new_name);
-                } else {
-                    return _UE_name.text();
-                }
-            }, // name()
-
-            email: function(new_email) {
-                if (new_email) {
-                    _UE_email.text(new_email);
-                } else {
-                    return _UE_email.text();
-                }
-            }, // email()
-
             open: function(user_id) {
                 // Resets fields, makes the 'Loading' message visible,
                 // then shows the dialog.
-                _UE_loading.show();
-                _UE_name.text("");
-                _UE_email.text("");
+                UE_loading.show().fadeTo(0, 1);
+                UE_name.text("");
+                UE_email.text("");
+                UE_rank.text("");
+                UE_last_login.text("");
+                dlg.find("input[type=radio]").removeAttr("checked");
 
                 var url = [FORJ.config.users_url, user_id].join("/"),
-                    self = this;
-                var _userCallback = function(user) {
-                    _UE_loading.slideUp(100);
-                    self.name(user.name);
-                    self.email(user.email);
-                }; // _dataFetched()
+                    _userFetched = function(user_info) {
+                        UE_loading.fadeTo(200, 0.01, function() {
+                            UE_loading.slideUp(50);
+                        });
+                        user = user_info;
+                        UE_name.text(user.name);
+                        UE_email.text(user.email);
+                        UE_rank.text(ranks[user.rank] || "Forum owner");
 
-                _dlg.dialog("open");
-                $.get(url, _userCallback);
+                        dlg.find("input[name='user_type']").each(function() {
+                            if ($(this).val() == user.rank) {
+                                $(this).attr("checked", "checked");
+                                return false;
+                            }
+                        });
+
+                        UE_last_login.text(user.last_login);
+                    }; // _userFetched()
+
+                dlg.dialog("open");
+                $.get(url, _userFetched);
             },
         }
     })();

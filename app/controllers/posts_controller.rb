@@ -175,24 +175,27 @@ def get_post_user_info(user)
     end
 end
 
-def get_post_info(post)
-    d = post.created_at
-    post_date = d.strftime(" at %H:%M")
+def format_date(date)
+    date_str = date.strftime(" at %H:%M")
 
-    if d.to_date == Date.today
-        post_date = "Today" + post_date
+    if date.to_date == Date.today
+        date_str = "Today" + date_str
     else
-        if d.to_date == Date.today.-(1)
-            post_date = "Yesterday" + post_date
+        if date.to_date == Date.today.-(1)
+            date_str = "Yesterday" + date_str
         else
-            post_date = d.to_date.to_s + post_date
+            date_str = date.to_date.to_s + date_str
         end
     end
+    return date_str
+end
 
+
+def get_post_info(post)
     { :from => get_post_user_info(post.user),
       :to_index => post.reply_index,
       :to_user => get_post_user_info(post.reply_user),
-      :date => post_date,
+      :date => format_date(post.created_at),
       :post_index => post.post_index,
       :body => post.content,
       :thread => post.msg_thread_id,
@@ -324,11 +327,12 @@ class PostsController < ApplicationController
     def edit
         post = Post.find(params[:id])
 
-        if post.user.id != current_user.id and not current_user.rank < 1
+        if post.user.id != current_user.id and current_user.rank < 1
             return render :text => "WRONG_USER"
         end
 
         post.content = params[:textData]
+        post.reply_user_id = params[:reply_user].to_i
         post.save
 
         render :json => get_post_info(post).to_json

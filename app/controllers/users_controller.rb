@@ -54,17 +54,27 @@ class UsersController < ApplicationController
         end
     end
 
+#     var user = {
+#             id: 0,
+#             name: "",
+#             email: "",
+#             rank: -1,
+#             last_login: ""
+#         },
+
     def get_full_user_details(user)
         if user.nil?
             return nil
         else
             result = get_basic_user_details(user)
             result.merge!(
-                :last_login => user.last_sign_in_at)
+                :last_login => format_date(user.last_sign_in_at),
+                :rank => user.rank)
+
             if user_signed_in? and current_user.rank > 0
                 result.merge!({
-                    :rank => user.rank,
-                    :email => user.email
+                    :email => user.email,
+                    :id => user.id
                 })
             end
             return result
@@ -88,6 +98,20 @@ class UsersController < ApplicationController
             result.push get_basic_user_details(user)
         end
         render :json => result.to_json
+    end
+
+    def edit
+        return render :text => "NOT_SIGNED_IN" unless user_signed_in?
+        return render :text => "NOT_ADMIN" if current_user.rank < 2
+
+        user = User.find(params[:id])
+
+        # Prevent admins from demoting themselves
+        return render :text => "SAME_USER" if user.id == current_user.id
+
+        user.rank = params[:newrank].to_i
+        user.save
+        render :text => "UPDATE_OK"
     end
 
   def new
