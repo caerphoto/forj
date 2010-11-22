@@ -9,7 +9,7 @@ class ThreadCleanup < ActiveRecord::Migration
 
       # Pinned threads appear at the top of the list regardless of whether
       # they're read or unread.
-      add_column :msg_threads, :pinned, :boolean, :default => 0
+      add_column :msg_threads, :pinned, :boolean, :default => false
 
       # Clearance required to see/post to folder
       # 0 = public
