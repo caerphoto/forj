@@ -1,0 +1,10 @@
+class RanksToDefault < ActiveRecord::Migration
+  def self.up
+    User.all.each do |user|
+        user.rank = 0
+    end
+  end
+
+  def self.down
+  end
+end
