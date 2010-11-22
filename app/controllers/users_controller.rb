@@ -14,7 +14,7 @@ def update_last_read(thread_id, post_count)
         # "1:33,2:20,3:50,5:11"
         # The digit before the : is the thread_id, the one after is the number
         # of posts in that thread that the user has seen.
-        lr = current_user.last_read
+        lr = current_user.last_read || ""
         if lr != ""
             old_count = lr.match /(^|,)#{thread_id}:(\d+)(,|$)/
             last = 0
