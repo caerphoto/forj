@@ -17,6 +17,8 @@ Forj::Application.routes.draw do
   match "/delete_post/:id", :to => "posts#destroy"
   match "/delete_thread/:id", :to => "msg_threads#destroy"
   match "/edit_post/:id", :to => "posts#edit"
+  match "/edit_folder/:id", :to => "folders#edit"
+  match "/delete_folder/:id", :to => "folders#destroy"
 
   root :to => "pages#home"
 

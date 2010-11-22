@@ -1,7 +1,7 @@
 <div id="threadspane" class="clr2 br">
     <div id="folders_loading_msg" class="loading_msg bb">Loading threads...</div>
     <% if user_signed_in? %>
-        <% if user_signed_in? and current_user.admin? %>
+        <% if user_signed_in? and current_user.rank > 1 %>
             <button id="btnNewFolder">New Folder</button>
         <% end %>
         <button id="btnNewThread">New Thread</button>
@@ -11,9 +11,6 @@
     <% if user_signed_in? %>
         <label for="selThreadsView">Threads:</label> <select id="selThreadsView">
             <option value="UNREAD" selected>unread</option>
-            <!--<option value="ME_UNREAD">unread, replies to me</option>
-            <option value="INTERESTING_UNREAD">interesting and unread</option>
-            <option value="INTERESTING_ALL">interesting</option>-->
             <option value="ALL">all</option>
         </select>
     <% end %>
@@ -64,8 +61,9 @@
         <button id="btnCancelReply">Cancel</button>
     </div>
     <% end %>
-    <% if user_signed_in? and current_user.admin? %>
-        <%= render :partial => "layouts/useredit_partial" %>
+    <%= render :partial => "layouts/useredit_partial" %>
+    <% if user_signed_in? and current_user.rank > 0 %>
+        <%= render :partial => "layouts/folderedit_partial" %>
     <% end %>
 </div>
 

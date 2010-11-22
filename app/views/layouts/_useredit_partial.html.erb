@@ -1,10 +1,12 @@
-<div id="dlgUserEditor" title="Edit User">
+<div id="dlgUserEditor" title="User Details">
     <div id="UE_loading" class="loading_msg bb">Loading user details...</div>
-    <p>User's name: <span id="UE_name" class="user_detail"></span></p>
-    <p>User's e-mail: <span id="UE_email" class="user_detail"></span></p>
+    <p>Name: <span id="UE_name" class="user_detail"></span></p>
+
+    <% if user_signed_in? and current_user.rank > 0 %>
+    <p>E-mail: <span id="UE_email" class="user_detail"></span></p>
     <form>
         <fieldset>
-            <legend>User type:</legend>
+            <legend>Rank:</legend>
             <input id="rdoUserType_A" type="radio" name="user_type" value="A" />
             <label for="rdoUserType_A">Admin</label><br />
 
@@ -15,4 +17,8 @@
             <label for="rdoUserType_N">Normal</label><br />
         </fieldset>
     </form>
+    <% else %>
+    <p>Rank: <span id="UE_rank"></span></p>
+    <p>Last logged in: <span id="UE_last_login"></span></p>
+    <% end %>
 </div>

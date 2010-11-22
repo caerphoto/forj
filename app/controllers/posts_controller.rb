@@ -200,6 +200,16 @@ def get_post_info(post)
     }
 end
 
+def create_post thread, post_details
+    thread.posts.build(
+        :content => post_details[:content],
+        :post_index => post_details[:post_index] || 0,
+        :reply_index => post_details[:reply_index] || 0,
+        :reply_user_id => post_details[:reply_user_id] || 0,
+        :user_id => user_signed_in? ? current_user.id : 0
+    )
+end
+
 class PostsController < ApplicationController
     def create_lots_of_test_posts thread_id
         thread = MsgThread.find(thread_id)
@@ -245,26 +255,24 @@ class PostsController < ApplicationController
     end
 
     def create
+        # Testing/debug options
         if params[:textData] == "DOTEST"
             create_lots_of_test_posts params[:thread].to_i
-            render :json => get_post_info(MsgThread.find(params[:thread].to_i).posts.last)
+            render :text => "CREATED TEST POSTS"
         elsif params[:textData] == "RESET_LAST_READ"
             reset_last_read
             render :text => "RESET OK"
         else
             thread = MsgThread.find(params[:thread])
 
-            post = current_user.posts.build(
+            create_post thread,
                 :content => params[:textData],
                 :post_index => thread.posts.last.post_index + 1,
                 :reply_index => params[:reply_index].to_i,
-                :msg_thread => thread,
                 :reply_user_id => params[:reply_user].to_i
-            )
+            thread.save
 
-            post.save
-
-            render :json => get_post_info(post)
+            render :json => get_post_info(thread.posts.last)
         end
     end
 
@@ -276,19 +284,20 @@ class PostsController < ApplicationController
     def destroy
         post = Post.find(params[:id])
 
-        if post.user.id != current_user.id and not current_user.admin?
+        if post.user.id != current_user.id and current_user.rank < 1
             return render :text => "WRONG_USER"
         end
 
         if post.post_index == 0
             thread = MsgThread.find(post.msg_thread_id)
-            allposts = Post.find(:all,
-                                 :conditions => ["msg_thread_id = ?",
-                                                 post.msg_thread_id])
-            allposts.each do |eachpost|
-                eachpost.destroy
-            end
-
+            # This is no longer necessary since it's implemented as a callback
+            # in the MsgThread model
+#             allposts = Post.find(:all,
+#                                  :conditions => ["msg_thread_id = ?",
+#                                                  post.msg_thread_id])
+#             allposts.each do |eachpost|
+#                 eachpost.destroy
+#             end
             thread.destroy
             render :json => nil
         else
@@ -315,7 +324,7 @@ class PostsController < ApplicationController
     def edit
         post = Post.find(params[:id])
 
-        if post.user.id != current_user.id and not current_user.admin?
+        if post.user.id != current_user.id and not current_user.rank < 1
             return render :text => "WRONG_USER"
         end
 

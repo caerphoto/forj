@@ -32,7 +32,7 @@ body, textarea, input, .ui-widget {
     font-family: 'Ubuntu', 'Verdana', 'Helvetica', sans-serif;
 }
 
-p, blockquote, li {
+p, blockquote, li, fieldset {
     line-height: 1.5em;
 }
 
@@ -44,6 +44,14 @@ li {
 h1 {
     font-size: 167%;
     font-weight: bold;
+}
+
+h1, h2, h3, form {
+    margin-bottom: 0.5em;
+}
+
+fieldset {
+    margin-top: 0.5em;
 }
 
 code {
@@ -202,6 +210,7 @@ strong {
 
 .folder_name {
     display: block;
+    position: relative;
     background-position: left;
     background-repeat: no-repeat;
     padding-left: 16px;
@@ -214,6 +223,23 @@ strong {
 
 .folder_contracted {
     font-weight: bold;
+}
+
+.folder_settings {
+    display: block;
+    position: absolute;
+    top: 0.3em;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    background-position: 1px 1px;
+    background-repeat: no-repeat;
+
+    visibility: hidden;
+}
+
+.folder_name:hover .folder_settings {
+    visibility: visible;
 }
 
 .thread_list {
@@ -444,4 +470,9 @@ pre code {
 
 .user_detail {
     font-weight: bold;
+}
+
+#tbxFE_Name {
+    width: 20em;
+    display: block;
 }

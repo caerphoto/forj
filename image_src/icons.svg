@@ -18,15 +18,104 @@
    sodipodi:docname="icons.svg"
    inkscape:export-filename="/home/andy/railsapps/forj/public/images/ui-icon-next_posts.png"
    inkscape:export-xdpi="1.5625"
-   inkscape:export-ydpi="1.5625">
+   inkscape:export-ydpi="1.5625"
+   style="display:inline">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#fedd83"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="324.92529"
+     inkscape:cy="284.27739"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer7"
+     showgrid="true"
+     inkscape:window-width="985"
+     inkscape:window-height="953"
+     inkscape:window-x="687"
+     inkscape:window-y="39"
+     inkscape:window-maximized="0"
+     inkscape:showpageshadow="false"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2816"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="32px"
+       spacingy="32px"
+       color="#000000"
+       opacity="0.05882353"
+       empcolor="#000000"
+       empopacity="0.11372549"
+       dotted="false" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="320,352"
+       id="guide4003" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="256,320"
+       id="guide9993" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="0,480"
+       id="guide10003" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="64,160"
+       id="guide10005" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="160,512"
+       id="guide10007" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="480,448"
+       id="guide10009" />
+  </sodipodi:namedview>
   <defs
      id="defs4">
+    <inkscape:path-effect
+       effect="gears"
+       id="path-effect10064"
+       is_visible="true"
+       teeth="10"
+       phi="5" />
+    <linearGradient
+       id="linearGradient4064">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop4066" />
+      <stop
+         style="stop-color:#e78383;stop-opacity:1;"
+         offset="1"
+         id="stop4068" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4024">
+      <stop
+         id="stop4026"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+      <stop
+         id="stop4028"
+         offset="1"
+         style="stop-color:#ff0909;stop-opacity:1;" />
+    </linearGradient>
     <linearGradient
        id="linearGradient3995">
       <stop
          id="stop3997"
          offset="0"
-         style="stop-color:#cebeb0;stop-opacity:0.408867;" />
+         style="stop-color:#7b7b7b;stop-opacity:1;" />
       <stop
          id="stop3999"
          offset="1"
@@ -46,80 +135,86 @@
     <marker
        inkscape:stockid="TriangleInM"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="TriangleInM"
        style="overflow:visible">
       <path
          id="path3732"
-         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none"
-         transform="scale(-0.4)" />
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="scale(-0.4,-0.4)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="TriangleOutM"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="TriangleOutM"
        style="overflow:visible">
       <path
          id="path3741"
-         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none"
-         transform="scale(0.4)" />
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="scale(0.4,0.4)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="TriangleInL"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="TriangleInL"
        style="overflow:visible">
       <path
          id="path3729"
-         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none"
-         transform="scale(-0.8)" />
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="scale(-0.8,-0.8)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="Arrow2Lstart"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow2Lstart"
        style="overflow:visible">
       <path
          id="path3613"
-         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round"
-         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
-         transform="scale(1.1) translate(1,0)" />
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(1.1,0,0,1.1,1.1,0)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="Arrow1Lend"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow1Lend"
-       style="overflow:visible;">
+       style="overflow:visible">
       <path
          id="path3598"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;"
-         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="Arrow2Lend"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow2Lend"
-       style="overflow:visible;">
+       style="overflow:visible">
       <path
          id="path3616"
-         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
-         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
-         transform="scale(1.1) rotate(180) translate(1,0)" />
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         inkscape:connector-curvature="0" />
     </marker>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
@@ -128,41 +223,49 @@
        inkscape:vp_z="744.09448 : 526.18109 : 1"
        inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
        id="perspective10" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4024"
+       id="radialGradient4022"
+       cx="146"
+       cy="288"
+       fx="146"
+       fy="288"
+       r="138"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.69565219,0.69565215,-0.46376809,0.46376811,191.99999,20.869569)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3995"
+       id="linearGradient4041"
+       x1="192"
+       y1="305"
+       x2="237"
+       y2="252"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,-96)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4064"
+       id="radialGradient4070"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.69565219,0.69565215,-0.46376809,0.46376811,191.99999,20.869569)"
+       cx="146"
+       cy="288"
+       fx="146"
+       fy="288"
+       r="138" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10016">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M -1.2366935e-5,-1.2366935e-5 C 213.33332,5.7490789e-6 426.66665,-4.1223108e-6 639.99998,-1.2366935e-5 l 0,639.999992366935 -639.999992366935,0 z"
+         id="path10018"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc" />
+    </clipPath>
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#fedd83"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="376.94595"
-     inkscape:cy="325.54842"
-     inkscape:document-units="px"
-     inkscape:current-layer="g3850"
-     showgrid="true"
-     inkscape:window-width="876"
-     inkscape:window-height="953"
-     inkscape:window-x="627"
-     inkscape:window-y="39"
-     inkscape:window-maximized="0"
-     inkscape:showpageshadow="false">
-    <inkscape:grid
-       type="xygrid"
-       id="grid2816"
-       empspacing="4"
-       visible="true"
-       enabled="true"
-       snapvisiblegridlinesonly="true"
-       spacingx="32px"
-       spacingy="32px"
-       color="#000000"
-       opacity="0.05882353"
-       empcolor="#000000"
-       empopacity="0.11372549"
-       dotted="false" />
-  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -228,7 +331,7 @@
        inkscape:export-ydpi="1.5625" />
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      transform="translate(0,-412.36218)"
      id="g3850"
      inkscape:groupmode="layer"
@@ -311,27 +414,27 @@
        y="160"
        rx="32"
        ry="32"
-       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_newposts.png"
-       inkscape:export-xdpi="2.3920267"
-       inkscape:export-ydpi="2.3920267" />
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_newposts_pinned.png"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-ydpi="2.4161074" />
     <path
        style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#115577;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="M 38,506 320,224 602,506"
        id="path4034"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
-       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_newposts.png"
-       inkscape:export-xdpi="2.3920267"
-       inkscape:export-ydpi="2.3920267" />
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_newposts_pinned.png"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-ydpi="2.4161074" />
     <path
-       style="color:#000000;fill:#ffffff;fill-opacity:1;stroke:#115577;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;stroke:#115577;stroke-width:20;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="M 32,160 320,416 608,160"
        id="path4013"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
-       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_newposts.png"
-       inkscape:export-xdpi="2.3920267"
-       inkscape:export-ydpi="2.3920267" />
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_newposts_pinned.png"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-ydpi="2.4161074" />
     <rect
        style="color:#000000;fill:none;stroke:#115577;stroke-width:20;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect4010"
@@ -341,9 +444,9 @@
        y="128"
        rx="40"
        ry="40"
-       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_newposts.png"
-       inkscape:export-xdpi="2.3920267"
-       inkscape:export-ydpi="2.3920267" />
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_newposts_pinned.png"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-ydpi="2.4161074" />
   </g>
   <g
      style="display:none"
@@ -351,39 +454,9 @@
      id="g3996"
      inkscape:groupmode="layer">
     <rect
-       inkscape:export-ydpi="2.3920267"
-       inkscape:export-xdpi="2.3920267"
-       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts.png"
-       ry="32"
-       rx="32"
-       y="128"
-       x="32"
-       height="384"
-       width="576"
-       id="rect3998"
-       style="fill:#fefcf4;fill-opacity:1;stroke:none" />
-    <path
-       inkscape:export-ydpi="2.3920267"
-       inkscape:export-xdpi="2.3920267"
-       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts.png"
-       sodipodi:nodetypes="ccc"
-       inkscape:connector-curvature="0"
-       id="path4000"
-       d="M 38,506 320,224 602,506"
-       style="color:#000000;fill:#fefcf4;fill-opacity:1;fill-rule:nonzero;stroke:#c8b093;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <path
-       inkscape:export-ydpi="2.3920267"
-       inkscape:export-xdpi="2.3920267"
-       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts.png"
-       sodipodi:nodetypes="ccc"
-       inkscape:connector-curvature="0"
-       id="path4002"
-       d="M 32,160 320,416 608,160"
-       style="color:#000000;fill:#fefcf4;fill-opacity:1;stroke:#c8b093;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <rect
-       inkscape:export-ydpi="2.3920267"
-       inkscape:export-xdpi="2.3920267"
-       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts.png"
+       inkscape:export-ydpi="2.4161074"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts_pinned.png"
        ry="40"
        rx="40"
        y="128"
@@ -391,20 +464,153 @@
        height="384"
        width="576"
        id="rect4004"
-       style="color:#000000;fill:none;stroke:#b5966f;stroke-width:20;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+       style="color:#000000;fill:#fff2d9;fill-opacity:1;stroke:#e7c36d;stroke-width:20;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       inkscape:export-ydpi="2.4161074"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts_pinned.png"
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="path4000"
+       d="M 64,480 224,320 m 192,0 160,160"
+       style="color:#000000;fill:none;stroke:#e7c36d;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       inkscape:export-ydpi="2.4161074"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts_pinned.png"
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0"
+       id="path4002"
+       d="M 64,192 320,416 576,192"
+       style="color:#000000;fill:none;stroke:#e7c36d;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
   </g>
   <g
      inkscape:groupmode="layer"
-     id="layer3"
-     inkscape:label="new_posts.gif"
-     style="opacity:0.13934428;display:none"
-     sodipodi:insensitive="true">
-    <image
-       y="32"
-       x="32"
-       id="image4006"
-       xlink:href="file:///home/andy/railsapps/forj/public/images/icon_newposts.gif"
-       height="480"
-       width="576" />
+     id="layer5"
+     inkscape:label="Pin"
+     style="display:none">
+    <path
+       style="fill:url(#linearGradient4041);fill-opacity:1;stroke:#000000;stroke-width:6.9000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 352,288 96,160 160,64 z"
+       id="path4033"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts_pinned.png"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-ydpi="2.4161074" />
+    <path
+       sodipodi:type="arc"
+       style="fill:url(#radialGradient4022);fill-opacity:1;stroke:#ff0000;stroke-width:20;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path4006"
+       sodipodi:cx="192"
+       sodipodi:cy="288"
+       sodipodi:rx="96"
+       sodipodi:ry="96"
+       d="m 288,288 a 96,96 0 1 1 -192,0 96,96 0 1 1 192,0 z"
+       transform="translate(-64,-160)"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts_pinned.png"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-ydpi="2.4161074" />
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="Pin with no new posts"
+     id="g4058"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:export-ydpi="2.4161074"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts_pinned.png"
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="path4060"
+       d="M 352,288 96,160 160,64 z"
+       style="fill:url(#linearGradient4041);fill-opacity:1;stroke:#000000;stroke-width:6.9000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       inkscape:export-ydpi="2.4161074"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_nonewposts_pinned.png"
+       transform="translate(-64,-160)"
+       d="m 288,288 a 96,96 0 1 1 -192,0 96,96 0 1 1 192,0 z"
+       sodipodi:ry="96"
+       sodipodi:rx="96"
+       sodipodi:cy="288"
+       sodipodi:cx="192"
+       id="path4062"
+       style="fill:url(#radialGradient4070);fill-opacity:1;stroke:#da8080;stroke-width:20;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:type="arc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="Ignore"
+     style="display:none">
+    <path
+       inkscape:export-ydpi="2.027668"
+       inkscape:export-xdpi="2.027668"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_ignore.png"
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="use4046"
+       d="M 606.95842,321.28292 30.977302,316.61911"
+       style="fill:none;stroke:#115577;stroke-width:128;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+  </g>
+  <g
+     inkscape:label="Interesting"
+     id="g4048"
+     inkscape:groupmode="layer"
+     style="display:none">
+    <path
+       inkscape:export-ydpi="2.027668"
+       inkscape:export-xdpi="2.027668"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_interesting.png"
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4050"
+       d="m 320,32 0,576"
+       style="fill:none;stroke:#115577;stroke-width:128;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       inkscape:export-ydpi="2.027668"
+       inkscape:export-xdpi="2.027668"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_interesting.png"
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="use4052"
+       d="M 606.95842,321.28292 30.977302,316.61911"
+       style="fill:none;stroke:#115577;stroke-width:128;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer7"
+     inkscape:label="Settings"
+     style="display:inline">
+    <g
+       style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:1.4101944;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:label="Gear8"
+       transform="matrix(2.8364883,0,0,2.8364883,320,320)"
+       id="g9103">
+      <path
+         sodipodi:nodetypes="cccccccccccccccccccccccccccccccccsssss"
+         inkscape:connector-curvature="0"
+         id="path10198"
+         transform="matrix(0.35254861,0,0,0.35254861,-101.534,-103.29674)"
+         d="m 256,32 0,128 -2.75,2.75 -91.65625,-91.65625 -90.5,90.5 L 162.75,253.25 160,256 l -128,0 0,128 128,0 2.75,2.75 -91.65625,91.65625 90.5,90.5 L 253.25,477.25 256,480 l 0,128 128,0 0,-128 2.75,-2.75 91.65625,91.65625 90.5,-90.5 L 477.25,386.75 480,384 l 128,0 0,-128 -128,0 -2.75,-2.75 91.65625,-91.65625 -90.5,-90.5 L 386.75,162.75 384,160 384,32 z m 64,187 c 55.78076,0 101,45.21924 101,101 0,55.78076 -45.21924,101 -101,101 -55.78076,0 -101,-45.21924 -101,-101 0,-55.78076 45.21924,-101 101,-101 z"
+         clip-path="url(#clipPath10016)"
+         style="color:#000000;fill:#000000;fill-opacity:0.50196078;fill-rule:nonzero;stroke:none;stroke-width:12;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_settings_1.png"
+         inkscape:export-xdpi="2.3452768"
+         inkscape:export-ydpi="2.3452768" />
+      <path
+         style="color:#000000;fill:#ffeecc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:12;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         clip-path="url(#clipPath10016)"
+         d="m 256,32 0,128 -2.75,2.75 -91.65625,-91.65625 -90.5,90.5 L 162.75,253.25 160,256 l -128,0 0,128 128,0 2.75,2.75 -91.65625,91.65625 90.5,90.5 L 253.25,477.25 256,480 l 0,128 128,0 0,-128 2.75,-2.75 91.65625,91.65625 90.5,-90.5 L 477.25,386.75 480,384 l 128,0 0,-128 -128,0 -2.75,-2.75 91.65625,-91.65625 -90.5,-90.5 L 386.75,162.75 384,160 384,32 z m 64,187 c 55.78076,0 101,45.21924 101,101 0,55.78076 -45.21924,101 -101,101 -55.78076,0 -101,-45.21924 -101,-101 0,-55.78076 45.21924,-101 101,-101 z"
+         transform="matrix(0.35254861,0,0,0.35254861,-112.81555,-112.81555)"
+         id="rect9995"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccccccccccccccccccccccsssss"
+         inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_settings_1.png"
+         inkscape:export-xdpi="2.3452768"
+         inkscape:export-ydpi="2.3452768" />
+    </g>
   </g>
 </svg>

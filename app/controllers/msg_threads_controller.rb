@@ -6,14 +6,23 @@ def reset_folder_ids
   end
 end
 
-class MsgThreadsController < ApplicationController
-    def get_folder_info(folder)
-        { :name => folder.name,
-          :id => folder.id,
-          :threads => [],
-          :thread_count => folder.msg_threads.length }
+def user_clearance
+    clearance = 0
+    if user_signed_in?
+        clearance += 1
+        clearance += current_user.rank
     end
+    return clearance
+end
 
+def get_folder_info(folder)
+    { :name => folder.name,
+      :id => folder.id,
+      :threads => [],
+      :thread_count => folder.msg_threads.length }
+end
+
+class MsgThreadsController < ApplicationController
     def get_thread_info(thread)
         f = thread.folder.nil? ? 0 : thread.folder.id
 
@@ -39,12 +48,13 @@ class MsgThreadsController < ApplicationController
           :post_count => thread.posts.length }
     end
 
-    def  index
+    def index
         result = []
 
         folders = Folder.all(
             :order => "updated_at DESC",
-            :include => :msg_threads)
+            :include => :msg_threads,
+            :conditions => "clearance <= #{user_clearance}")
 
         # Add each folder, and for each folder, add info for its threads
         folders.each do |folder|
@@ -74,17 +84,25 @@ class MsgThreadsController < ApplicationController
     end
 
     def create
-        thread = Folder.find(params[:folder]).msg_threads.build(
-            :title => params[:title],
-            :user_id => current_user.id
-        )
-        thread.posts.build(
-            :content => params[:textData],
-            :user_id => thread.user_id,
-            :post_index => 0,
-            :reply_index => 0,
-            :reply_user_id => 0
-        )
+        folder = Folder.find(params[:folder])
+        # Put the new thread in 'Uncategorised' if user does not have
+        # sufficient clearance to post in the given folder. This is a security
+        # precaution, since on client side the user won't even see folders to
+        # which they don't have access, but it prevents access via query
+        # string manipulation.
+        if folder.clearance > user_clearance
+            thread = MsgThreads.build(
+                :title => params[:title],
+                :folder_id => 0
+            )
+        else
+            thread = folder.msg_threads.build(
+                :title => params[:title],
+            )
+        end
+
+        create_post thread, :content => params[:textData]
+
         thread.save
 
         render :json => get_post_info(thread.posts.first).to_json

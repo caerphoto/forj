@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
     :remember_me
 
     has_many :posts
-    has_many :msg_threads
     validates :email,
         :presence => true,
         :uniqueness => { :case_sensitive => false }

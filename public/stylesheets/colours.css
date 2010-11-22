@@ -44,9 +44,14 @@
     border-color: #FEC;
     background-image: url('/images/icon_nonewposts.png');
 }
-
 .has_unread {
     background-image: url("/images/icon_newposts.png");
+}
+.pinned {
+    background-image: url("/images/icon_newposts_pinned.png");
+}
+.has_unread.pinned {
+    background-image: url("/images/icon_nonewposts_pinned.png");
 }
 
 /* This is the accent colour. Static page elements can have the "clr3" class
@@ -99,6 +104,14 @@
     background-image: url('/images/icon_expand.gif');
 }
 
+.folder_settings {
+    background-image: url("/images/icon_settings_1.png");
+}
+
+.folder_settings:hover {
+    background-image: url("/images/icon_settings_2.png");
+}
+
 /* Common grey border colour */
 .thread_list_item:hover, .post_body, .post_sig, pre {
     border-color: #CCC;
@@ -121,10 +134,6 @@ pre code {
 
 .item_count {
     color: #D86; /* Similar to .clr2 border colour, but a bit darker */
-}
-
-.pinned_thread {
-    background-image: url('/images/icon_pin.png');
 }
 
 .post_body, .post_sig {

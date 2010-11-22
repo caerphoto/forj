@@ -59,9 +59,11 @@ class UsersController < ApplicationController
             return nil
         else
             result = get_basic_user_details(user)
-            if current_user.admin?
+            result.merge!(
+                :last_login => user.last_sign_in_at)
+            if user_signed_in? and current_user.rank > 0
                 result.merge!({
-                    :user_type => user.admin? ? "A" : "N",
+                    :rank => user.rank,
                     :email => user.email
                 })
             end
@@ -70,7 +72,7 @@ class UsersController < ApplicationController
     end
 
     def show
-        user = User.find(params[:id])
+        user = User.find(params[:id].to_i)
 
         result = get_full_user_details(user)
 

@@ -118,7 +118,7 @@ if (typeof FORJ === "undefined") var FORJ = {
         prev_txt: "",
         current_user: {
             id: parseInt(($("#sign input").val()).slice(1), 10),
-            isAdmin: ($("#sign input").val()).slice(0, 1) === "A",
+            rank: +($("#sign input").val()).slice(0, 1),
             unread_counts: []
         }
     },
@@ -139,9 +139,12 @@ if (typeof FORJ === "undefined") var FORJ = {
         precache: false, // doesn't do anything yet
         MAX_POST_LENGTH: 10000,
         post_preview_target: ".post_body",
+
         delete_post_url: "/delete_post/",
         delete_thread_url: "/delete_thread/",
         edit_post_url: "/edit_post/",
+        edit_folder_url: "/edit_folder/",
+        delete_folder_url: "/delete_folder/",
         posts_url: "/posts",
         users_url: "/users",
         threads_url: "/msg_threads",
@@ -244,12 +247,12 @@ FORJ.updateThreadItem = function(thread_id) {
 };
 
 FORJ.getFolderFromId = function(folder_id) {
-    // Returns the jQuery object that represents the folder with the given ID
-    var result = $("#uncat_threads");
-    FORJ.ui.folder_list.children.each(function(i) {
-        if ($(this).data("id") === folder_id) {
-          result = $(this);
-          return false;
+    // Returns the folder object with the given ID
+    var result;
+    _(FORJ.folders).each(function(folder) {
+        if (folder.id === folder_id) {
+          result = folder;
+          _.breakLoop();
         }
     });
     return result;
@@ -348,7 +351,7 @@ FORJ.addPost = function(p, opts, insert_direction) {
     // request via hax0ry means, it still won't work - the client-side link
     // removal is more just a UI thing than any kind of real security.
     if (FORJ.status.current_user.id !== p.from.id &&
-        !FORJ.status.current_user.isAdmin) {
+        FORJ.status.current_user.rank < 1) {
         $post.find(".post_foot_editlinks").remove();
     }
 
@@ -606,6 +609,7 @@ FORJ.populateThreadsList = function(folders) {
 
     FORJ.threads = [];
     FORJ.ui.folder_list.empty();
+    FORJ.ui.selThreadFolder.selectmenu("destroy");
     FORJ.ui.selThreadFolder.empty();
 
     _(folders).each(function(folder) {
@@ -618,7 +622,17 @@ FORJ.populateThreadsList = function(folders) {
                 append($("<span />").
                     addClass("item_count").
                     text(" " + folder.thread_count +
-                         (folder.thread_count === 1 ? " thread" : " threads")))).
+                        (folder.thread_count === 1 ? " thread" : " threads")
+                    )
+                ).
+                append(
+                    (function() {
+                        return FORJ.status.current_user.rank > 0 && folder.id > 0 ?
+                            $("<a />").addClass("folder_settings") :
+                            undefined;
+                    })()
+                )
+            ).
             appendTo(FORJ.ui.folder_list);
 
         FORJ.ui.selThreadFolder.append(
@@ -711,23 +725,20 @@ FORJ.btnFirstPostsClick = function() {
 FORJ.btnPrevPostsClick = function() {
     FORJ.ui.thread_loading_msg.fadeIn(100);
     FORJ.showPosts(FORJ.status.current_thread, 
-        FORJ.status.offset_top,
-        -1);
+        FORJ.status.offset_top, -1);
 };
 
 FORJ.btnNextPostsClick = function() {
     FORJ.ui.thread_loading_msg.fadeIn(100);
     FORJ.showPosts(FORJ.status.current_thread,
-        FORJ.status.offset_bottom,
-        1);
+        FORJ.status.offset_bottom, 1);
 };
 
 FORJ.btnLastPostsClick = function() {
     FORJ.ui.thread_loading_msg.fadeIn(100);
     var t = FORJ.getThread(FORJ.status.current_thread);
     FORJ.showPosts(FORJ.status.current_thread,
-        t.post_count - FORJ.config.limit,
-        2);
+        t.post_count - FORJ.config.limit, 2);
 };
 
 FORJ.postTextChange = function(is_sig) {
@@ -788,14 +799,6 @@ FORJ.btnPostReplyClick = function() {
     $.post(url, { textData: txt }, FORJ.newPostCallback);
 }; // FORJ.btnPostReplyClick()
 
-FORJ.btnUE_CancelClick = function() {
-    $(this).dialog("close");
-}; // FORJ.btnUE_CancelClick()
-
-FORJ.btnUE_OKClick = function() {
-    // Update the user's details (TODO)
-}; // FORJ.btnUE_OKClick()
-
 FORJ.lnkUserClick = function(event) {
     event.preventDefault();
     user_id = $(this).data("id");
@@ -830,21 +833,22 @@ FORJ.lnkThreadClick = function(event) {
     FORJ.showThread($(this).data("id"));
 }; // FORJ.lnkThreadClick()
 
-FORJ.lnkFolderClick = function(event) {
+FORJ.lnkFolderClick = function() {
     // simplified version based on a suggestion by Pete Boughton
-    $(this).
-        toggleClass("folder_contracted").
-        next().slideToggle(200);
-
-//    var folder = $(this);
-//    if (folder.hasClass("folder_contracted")) {
-//        folder.removeClass("folder_contracted");
-//        folder.next().slideDown(200);
-//    } else {
-//        folder.addClass("folder_contracted");
-//        folder.next().slideUp(200);
-//    }
+    if (!FORJ.status.editing_folder) {
+        $(this).
+            toggleClass("folder_contracted").
+            next().slideToggle(200);
+    }
+    FORJ.status.editing_folder = false;
 }; // FORJ.lnkFolderClick()
+
+FORJ.lnkFolderSettingsClick = function(event) {
+    FORJ.status.editing_folder = true;
+    var id = $(this).parents("li").data("id");
+    console.log("Opening folder editor for ID:", id);
+    FORJ.dlgFolderEditor.open(id);
+}; // FORJ.lnkFolderSettingsClick()
 
 FORJ.btnNewThreadClick = function() {
     FORJ.status.previous_thread = FORJ.status.current_thread;
@@ -863,12 +867,9 @@ FORJ.btnNewFolderClick = function() {
     var folder_name = prompt("What would you like to call the new folder?");
     if (folder_name) {
         // Callback:
-        var _newFolder = function(folder) {
-            FORJ.folders.unshift(folder);
-            FORJ.populateThreadsList({
-                last_read: FORJ.status.user_last_read,
-                folders: FORJ.folders
-            });
+        var _newFolder = function(folders) {
+            //FORJ.folders.unshift(folder);
+            FORJ.populateThreadsList(folders);
         }; // newFolderCallback()
 
         var url = [FORJ.config.new_folder_url,
@@ -900,45 +901,6 @@ FORJ.loadThreadsList = function() {
 
 FORJ.logoClick = function() {
     window.location = "/";
-};
-
-FORJ.layoutSetup = function() {
-
-    // This function doesn't really need to be here any more, as the positioning is mostly handled with CSS now (IE6 be damned).
-
-    // Resized panes so the app fills the window.
-    // NOTE: the Chrome extension SmoothScroll has a bug where it won't resize
-    // the underlay <div> it creates if the window is sized vertically smaller
-    // than it was previously. This has the unfortunate effect of allowing the
-    // window to be scrolled even if it doesn't look like it should.
-
-    /*var threads_pane_margins = FORJ.ui.threads_pane.outerHeight(true) -
-        FORJ.ui.threads_pane.height();
-    FORJ.ui.threads_pane.height(
-        $(window).height() - (FORJ.ui.page_header.outerHeight(true) +
-        FORJ.ui.page_footer.outerHeight(true) + threads_pane_margins)
-    );
-    FORJ.ui.posts_pane.height(FORJ.ui.threads_pane.outerHeight());*/
-
-    /*var o = FORJ.ui.posts_pane.offset();
-    FORJ.ui.thread_loading_msg.
-        show().
-        offset(o).
-        hide();*/
-
-    // Position 'Threads loading...' message so it appears on top of the New
-    // Thread/New Folder buttons.
-    /*o = FORJ.ui.threads_pane.offset();
-    var padding = FORJ.ui.threads_pane.innerHeight() -
-        FORJ.ui.threads_pane.height();
-
-    o.top += padding / 2;
-    o.left += padding / 2;
-
-    FORJ.ui.folders_loading_msg.
-        show().
-        offset(o).
-        hide();*/
 };
 
 FORJ.lipsum = function() {
@@ -978,11 +940,12 @@ FORJ.initUserEditor = function() {
         _dlg.dialog({
             autoOpen: false,
             modal: true,
-            //show: "fade",
-            title: "Edit User",
+            title: "User Details",
             buttons: {
-                "OK": FORJ.btnUE_OKClick,
-                "Cancel": FORJ.btnUE_CancelClick
+                "OK": function() {},
+                "Cancel": function() {
+                    $(this).dialog("close");
+                }
             }
         });
 
@@ -1029,13 +992,74 @@ FORJ.initUserEditor = function() {
                 _dlg.dialog("open");
                 $.get(url, _userCallback);
             },
-
-            close: function() {
-                _dlg.dialog("close");
-            }
         }
     })();
 }; // FORJ.initUserEditor()
+
+FORJ.initFolderEditor = function() {
+    FORJ.dlgFolderEditor = (function() {
+        var _dlg = $("#dlgFolderEditor"),
+            folder;
+
+        if (!_dlg) return;
+
+        tbxName = $("#tbxFE_Name");
+
+        _dlg.dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                "Delete": function() {
+                    if (window.confirm([
+                        "Are you sure you want to delete this folder:",
+                        folder.name,
+                        "Any threads it contains will be moved to the 'Uncategorised' folder."].join("\n\n")
+                    )) {
+                        var url = FORJ.config.delete_folder_url + folder.id,
+                            self = this;
+                        $.post(url, function(newfolders) {
+                            FORJ.populateThreadsList(newfolders);
+                            $(self).dialog("close");
+                        });
+                    }
+                },
+                "OK": function() {
+                    var url = FORJ.config.edit_folder_url + folder.id + "?",
+                        self = this;
+                    url += [
+                        "newname=", encodeURIComponent(tbxName.val())
+                    ].join("");
+
+                    $.post(url, function(newname) {
+                        _(FORJ.folders).each(function(f) {
+                            if (f.id === folder.id) {
+                                f.name = newname;
+                                FORJ.populateThreadsList(FORJ.folders);
+                                _.breakLoop();
+                            }
+                        });
+
+                        $(self).dialog("close");
+                    });
+                },
+                "Cancel": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        return {
+            // Public methods
+            open: function(folder_id) {
+                folder = FORJ.getFolderFromId(folder_id);
+                tbxName.val(folder.name);
+                _dlg.dialog("option", "title", "Edit Folder: " + folder.name);
+                _dlg.dialog("open");
+                tbxName.focus();
+            }
+        }
+    })();
+}; // FORJ.initFolderEditor()
 
 // Initialise the FORJ forum application
 FORJ.initForum = function(config) {
@@ -1045,9 +1069,7 @@ FORJ.initForum = function(config) {
         $.extend(FORJ.config, config);
     }
 
-    $.ajaxSetup({
-        cache: false
-    });
+    $.ajaxSetup({ cache: false });
 
     console.log("Starting application...");
 
@@ -1059,17 +1081,16 @@ FORJ.initForum = function(config) {
         delegate("#replybox textarea", "keyup", FORJ.postTextChange);
     FORJ.ui.folder_list.
         delegate(".thread_list_item", "click", FORJ.lnkThreadClick).
-        delegate(".folder_name", "click", FORJ.lnkFolderClick);
+        delegate(".folder_name", "click", FORJ.lnkFolderClick).
+        delegate(".folder_settings", "click", FORJ.lnkFolderSettingsClick);
 
     FORJ.ui.btnPostReply.button().click(FORJ.btnPostReplyClick);
     FORJ.ui.btnCancelReply.button().click(FORJ.btnCancelReplyClick);
     FORJ.ui.btnNewThread.button().click(FORJ.btnNewThreadClick);
     FORJ.ui.btnNewFolder.button().click(FORJ.btnNewFolderClick);
-    FORJ.ui.btnReloadThreadsList.button({
-        icons: {
-            primary: "btn-icon-reload"
-        }
-    }).click(FORJ.loadThreadsList);
+    FORJ.ui.btnReloadThreadsList.
+        button({ icons: { primary: "btn-icon-reload" } }).
+        click(FORJ.loadThreadsList);
     FORJ.ui.selThreadsView.
         change(FORJ.selThreadsViewChange).
         val("UNREAD").
@@ -1079,42 +1100,28 @@ FORJ.initForum = function(config) {
         });
 
     FORJ.ui.btnFirstPosts.
-        button({
-            icons: {
-                primary: "btn-icon-firstposts"
-            }
-        }).click(FORJ.btnFirstPostsClick);
+        button({ icons: { primary: "btn-icon-firstposts" } }).
+        click(FORJ.btnFirstPostsClick);
     FORJ.ui.btnPrevPosts.
-        button({
-            icons: {
-                primary: "btn-icon-prevposts"
-            }
-        }).click(FORJ.btnPrevPostsClick);
+        button({ icons: { primary: "btn-icon-prevposts" } }).
+        click(FORJ.btnPrevPostsClick);
     FORJ.ui.btnNextPosts.
-        button({
-            icons: {
-                primary: "btn-icon-nextposts"
-            }
-        }).click(FORJ.btnNextPostsClick);
+        button({ icons: { primary: "btn-icon-nextposts" } }).
+        click(FORJ.btnNextPostsClick);
     FORJ.ui.btnLastPosts.
-        button({
-            icons: {
-                primary: "btn-icon-lastposts"
-            }
-        }).click(FORJ.btnLastPostsClick);
+        button({ icons: { primary: "btn-icon-lastposts" } }).
+        click(FORJ.btnLastPostsClick);
 
     $(".posts_nav").hide();
 
     FORJ.initUserEditor();
+    FORJ.initFolderEditor();
 
     FORJ.createPostPreview();
     FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox.find("#post_preview_info"));
 
     FORJ.ui.replybox_thread_title.hide();
     FORJ.ui.replybox.hide();
-
-    FORJ.layoutSetup();
-    $(window).resize(FORJ.layoutSetup);
 
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
     FORJ.loadThreadsList();
@@ -1124,6 +1131,7 @@ FORJ.initForum = function(config) {
         removeAttr("id").
         removeClass("hidden");
     console.log("Current user: ", FORJ.status.current_user.id);
+    console.log("Rank:", FORJ.status.current_user.rank);
 };
 
 FORJ.initOther = function() {

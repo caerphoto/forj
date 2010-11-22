@@ -10,33 +10,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101114171513) do
+ActiveRecord::Schema.define(:version => 20101121194222) do
 
   create_table "folders", :force => true do |t|
-    t.string   "name"
-    t.boolean  "public",     :default => true
-    t.boolean  "admin",      :default => false
+    t.string   "name",       :limit => 50,                :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "clearance",                :default => 0
   end
 
   create_table "msg_threads", :force => true do |t|
-    t.decimal  "user_id"
-    t.integer  "post_count"
-    t.string   "title"
+    t.string   "title",      :limit => 100,                    :null => false
     t.integer  "folder_id"
-    t.boolean  "sticky"
-    t.integer  "first_post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "pinned",                    :default => false
   end
 
   create_table "posts", :force => true do |t|
-    t.integer  "reply_user_id"
+    t.integer  "reply_user_id",                  :default => 0
     t.integer  "user_id"
     t.integer  "msg_thread_id"
-    t.integer  "reply_index"
-    t.text     "content",       :limit => 9001
+    t.integer  "reply_index",                    :default => 0
+    t.text     "content",       :limit => 10000
     t.integer  "post_index"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -45,9 +41,9 @@ ActiveRecord::Schema.define(:version => 20101114171513) do
   add_index "posts", ["user_id", "msg_thread_id"], :name => "index_posts_on_user_id_and_msg_thread_id"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                               :default => "",    :null => false
-    t.string   "encrypted_password",   :limit => 128, :default => "",    :null => false
-    t.string   "password_salt",                       :default => "",    :null => false
+    t.string   "email",                               :default => "", :null => false
+    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
+    t.string   "password_salt",                       :default => "", :null => false
     t.string   "reset_password_token"
     t.string   "remember_token"
     t.datetime "remember_created_at"
@@ -60,8 +56,9 @@ ActiveRecord::Schema.define(:version => 20101114171513) do
     t.string   "sig"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "admin",                               :default => false
     t.text     "last_read"
+    t.text     "interest",                            :default => ""
+    t.integer  "rank",                                :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
