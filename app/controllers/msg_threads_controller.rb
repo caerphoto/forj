@@ -97,7 +97,7 @@ class MsgThreadsController < ApplicationController
             )
         else
             thread = folder.msg_threads.build(
-                :title => params[:title],
+                :title => params[:title]
             )
         end
 
