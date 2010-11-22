@@ -8,7 +8,7 @@ class BetterDefaults < ActiveRecord::Migration
       change_column :posts, :reply_user_id, :integer, :default => 0
       change_column :posts, :reply_index, :integer, :default => 0
 
-      change_column :posts, :content, :text, :limit => 10000
+      change_column :posts, :content, :text
   end
 
   def self.down
