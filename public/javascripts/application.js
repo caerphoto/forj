@@ -471,8 +471,6 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
     // Async-requests the specified posts.
     // Eventually this will only fetch posts not already cached, but
     // for now it just fetches what it's told.
-    if (offset < 0) offset = 0;
-
     var _fetched = function(post_data) {
         // Callback that renders the posts sent from the server
 
@@ -489,7 +487,7 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
         // user clicked the Previous Posts button), hence why it's passed
         // each post in reverse order.
         if (insert_direction === -1) {
-            for (var i = post_data.posts.length - 1; i--;) {
+            for (var i = post_data.posts.length; i--;) {
                 var p = post_data.posts[i];
                 FORJ.addPost(p, post_data.count, insert_direction);
             }
@@ -577,11 +575,16 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
     if (thread_id === FORJ.status.current_thread && !insert_direction) {
         _fetched(FORJ.post_cache);
     } else {
-        var url = FORJ.config.posts_url + "?thread=";
+        var url = FORJ.config.posts_url + "?thread=",
+            lim = 0, off = 0;
+        lim = offset < 0 ? FORJ.config.limit + offset : FORJ.config.limit;
+        off = offset < 0 ? 0 : offset;
+        console.log("Lim:", lim, ", off:", off);
+
         url += [
             thread_id,
-            "&offset=", offset,
-            "&limit=", FORJ.config.limit
+            "&offset=", off,
+            "&limit=", lim
         ].join("");
         console.log("URL fetched: ", url);
         $.getJSON(url, _fetched);
