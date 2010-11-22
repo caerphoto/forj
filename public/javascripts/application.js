@@ -489,7 +489,7 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
         // user clicked the Previous Posts button), hence why it's passed
         // each post in reverse order.
         if (insert_direction === -1) {
-            for (var i = post_data.posts.length; i--;) {
+            for (var i = post_data.posts.length - 1; i--;) {
                 var p = post_data.posts[i];
                 FORJ.addPost(p, post_data.count, insert_direction);
             }
