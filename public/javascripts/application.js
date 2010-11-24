@@ -303,7 +303,7 @@ FORJ.getCacheIndexFromId = function(id) {
     return result
 }; // FORJ.getCacheIndexFromId()
 
-FORJ.addPost = function(p, opts, insert_direction) {
+FORJ.createPost = function(p, opts, $container) {
     var $post = $(FORJ.ui.post_fragment).clone();
     var reply_url = "";
     $post.find(".post_shim").attr("id", p.post_index + 1);
@@ -363,23 +363,19 @@ FORJ.addPost = function(p, opts, insert_direction) {
         body: p.body
     });
 
+    // Check whether we're adding the post mid-list (such as after editing a
+    // post) or whether it just gets stuck on the end.
     if (typeof opts === "object" && opts.insert_after) {
         $post.insertAfter(opts.insert_after);
         if (opts.remove_previous) {
             opts.insert_after.remove();
         }
-    } else {
-        if (insert_direction === -1) {
-            $post.prependTo(FORJ.ui.posts_container);
-        } else {
-            $post.appendTo(FORJ.ui.posts_container);
+        if (opts && opts.scroll) {
+            //FORJ.scrollToPost($post);
         }
     }
-
-    if (opts && opts.scroll) {
-        //FORJ.scrollToPost($post);
-    }
-}; // FORJ.addPost()
+    return $post;
+}; // FORJ.createPost()
 
 FORJ.deletePost = function(post_id) {
     if (FORJ.getData(FORJ.getPostFromId(post_id)).post_index === 0) {
@@ -481,20 +477,17 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
 
         var time_start = new Date();
 
-        // Insert posts in the appropriate direction.
-        // addPost() will prependTo() if insert_direction is -1 (i.e. the
-        // user clicked the Previous Posts button), hence why it's passed
-        // each post in reverse order.
-        if (insert_direction === -1) {
-            for (var i = post_data.posts.length; i--;) {
-                var p = post_data.posts[i];
-                FORJ.addPost(p, post_data.count, insert_direction);
-            }
+        // Add posts to the appropriate end of the list.
+        var container = document.createDocumentFragment();
+        _(post_data.posts).each(function(p) {
+            container.appendChild(FORJ.createPost(p, post_data.count,
+                container)[0]);
+        });
+
+        if (insert_direction < 0) {
+            FORJ.ui.posts_container.prepend(container);
         } else {
-            for (var i = 0, l = post_data.posts.length; i < l; i++) {
-                var p = post_data.posts[i];
-                FORJ.addPost(p, post_data.count, insert_direction);
-            }
+            FORJ.ui.posts_container.append(container);
         }
 
         var time_end = new Date();
@@ -709,10 +702,14 @@ FORJ.newPostCallback = function(newpost) {
     FORJ.ui.hideReplyBox();
     // remove_previous can be set to true in all cases since it doesn't get
     // checked unless insert_after is also true.
-    FORJ.addPost(newpost, { scroll: true,
-                            insert_after: FORJ.status.editing_post,
-                            remove_previous: true });
-    FORJ.status.editing_post = undefined;
+    if (FORJ.status.editing_post) {
+        FORJ.createPost(newpost).insertAfter(FORJ.status.editing_post);
+        FORJ.status.editing_post.remove();
+        FORJ.status.editing_post = undefined;
+
+    } else {
+        FORJ.createPost(newpost).appendTo(FORJ.ui.posts_container);
+    }
 };
 
 FORJ.lnkReplyClick = function(event) {
@@ -1074,7 +1071,7 @@ FORJ.initUserEditor = function() {
 
                 dlg.dialog("open");
                 $.get(url, _userFetched);
-            },
+            }
         }
     })();
 }; // FORJ.initUserEditor()

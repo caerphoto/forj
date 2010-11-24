@@ -102,7 +102,7 @@ class UsersController < ApplicationController
 
     def edit
         return render :text => "NOT_SIGNED_IN" unless user_signed_in?
-        return render :text => "NOT_ADMIN" if current_user.rank < 2
+        return render :text => "NOT_ADMIN - rank of #{current_user.rank}" if current_user.rank < 2
 
         user = User.find(params[:id])
 
