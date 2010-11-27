@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="120"
+   height="120"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_gasp.png"
+   inkscape:export-xdpi="9"
+   inkscape:export-ydpi="9"
+   sodipodi:docname="emotes.svg"
+   style="display:inline">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="6.525"
+     inkscape:cx="56.542624"
+     inkscape:cy="60"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer3"
+     showgrid="true"
+     inkscape:window-width="973"
+     inkscape:window-height="954"
+     inkscape:window-x="699"
+     inkscape:window-y="24"
+     inkscape:window-maximized="0"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="2"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="5px"
+       spacingy="5px"
+       color="#000000"
+       opacity="0.03137255" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="35,75"
+       id="guide3962" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="65,70"
+       id="guide3964" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="75,25"
+       id="guide3970" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="15,55"
+       id="guide3949" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3987">
+      <stop
+         style="stop-color:#f31a1a;stop-opacity:0.60591131;"
+         offset="0"
+         id="stop3989" />
+      <stop
+         style="stop-color:#ff0000;stop-opacity:0;"
+         offset="1"
+         id="stop3991" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4541">
+      <stop
+         id="stop4543"
+         offset="0"
+         style="stop-color:#56bdf3;stop-opacity:1;" />
+      <stop
+         id="stop4545"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="SquareS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="SquareS"
+       style="overflow:visible">
+      <path
+         id="path4078"
+         d="M -5,-5 -5,5 5,5 5,-5 -5,-5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="scale(0.2,0.2)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <linearGradient
+       id="linearGradient3850"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3852" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3844"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop3846" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3836"
+       osb:paint="gradient">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3838" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop3840" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="SquareSV"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="SquareSV"
+       style="overflow:visible">
+      <path
+         id="path4454"
+         d="M -5,-5 -5,5 5,5 5,-5 -5,-5 z"
+         style="fill:#a7d4ec;fill-rule:evenodd;stroke:#a7d4ec;stroke-width:1pt;marker-start:none"
+         transform="scale(0.2,0.2)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="57.652821"
+       x2="110.30564"
+       y1="57.652821"
+       x1="70"
+       id="linearGradient4547"
+       xlink:href="#linearGradient4541"
+       inkscape:collect="always" />
+    <marker
+       inkscape:stockid="SquareSVa"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="SquareSVa"
+       style="overflow:visible">
+      <path
+         id="path4572"
+         d="M -5,-5 -5,5 5,5 5,-5 -5,-5 z"
+         style="fill:url(#linearGradient4547);fill-rule:evenodd;stroke:url(#linearGradient4547);stroke-width:1pt;marker-start:none"
+         transform="scale(0.2,0.2)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4541"
+       id="linearGradient4856"
+       x1="95"
+       y1="65"
+       x2="80"
+       y2="45"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3987"
+       id="radialGradient7363"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0000001,3.0777777e-7,-4.1574286e-7,1.3743684,2.238709e-5,-22.462119)"
+       cx="35"
+       cy="60"
+       fx="35"
+       fy="60"
+       r="15" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3987"
+       id="radialGradient3932"
+       cx="35"
+       cy="70"
+       fx="35"
+       fy="70"
+       r="25"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.8,0,0,0.8,7,14)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3987"
+       id="radialGradient3936"
+       gradientUnits="userSpaceOnUse"
+       cx="35"
+       cy="70"
+       fx="35"
+       fy="70"
+       r="25"
+       gradientTransform="matrix(0.8,0,0,0.8,57,14)" />
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Base"
+     style="display:inline">
+    <path
+       style="color:#000000;fill:none;stroke:#eecc44;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 15,5 90,0 10,10 0,90 -10,10 -90,0 L 5,105 5,15 z"
+       id="path3885"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccc" />
+    <rect
+       y="10"
+       x="10"
+       height="100"
+       width="100"
+       id="rect3860"
+       style="color:#000000;fill:#ffffdd;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       style="color:#000000;fill:#ffeeaa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3856"
+       width="90"
+       height="90"
+       x="20"
+       y="20" />
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="joy"
+     id="g3895"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       id="path3903"
+       d="m 35,35 0,10"
+       style="fill:none;stroke:#8e7918;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       inkscape:connector-curvature="0"
+       id="use3905"
+       d="m 65,35 0,10"
+       style="fill:none;stroke:#8e7918;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3907"
+       d="M 25,65 85,65 85,85 75,95 35,95 25,85 z"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;stroke:#8e7918;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       y="70"
+       x="30"
+       height="20"
+       width="50"
+       id="rect3909"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g3938"
+     inkscape:label="gasp"
+     style="display:none">
+    <path
+       style="fill:none;stroke:#8e7918;stroke-width:12;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 35,35 0,10"
+       id="path3940"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#8e7918;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 35,75 45,65 65,65 75,75 75,85 65,95 45,95 35,85 z"
+       id="path3953"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccc" />
+    <rect
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3951"
+       width="30"
+       height="20"
+       x="40"
+       y="70" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path3940"
+       id="use3955"
+       transform="translate(30,0)"
+       width="120"
+       height="120" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g3934"
+     inkscape:label="smile"
+     style="display:none">
+    <path
+       style="fill:none;stroke:#8e7918;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 35,35 0,15"
+       id="path3936"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="color:#000000;fill:none;stroke:#493f0d;stroke-width:8;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 30,85 c 0,0 5,10 25,10 20,0 30,-10 30,-10"
+       id="path3944"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csc"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_smile.png"
+       inkscape:export-xdpi="9"
+       inkscape:export-ydpi="9" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path3936"
+       id="use3952"
+       transform="translate(30,0)"
+       width="120"
+       height="120" />
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="wink"
+     id="g4887"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       id="path4889"
+       d="m 25,45 20,0"
+       style="fill:none;stroke:#8e7918;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:export-ydpi="9"
+       inkscape:export-xdpi="9"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_smile.png"
+       sodipodi:nodetypes="csc"
+       inkscape:connector-curvature="0"
+       id="path4891"
+       d="m 30,80 c 0,0 5,15 25,15 20,0 30,-5 30,-5"
+       style="color:#000000;fill:none;stroke:#493e0d;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <use
+       height="120"
+       width="120"
+       transform="translate(40,0)"
+       id="use4893"
+       xlink:href="#path3936"
+       y="0"
+       x="0" />
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="tongue"
+     id="g3972"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       id="path3974"
+       d="m 35,35 0,10"
+       style="fill:none;stroke:#8e7918;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       style="fill:#ffc1c1;fill-opacity:1;stroke:#ff0000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 35,75 c 0,0 0,30 20,30 20,0 20,-30 20,-30 z"
+       id="path3982"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="czcc" />
+    <path
+       inkscape:export-ydpi="9"
+       inkscape:export-xdpi="9"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_smile.png"
+       sodipodi:nodetypes="csc"
+       inkscape:connector-curvature="0"
+       id="path3976"
+       d="m 35,75 c 0,0 0,0 20,0 20,0 25,0 25,0"
+       style="color:#000000;fill:none;stroke:#8e7918;stroke-width:6;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path3974"
+       id="use3980"
+       transform="translate(30,0)"
+       width="120"
+       height="120" />
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="sad"
+     id="g3954"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       id="path3956"
+       d="m 35,30 0,15"
+       style="fill:none;stroke:#8e7918;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:export-ydpi="9"
+       inkscape:export-xdpi="9"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_smile.png"
+       sodipodi:nodetypes="csc"
+       inkscape:connector-curvature="0"
+       id="path3958"
+       d="m 30,90 c 0,0 5,-15 25,-15 20,0 25,15 25,15"
+       style="color:#000000;fill:none;stroke:#6e5e13;stroke-width:8;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path3956"
+       id="use3968"
+       transform="matrix(-1,0,0,1,100,0)"
+       width="120"
+       height="120" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g3984"
+     inkscape:label="cry"
+     style="display:none">
+    <path
+       style="color:#000000;fill:none;stroke:#6e5e13;stroke-width:8;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 30,90 C 30,80 40,75 55,75 70,75 80,80 80,90"
+       id="path3988"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="czc"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_smile.png"
+       inkscape:export-xdpi="9"
+       inkscape:export-ydpi="9" />
+    <path
+       sodipodi:nodetypes="cc"
+       style="color:#000000;fill:none;stroke:#6e5e13;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 45,45 30,45"
+       id="path3986"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:url(#linearGradient4856);fill-opacity:1;stroke:#66a8ff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 70,45 20,30 15,0 0,-15 -25,-15 z"
+       id="path4848"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccc" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path3986"
+       id="use3996"
+       transform="matrix(-1,0,0,1,110,0)"
+       width="120"
+       height="120" />
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="shame"
+     id="g3187"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:export-ydpi="9"
+       inkscape:export-xdpi="9"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_smile.png"
+       sodipodi:nodetypes="czc"
+       inkscape:connector-curvature="0"
+       id="path3189"
+       d="m 45,95 c 0,0 5,-5 15,-5 10,0 15,5 15,5"
+       style="color:#000000;fill:none;stroke:#6e5e13;stroke-width:8;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3191"
+       d="M 35,45 35,35"
+       style="color:#000000;fill:none;stroke:#6e5e13;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="use3195"
+       d="M 65,45 65,35"
+       style="color:#000000;fill:none;stroke:#6e5e13;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="color:#000000;fill:url(#radialGradient3932);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3924"
+       width="50"
+       height="50"
+       x="10"
+       y="45" />
+    <rect
+       y="45"
+       x="60"
+       height="50"
+       width="50"
+       id="rect3934"
+       style="color:#000000;fill:url(#radialGradient3936);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Colours"
+     style="display:none">
+    <image
+       style="display:inline"
+       y="27"
+       x="-8"
+       id="image3833"
+       xlink:href="file:///home/andy/railsapps/forj/image_src/forj-colours.png"
+       height="28"
+       width="23" />
+  </g>
+</svg>

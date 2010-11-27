@@ -227,7 +227,6 @@ FORJ.counts = function(thread) {
             thread.post_count === 1 ? "" : "s"
         ].join("");
     }
-
 };
 
 FORJ.updateThreadItem = function(thread_id) {
@@ -244,7 +243,7 @@ FORJ.updateThreadItem = function(thread_id) {
             return false; // halt thread item iteration
         }
     });
-         
+
 };
 
 FORJ.getFolderFromId = function(folder_id) {
@@ -303,10 +302,14 @@ FORJ.getCacheIndexFromId = function(id) {
     return result
 }; // FORJ.getCacheIndexFromId()
 
-FORJ.createPost = function(p, opts, $container) {
+FORJ.createPost = function(p) {
     var $post = $(FORJ.ui.post_fragment).clone();
     var reply_url = "";
-    $post.find(".post_shim").attr("id", p.post_index + 1);
+    $post.find(".post_shim").
+        attr("id", [
+            "#", FORJ.status.current_thread,
+            "/", (p.post_index + 1)
+            ].join(""));
     $post.find(".post_head_from").
         attr("href", [FORJ.config.users_url, p.from.id].join("/")).
         data("id", p.from.id).
@@ -329,10 +332,16 @@ FORJ.createPost = function(p, opts, $container) {
         text(p.date);
     $post.find(".post_head_index").
         text(p.post_index + 1).
-        attr("href", "#" + (p.post_index + 1));
+        attr("href", [
+            "#", FORJ.status.current_thread,
+            "/", (p.post_index + 1)
+            ].join(""));
     $post.find(".post_head_reply_index").
         text(p.to_index + 1).
-        attr("href", "#" + (p.to_index + 1));
+        attr("href", [
+            "#", FORJ.status.current_thread,
+            "/", (p.to_index + 1)
+            ].join(""));
 
     $post.find(".post_body").html(FORJ.markup(p.body));
     $post.find(".post_sig").html(FORJ.markup(p.from.sig));
@@ -363,17 +372,6 @@ FORJ.createPost = function(p, opts, $container) {
         body: p.body
     });
 
-    // Check whether we're adding the post mid-list (such as after editing a
-    // post) or whether it just gets stuck on the end.
-    if (typeof opts === "object" && opts.insert_after) {
-        $post.insertAfter(opts.insert_after);
-        if (opts.remove_previous) {
-            opts.insert_after.remove();
-        }
-        if (opts && opts.scroll) {
-            //FORJ.scrollToPost($post);
-        }
-    }
     return $post;
 }; // FORJ.createPost()
 
@@ -443,30 +441,45 @@ FORJ.deletePost = function(post_id) {
     } // if post_index === 0
 };
 
-FORJ.showThread = function(i) {
+FORJ.getFirstPostOffset = function(thread) {
+    var o = thread.post_count - thread.unread_count;
+    if (o >= thread.post_count) o = 0;
+    return o;
+};
+
+FORJ.showThread = function(t) {
     // Loads a new thread and renders it in the posts pane.
     FORJ.ui.replybox_thread_title.hide();
-    var t = FORJ.getThread(i);
-    if (!t) {
-        alert("Tried to load thread of id " + i + " but not in cache.");
-        return;
+
+    if (typeof t === "string") {
+        t = (window.location.hash).split("/")[0].slice(1);
+        console.log(t);
+    }
+
+    var thread = FORJ.getThread(t);
+
+    if (thread) {
+        FORJ.ui.thread_title.show().text(thread.title);
+        FORJ.status.offset_top = FORJ.getFirstPostOffset(thread);
+    } else {
+        var s = (window.location.hash).split("/")[1];
+        FORJ.status.offset_top = s - 1;
+        thread = { id: t };
     }
 
     FORJ.posts = [];
     FORJ.ui.thread_loading_msg.fadeIn(100);
-    FORJ.ui.thread_title.show().text(t.title);
     FORJ.ui.replybox.detach();
-    var o = t.post_count - t.unread_count;
-    if (o >= t.post_count) o = 0;
-    FORJ.status.offset_top = o;
-    FORJ.showPosts(i, o, 0);
+    FORJ.showPosts(thread.id, FORJ.status.offset_top, 0);
 }; // FORJ.showThread()
 
 FORJ.showPosts = function(thread_id, offset, insert_direction) {
     // Async-requests the specified posts.
     // Eventually this will only fetch posts not already cached, but
     // for now it just fetches what it's told.
-    var _fetched = function(post_data) {
+    var _fetched = function(data) {
+        var post_data = data[0],
+            thread = FORJ.getThread(thread_id) || data[1];
         // Callback that renders the posts sent from the server
 
         // insert_direction is -2 if jumping to the first posts of a thread,
@@ -475,13 +488,15 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
             FORJ.ui.posts_container.empty();
         }
 
+        FORJ.status.current_thread = thread.id;
+        FORJ.ui.thread_title.show().text(thread.title);
+
         var time_start = new Date();
 
         // Add posts to the appropriate end of the list.
         var container = document.createDocumentFragment();
         _(post_data.posts).each(function(p) {
-            container.appendChild(FORJ.createPost(p, post_data.count,
-                container)[0]);
+            container.appendChild(FORJ.createPost(p)[0]);
         });
 
         if (insert_direction < 0) {
@@ -511,12 +526,9 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
                 FORJ.post_cache = post_data;
         }
 
-        FORJ.status.current_thread = thread_id;
-
         // Modify the thread in the list to show that the just-loaded messages
         // have now been read.
-        var thread = FORJ.getThread(thread_id),
-            has_read = thread.post_count - thread.unread_count,
+        var has_read = thread.post_count - thread.unread_count,
             u = thread.unread_count;
         u -= FORJ.config.limit;
         if (u < 0) u = 0;
@@ -557,9 +569,18 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
             FORJ.ui.post_buttons_next.hide();
         }
 
+        // UI finishing-up:
         FORJ.ui.thread_loading_msg.fadeOut(100);
         FORJ.ui.showReplyBox();
-        document.title = FORJ.getThread(thread_id).title + " - FORJ Forum";
+        document.title = thread.title + " - FORJ Forum";
+        var ot = FORJ.status.offset_top + FORJ.config.limit;
+        if (ot < 0) ot = 0;
+        window.location.hash = [
+            "#", FORJ.status.current_thread,
+            "/", ot + 1
+            ].join("");
+        if (FORJ.folders) FORJ.populateThreadsList(FORJ.folders);
+
     }; // _fetched()
 
     // insert_direction will be 0 or undefined when re-showing a thread after
@@ -577,7 +598,6 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
             "&offset=", off,
             "&limit=", lim
         ].join("");
-        console.log("URL fetched: ", url);
         $.getJSON(url, _fetched);
     }
 }; // FORJ.showPosts()
@@ -659,14 +679,18 @@ FORJ.populateThreadsList = function(folders) {
             appendTo(new_folder);
 
         _(folder.threads).each(function(thread) {
-            if (thread.unread_count || FORJ.config.show_unread) {
+            if (thread.unread_count || FORJ.config.show_unread ||
+                thread.id === FORJ.status.current_thread) {
                 var new_item = $("<li/>").
                     addClass("thread_list_item bl").
                     addClass(thread.unread_count > 0 ? "has_unread" :
                         "").
                     data("id", thread.id).
                     append($("<a/>").
-                        attr("href", [FORJ.config.threads_url, thread.id].join("/")).
+                        attr("href", [
+                            "#", thread.id,
+                            "/", (FORJ.getFirstPostOffset(thread) + 1)
+                        ].join("")).
                         text(thread.title)).
                     append($("<span/>").
                         addClass("item_count").
@@ -1212,6 +1236,8 @@ FORJ.initForum = function(config) {
         removeClass("hidden");
     console.log("Current user: ", FORJ.status.current_user.id);
     console.log("Rank:", FORJ.status.current_user.rank);
+
+    if (window.location.hash) FORJ.showThread(window.location.hash);
 };
 
 FORJ.initOther = function() {

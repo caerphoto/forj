@@ -249,11 +249,14 @@ class PostsController < ApplicationController
         post_count = thread.posts.length if post_count > thread.posts.length
         update_last_read thread.id, post_count
 
-        result = {
-            :posts => post_array,
-            :count => thread.posts.length,
-            :thread => thread.id
-        }
+        result = [
+            {
+                :posts => post_array,
+                :count => thread.posts.length
+            },
+            get_thread_info(thread)
+        ]
+
         render :json => result.to_json
     end
 

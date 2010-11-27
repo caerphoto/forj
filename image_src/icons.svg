@@ -28,10 +28,10 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="324.92529"
+     inkscape:cx="341.02332"
      inkscape:cy="284.27739"
      inkscape:document-units="px"
-     inkscape:current-layer="layer7"
+     inkscape:current-layer="g3067"
      showgrid="true"
      inkscape:window-width="985"
      inkscape:window-height="953"
@@ -449,6 +449,54 @@
        inkscape:export-ydpi="2.4161074" />
   </g>
   <g
+     style="display:inline"
+     inkscape:label="draft thread"
+     id="g3067"
+     inkscape:groupmode="layer">
+    <rect
+       inkscape:export-ydpi="2.4161074"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_thread_draft.png"
+       ry="32"
+       rx="32"
+       y="128"
+       x="32"
+       height="384"
+       width="576"
+       id="rect3069"
+       style="fill:#ffffff;fill-opacity:1;stroke:none" />
+    <path
+       inkscape:export-ydpi="2.4161074"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_thread_draft.png"
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0"
+       id="path3071"
+       d="M 38,506 320,224 602,506"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3.83333325;stroke-opacity:1;stroke-dasharray:60,60;stroke-dashoffset:120;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       inkscape:export-ydpi="2.4161074"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_thread_draft.png"
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0"
+       id="path3073"
+       d="M 32,160 320,416 608,160"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:20;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:3.83333325;stroke-opacity:1;stroke-dasharray:60,60;stroke-dashoffset:120;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       inkscape:export-ydpi="2.4161074"
+       inkscape:export-xdpi="2.4161074"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/icon_thread_draft.png"
+       ry="40"
+       rx="40"
+       y="128"
+       x="32"
+       height="384"
+       width="576"
+       id="rect3075"
+       style="color:#000000;fill:none;stroke:#ff0000;stroke-width:20;stroke-miterlimit:3.83333325;stroke-opacity:1;stroke-dasharray:80,80;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-dashoffset:162;stroke-linecap:butt;stroke-linejoin:miter;fill-opacity:1" />
+  </g>
+  <g
      style="display:none"
      inkscape:label="no new posts"
      id="g3996"
@@ -583,7 +631,7 @@
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="Settings"
-     style="display:inline">
+     style="display:none">
     <path
        inkscape:export-ydpi="2.3452768"
        inkscape:export-xdpi="2.3452768"

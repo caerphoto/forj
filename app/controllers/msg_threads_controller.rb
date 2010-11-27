@@ -22,32 +22,32 @@ def get_folder_info(folder)
       :thread_count => folder.msg_threads.length }
 end
 
-class MsgThreadsController < ApplicationController
-    def get_thread_info(thread)
-        f = thread.folder.nil? ? 0 : thread.folder.id
+def get_thread_info(thread)
+    f = thread.folder.nil? ? 0 : thread.folder.id
 
-        last_read = 0
-        if user_signed_in? and current_user.last_read
-            # Extract the number of posts the user has read in this thread, if
-            # possible
-            m = current_user.last_read.match(/(^|,)#{thread.id}:(\d+)(,|$)/)
-            if m
-                last_read = m[2].to_i
-            else
-                last_read = 0
-            end
+    last_read = 0
+    if user_signed_in? and current_user.last_read
+        # Extract the number of posts the user has read in this thread, if
+        # possible
+        m = current_user.last_read.match(/(^|,)#{thread.id}:(\d+)(,|$)/)
+        if m
+            last_read = m[2].to_i
+        else
+            last_read = 0
         end
-
-        unread_count = thread.posts.length - last_read
-        unread_count = 0 if unread_count < 0
-
-        { :title => thread.title,
-          :id => thread.id,
-          :folder_id => f,
-          :unread_count => unread_count,
-          :post_count => thread.posts.length }
     end
 
+    unread_count = thread.posts.length - last_read
+    unread_count = 0 if unread_count < 0
+
+    { :title => thread.title,
+      :id => thread.id,
+      :folder_id => f,
+      :unread_count => unread_count,
+      :post_count => thread.posts.length }
+end
+
+class MsgThreadsController < ApplicationController
     def index
         result = []
 
