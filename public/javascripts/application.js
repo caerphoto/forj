@@ -72,25 +72,35 @@ if (typeof FORJ === "undefined") var FORJ = {
             }
         })(),
 
-        showReplyBox: function(in_post, new_thread) {
-            var show_speed;
-            var $element;
-            var u = "u0";
+        showReplyBox: function(in_post, options) {
+            var show_speed,
+                $element,
+                u = "u0",
+                post_data;
+
+            // Set default 'options' in case it's not passed (prevents "Cannot
+            // read property 'new_thread' of undefined." errors)
+            options = options || {
+                new_thread: false,
+                quote: false
+            };
 
             if (in_post) {
                 show_speed = 100;
                 $element = in_post;//.children(".post_foot");
                 FORJ.ui.btnCancelReply.button("enable");
 
-                FORJ.setData(FORJ.ui.replybox, FORJ.getData(in_post));
+                post_data = FORJ.getData(in_post);
+                FORJ.setData(FORJ.ui.replybox, post_data);
 
                 u = (FORJ.status.editing_post ?
-                    FORJ.getData(in_post).reply_user :
-                    FORJ.getData(in_post).user_id);
+                    post_data.reply_user :
+                    post_data.user_id);
             } else {
                 show_speed = 0;
                 $element = FORJ.ui.post_buttons_next;
-                FORJ.ui.btnCancelReply.button(new_thread ? "enable" : "disable");
+                FORJ.ui.btnCancelReply.button(options.new_thread ? 
+                    "enable" : "disable");
             }
 
             FORJ.ui.replybox.
@@ -98,9 +108,16 @@ if (typeof FORJ === "undefined") var FORJ = {
                 insertAfter($element).
                 show();
                 FORJ.ui.selReplyTo.selectmenu("value", u+"");
-                if (in_post) {
-                    FORJ.ui.replybox.find("textarea").focus();
+            if (in_post) {
+                FORJ.ui.replybox.find("textarea").focus();
+
+                if (options.quote) {
+                    FORJ.ui.replybox.find("textarea").
+                        val(FORJ.makeQuote(post_data.body)).
+                        trigger("keyup");
                 }
+            }
+
         },
 
         hideReplyBox: function() {
@@ -170,6 +187,21 @@ FORJ.setData = function($obj, data) {
 
 FORJ.getData = function($obj) {
     return $obj.data("post_data") || FORJ.config.default_post_data;
+};
+
+FORJ.makeQuote = function(text) {
+    // Returns a the block-quoted version of 'text' in Markdown format
+    if (!text) return "";
+    // Put a '>' at the start of each line, and add two line breaks to the end
+    var quoted = ">" + text.split("\n").join("\n>") + "\n\n";
+
+    // Remove '>' markers from <pre> blocks; they still appear within the
+    // blockquote.
+    quoted = quoted.replace(/>( {4})/g, "$1");
+
+    // Remove '>' markers from footnote-style link definitions, otherwise the
+    // the definitions appear as plain text
+    return quoted.replace(/>(\[.+?\]:)/g, "$1");
 };
 
 FORJ.markup = function(inp) {
@@ -741,6 +773,10 @@ FORJ.lnkReplyClick = function(event) {
     FORJ.ui.showReplyBox($(this).parents(".post"));
 }; // FORJ.lnkReplyClick()
 
+FORJ.lnkReplyQuoteClick = function(event) {
+    event.preventDefault();
+    FORJ.ui.showReplyBox($(this).parents(".post"), { quote: true });
+}; // FORJ.lnkReplyQuoteClick()
 
 FORJ.lnkEditClick = function(event) {
     event.preventDefault();
@@ -903,7 +939,7 @@ FORJ.btnNewThreadClick = function() {
 
     FORJ.ui.thread_title.hide();
 
-    FORJ.ui.showReplyBox(undefined, true);
+    FORJ.ui.showReplyBox(undefined, { new_thread: true });
     FORJ.ui.posts_container.empty();
 
     FORJ.ui.replybox_thread_title.show();
@@ -1179,6 +1215,7 @@ FORJ.initForum = function(config) {
 
     FORJ.ui.posts_container.
         delegate(".post_foot_reply", "click", FORJ.lnkReplyClick).
+        delegate(".post_foot_replyquote", "click", FORJ.lnkReplyQuoteClick).
         delegate(".post_foot_delete", "click", FORJ.lnkDeleteClick).
         delegate(".post_foot_edit", "click", FORJ.lnkEditClick);
     FORJ.ui.posts_pane.
