@@ -193,11 +193,7 @@ FORJ.makeQuote = function(text) {
     // Returns a the block-quoted version of 'text' in Markdown format
     if (!text) return "";
     // Put a '>' at the start of each line, and add two line breaks to the end
-    var quoted = ">" + text.split("\n").join("\n>") + "\n\n";
-
-    // Remove '>' markers from <pre> blocks; they still appear within the
-    // blockquote.
-    quoted = quoted.replace(/>( {4})/g, "$1");
+    var quoted = "> " + text.split("\n").join("\n> ") + "\n\n";
 
     // Remove '>' markers from footnote-style link definitions, otherwise the
     // the definitions appear as plain text
