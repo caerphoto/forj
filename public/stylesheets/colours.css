@@ -174,3 +174,11 @@ a, .thread_list_item a:hover {
 a:hover {
     color: #4AC;
 }
+
+hr {
+    border-color: #CCC #F8F8F8;
+}
+
+blockquote hr {
+    border-color: #EC4 #FEA;
+}

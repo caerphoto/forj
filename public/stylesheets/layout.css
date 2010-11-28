@@ -60,6 +60,11 @@ code {
     border-width: 1px;
 }
 
+hr {
+    border-width: 1px 2em 0px 2em;
+    margin: 0.5em 2em;
+}
+
 #logo {
     padding: 0.5em 0.5em 0.5em 1em;
     width: 10em;
