@@ -197,7 +197,7 @@ FORJ.makeQuote = function(text) {
 
     // Remove '>' markers from footnote-style link definitions, otherwise the
     // the definitions appear as plain text
-    return quoted.replace(/>(\[.+?\]:)/g, "$1");
+    return quoted.replace(/> (\[.+?\]:)/g, "$1");
 };
 
 FORJ.markup = function(inp) {
