@@ -187,7 +187,17 @@ def format_date(date)
             date_str = date.to_date.to_s + date_str
         end
     end
-    return date_str
+    if date.to_time > Time.now.-(3600)
+        minutes = Time.now.min - date.to_time.min
+        minutes += 60 if minutes < 0
+        return date_str + " (#{minutes} minute#{minutes == 1 ? "" : "s"} ago)"
+    elsif date.to_time > Time.now.-(60 * 60 * 24)
+        hours = Time.now.hour - date.to_time.hour
+        hours += 24 if hours < 0
+        return date_str + " (about #{hours} hour#{hours == 1 ? "" : "s"} ago)"
+    else
+        return date_str
+    end
 end
 
 

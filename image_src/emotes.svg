@@ -16,7 +16,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.0 r9654"
-   inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_gasp.png"
+   inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_sad.png"
    inkscape:export-xdpi="9"
    inkscape:export-ydpi="9"
    sodipodi:docname="emotes.svg"
@@ -32,11 +32,11 @@
      inkscape:cx="56.542624"
      inkscape:cy="60"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="g3954"
      showgrid="true"
      inkscape:window-width="973"
      inkscape:window-height="954"
-     inkscape:window-x="699"
+     inkscape:window-x="705"
      inkscape:window-y="24"
      inkscape:window-maximized="0"
      showguides="true"
@@ -406,14 +406,14 @@
        height="120" />
   </g>
   <g
-     style="display:none"
+     style="display:inline"
      inkscape:label="sad"
      id="g3954"
      inkscape:groupmode="layer">
     <path
        inkscape:connector-curvature="0"
        id="path3956"
-       d="m 35,30 0,15"
+       d="m 35,35 0,10"
        style="fill:none;stroke:#8e7918;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        sodipodi:nodetypes="cc" />
     <path
@@ -433,6 +433,35 @@
        transform="matrix(-1,0,0,1,100,0)"
        width="120"
        height="120" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g3848"
+     inkscape:label="unamused"
+     style="display:none">
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:none;stroke:#8e7918;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 35,35 0,10"
+       id="path3850"
+       inkscape:connector-curvature="0" />
+    <path
+       style="color:#000000;fill:none;stroke:#6e5e13;stroke-width:10;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 35,85 c 25,0 40,0 40,0"
+       id="path3852"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/andy/railsapps/forj/public/images/emote_smile.png"
+       inkscape:export-xdpi="9"
+       inkscape:export-ydpi="9" />
+    <use
+       height="120"
+       width="120"
+       transform="matrix(-1,0,0,1,100,0)"
+       id="use3854"
+       xlink:href="#path3850"
+       y="0"
+       x="0" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -470,7 +499,7 @@
        height="120" />
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="shame"
      id="g3187"
      inkscape:groupmode="layer">
