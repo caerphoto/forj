@@ -268,6 +268,9 @@ FORJ.updateThreadItem = function(thread_id) {
             }
             $(ele).find("span").
                 html(FORJ.counts(thread));
+            if (thread_id === FORJ.status.current_thread) {
+                $(ele).addClass("current_thread");
+            }
             return false; // halt thread item iteration
         }
     });
@@ -481,8 +484,11 @@ FORJ.showThread = function(t) {
 
     if (typeof t === "string") {
         t = (window.location.hash).split("/")[0].slice(1);
-        console.log(t);
+        console.log("Got thread ID from hash:", t);
     }
+    
+    t = +t; // Convert to number else we run into type issues later on, where
+            // for example ("16" === 16) fails
 
     var thread = FORJ.getThread(t);
 
@@ -516,7 +522,7 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
             FORJ.ui.posts_container.empty();
         }
 
-        FORJ.status.current_thread = thread.id;
+        //FORJ.status.current_thread = thread.id;
         FORJ.ui.thread_title.show().text(thread.title);
 
         var time_start = new Date();
@@ -607,7 +613,10 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
             "#", FORJ.status.current_thread,
             "/", ot + 1
             ].join("");
-        if (FORJ.folders) FORJ.populateThreadsList(FORJ.folders);
+        // Mark the current thread appropriately in the list if the
+        // folders/threads list list has been loaded
+        if (FORJ.folders) FORJ.updateThreadItem(thread_id);
+        //if (FORJ.folders) FORJ.populateThreadsList(FORJ.folders);
 
     }; // _fetched()
 
@@ -616,6 +625,8 @@ FORJ.showPosts = function(thread_id, offset, insert_direction) {
     if (thread_id === FORJ.status.current_thread && !insert_direction) {
         _fetched(FORJ.post_cache);
     } else {
+        FORJ.status.current_thread = thread_id;
+        console.log("Current thread:", FORJ.status.current_thread);
         var url = FORJ.config.posts_url + "?thread=",
             lim = 0, off = 0;
         lim = offset < 0 ? FORJ.config.limit + offset : FORJ.config.limit;
@@ -666,6 +677,7 @@ FORJ.populateThreadsList = function(folders) {
     //     post_count: 0
     // }
 
+    console.log("Populating threadss list. Current thread:", FORJ.status.current_thread);
     var $folder;
 
     FORJ.threads = [];
@@ -707,6 +719,7 @@ FORJ.populateThreadsList = function(folders) {
             appendTo(new_folder);
 
         _(folder.threads).each(function(thread) {
+                console.log("Adding thread:", thread.id);
             if (thread.unread_count || FORJ.config.show_unread ||
                 thread.id === FORJ.status.current_thread) {
                 var new_item = $("<li/>").
@@ -728,7 +741,7 @@ FORJ.populateThreadsList = function(folders) {
                     new_item.addClass("current_thread");
                 }
                 $thread_list.append(new_item);
-            }
+            } // if (has unread, showing unread, or is current thread)
             FORJ.threads.push(thread);
         }); // folder.threads.each()
     }); // folders.each()
