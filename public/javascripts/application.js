@@ -164,7 +164,7 @@ FORJ.config = {
         ":\\": "unsure",
         ":S": "erm",
         ":C": "grumpy",
-        ":&": "yuck",
+        ":&AMP;": "yuck",
         ":'D": "joytear",
         "|(": "fail",
         ":{": "tache",
@@ -247,7 +247,7 @@ FORJ.emotify = function(inp) {
         quotedblocks = [],
         // This is the regex that defines the emoticons the application will
         // detect:
-        emote = /(?:[:;|8]'?-?[)(DpP$oOsScC\/\\{&|@])|(?::(?:99|fail):)/g,
+        emote = /[:;|8]'?-?(?:[()DpP$oOsScC\/\\{|@]|&amp;)|:(?:99|fail):/g,
         i = 0;
 
     // Remove <code> and "quoted" parts, and store them for later
@@ -270,6 +270,7 @@ FORJ.emotify = function(inp) {
     // Replace remaining emote sequences with appropriate <span>s, or just
     // return the emote sequence if the appropriate tag can't be found
     inp = inp.replace(emote, function(m) {
+            // Remove 'nose' dash and convert to uppercase
             var em = FORJ.config.emotes[m.replace("-", "").toUpperCase()];
             return em ? FORJ.emospan(em) : m;
         });
