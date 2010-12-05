@@ -215,6 +215,81 @@ FORJ.markup = function(inp) {
         inp = inp.replace(/(<.+?style\s*?=\s*?")(.*?)(position\s*?:\s*?(absolute|relative|fixed);?)(.*?">)/gi,
             "$1$2$5");
 
+        // Emoticon conversion:
+        // First, it removes all <code> and "quoted" parts, and stores them.
+        // Next, it searches for any remaining emotes and converts them to the
+        // appropriate <span> tag.
+        // Finally it converts the previously stored parts back into
+        // their original forms.
+        var codeblock = /(<code(?:[^>]*)>[^<]*)<\/code>/i,
+            codeblocks = [],
+            quotedblock = /\w+="[^"]+"/,
+            quotedblocks = [],
+            emote = /[:;]'?-?[)(DpP$oO|@]/g,
+            i = 0,
+            emospan = '<span class="emote #"></span>',
+            emotes = {
+                ":)": emospan.replace("#", "smile"),
+                ":-)": emospan.replace("#", "smile"),
+                ":(": emospan.replace("#", "sad"),
+                ":-(": emospan.replace("#", "sad"),
+                ":D": emospan.replace("#", "joy"),
+                ":-D": emospan.replace("#", "joy"),
+                ":'(": emospan.replace("#", "cry"),
+                ":'-(": emospan.replace("#", "cry"),
+                ":P": emospan.replace("#", "tongue"),
+                ":-P": emospan.replace("#", "tongue"),
+                ":p": emospan.replace("#", "tongue"),
+                ":-p": emospan.replace("#", "tongue"),
+                ":$": emospan.replace("#", "shame"),
+                ":-$": emospan.replace("#", "shame"),
+                ":o": emospan.replace("#", "gasp"),
+                ":O": emospan.replace("#", "gasp"),
+                ":-o": emospan.replace("#", "gasp"),
+                ":-O": emospan.replace("#", "gasp"),
+                ":|": emospan.replace("#", "unamused"),
+                ":-|": emospan.replace("#", "unamused"),
+                ":@": emospan.replace("#", "angry"),
+                ":-@": emospan.replace("#", "angry"),
+                ";)": emospan.replace("#", "wink"),
+                ";-)": emospan.replace("#", "wink")
+            };
+
+        // Remove <code> and "quoted" parts, and store them for later
+        for (i = 0; codeblock.test(inp); i += 1) {
+            inp = inp.replace(codeblock, function() {
+                    codeblocks[i] = arguments[1];
+                    return [
+                        "FORJ_CODEBLOCK", i,
+                        "</code>"].join("");
+                });
+        }
+
+        for (i = 0; quotedblock.test(inp); i += 1) {
+            inp = inp.replace(quotedblock, function() {
+                    quotedblocks[i] = arguments[0];
+                    return ["FORJ_QUOTEDBLOCK", i].join("");
+                });
+        }
+
+        // Replace remaining emote sequences with appropriate <span>s, or just
+        // return the emote sequence if the appropriate tag can't be found
+        inp = inp.replace(emote, function(m) {
+                return emotes[m] || m;
+            });
+
+        // Restore <code> and "quoted" blocks
+        i = -1;
+        inp = inp.replace(/FORJ_CODEBLOCK\d{1,4}/g, function() {
+                i += 1;
+                return codeblocks[i];
+            });
+        i = -1;
+        inp = inp.replace(/FORJ_QUOTEDBLOCK\d{1,4}/g, function() {
+                i += 1;
+                return quotedblocks[i];
+            });
+
         // Convert <script> to HTML character escaped plain text
         return inp.replace(/<(\/)?script/gi, "&lt;$1script");
     } else {
@@ -486,7 +561,7 @@ FORJ.showThread = function(t) {
         t = (window.location.hash).split("/")[0].slice(1);
         console.log("Got thread ID from hash:", t);
     }
-    
+
     t = +t; // Convert to number else we run into type issues later on, where
             // for example ("16" === 16) fails
 
@@ -719,7 +794,6 @@ FORJ.populateThreadsList = function(folders) {
             appendTo(new_folder);
 
         _(folder.threads).each(function(thread) {
-                console.log("Adding thread:", thread.id);
             if (thread.unread_count || FORJ.config.show_unread ||
                 thread.id === FORJ.status.current_thread) {
                 var new_item = $("<li/>").

@@ -1,0 +1,19 @@
+.emote {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-top: 1px;
+    margin-bottom: -1px;
+    background-image: url("/images/emotes.png");
+}
+
+.emote.gasp { background-position: 0px 0px; }
+.emote.sad { background-position: -12px 0px; }
+.emote.unamused { background-position: -24px 0px; }
+.emote.cry { background-position: -36px 0px; }
+.emote.angry { background-position: -48px 0px; }
+.emote.joy { background-position: 0px 12px; }
+.emote.smile { background-position: -12px 12px; }
+.emote.wink { background-position: -24px 12px; }
+.emote.tongue { background-position: -36px 12px; }
+.emote.shame { background-position: -48px 12px; }
