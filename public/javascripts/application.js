@@ -246,8 +246,9 @@ FORJ.emotify = function(inp) {
         quotedblock = /\w+="[^"]+"/,
         quotedblocks = [],
         // This is the regex that defines the emoticons the application will
-        // detect:
-        emote = /[:;|8]'?-?(?:[()DpP$oOsScC\/\\{|@]|&amp;)|:(?:99|fail):/g,
+        // detect. 'Face-style' emotes must not have a / after them (it causes
+        // problems with how URLs are displayed).
+        emote = /(?:([>\s])[:;|8]'?-?(?:[()DpP$oOsScC\/\\{|@]|&amp;))|(?::(?:99|fail):)/g,
         i = 0;
 
     // Remove <code> and "quoted" parts, and store them for later
@@ -271,8 +272,8 @@ FORJ.emotify = function(inp) {
     // return the emote sequence if the appropriate tag can't be found
     inp = inp.replace(emote, function(m) {
             // Remove 'nose' dash and convert to uppercase
-            var em = FORJ.config.emotes[m.replace("-", "").toUpperCase()];
-            return em ? FORJ.emospan(em) : m;
+            var em = FORJ.config.emotes[m.replace("-", "").toUpperCase().slice(1)];
+            return em ? arguments[1] + FORJ.emospan(em) : m;
         });
 
     // Restore <code> and "quoted" blocks
