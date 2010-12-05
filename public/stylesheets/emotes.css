@@ -7,13 +7,23 @@
     background-image: url("/images/emotes.png");
 }
 
-.emote.gasp { background-position: 0px 0px; }
-.emote.sad { background-position: -12px 0px; }
-.emote.unamused { background-position: -24px 0px; }
-.emote.cry { background-position: -36px 0px; }
-.emote.angry { background-position: -48px 0px; }
-.emote.joy { background-position: 0px 12px; }
-.emote.smile { background-position: -12px 12px; }
-.emote.wink { background-position: -24px 12px; }
-.emote.tongue { background-position: -36px 12px; }
-.emote.shame { background-position: -48px 12px; }
+.emote.fail { background-position: 0px 0px }
+.emote.tache { background-position: -12px 0px }
+.emote.cool { background-position: -24px 0px }
+.emote.rolleyes { background-position: -36px 0px }
+.emote.blank { background-position: -48px 0px }
+.emote.unsure { background-position: 0px -12px; }
+.emote.erm { background-position: -12px -12px; }
+.emote.grumpy { background-position: -24px -12px; }
+.emote.yuck { background-position: -36px -12px; }
+.emote.joytear { background-position: -48px -12px; }
+.emote.gasp { background-position: 0px -24px; }
+.emote.sad { background-position: -12px -24px; }
+.emote.unamused { background-position: -24px -24px; }
+.emote.cry { background-position: -36px -24px; }
+.emote.angry { background-position: -48px -24px; }
+.emote.joy { background-position: 0px -36px; }
+.emote.smile { background-position: -12px -36px; }
+.emote.wink { background-position: -24px -36px; }
+.emote.tongue { background-position: -36px -36px; }
+.emote.shame { background-position: -48px -36px; }

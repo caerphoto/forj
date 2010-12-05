@@ -23,157 +23,190 @@ if (typeof console === "undefined") {
     $("#log").remove();
 } // if (console is undefined)
 
-if (typeof FORJ === "undefined") var FORJ = {
-    ui: {
-        panes: undefined,
-        buttons: $("input:submit"),
-        page_header: $("#header"),
-        page_footer: $("#footer"),
+if (typeof FORJ === "undefined") var FORJ = {};
 
-        threads_pane: $("#threadspane"),
-        folder_list: $("#folder_list"),
-        folders_loading_msg: $("#folders_loading_msg"),
-        btnNewFolder: $("#btnNewFolder"),
-        btnNewThread: $("#btnNewThread"),
-        btnReloadThreadsList: $("#btnReloadThreadsList"),
-        selThreadsView: $("#selThreadsView"),
+FORJ.ui = {
+    panes: undefined,
+    buttons: $("input:submit"),
+    page_header: $("#header"),
+    page_footer: $("#footer"),
 
-        posts_pane: $("#postspane"),
-        thread_loading_msg: $("#thread_loading_msg"),
-        thread_title: $("#thread_title"),
-        posts_container: $("#posts_container"),
+    threads_pane: $("#threadspane"),
+    folder_list: $("#folder_list"),
+    folders_loading_msg: $("#folders_loading_msg"),
+    btnNewFolder: $("#btnNewFolder"),
+    btnNewThread: $("#btnNewThread"),
+    btnReloadThreadsList: $("#btnReloadThreadsList"),
+    selThreadsView: $("#selThreadsView"),
 
-        post_buttons_prev: $("#post_buttons_prev"),
-        post_buttons_next: $("#post_buttons_next"),
-        btnFirstPosts: $("#btnFirstPosts"),
-        btnPrevPosts: $("#btnPrevPosts"),
-        btnNextPosts: $("#btnNextPosts"),
-        btnLastPosts: $("#btnLastPosts"),
+    posts_pane: $("#postspane"),
+    thread_loading_msg: $("#thread_loading_msg"),
+    thread_title: $("#thread_title"),
+    posts_container: $("#posts_container"),
 
-        post_fragment: $("#post_template"),
-        replybox: $("#replybox"),
-        replybox_thread_title: $("#replybox_thread_title"),
-        reply_text: $("#replybox texarea").first(),
-        post_preview: undefined,
+    post_buttons_prev: $("#post_buttons_prev"),
+    post_buttons_next: $("#post_buttons_next"),
+    btnFirstPosts: $("#btnFirstPosts"),
+    btnPrevPosts: $("#btnPrevPosts"),
+    btnNextPosts: $("#btnNextPosts"),
+    btnLastPosts: $("#btnLastPosts"),
 
-        btnPostReply: $("#btnPostReply"),
-        btnCancelReply: $("#btnCancelReply"),
-        selReplyTo: $("#selReplyTo"),
-        selThreadFolder: $("#selThreadFolder"),
-        showdown: (function() {
-            // Necessary otherwise it causes the JS interpreter to fall over
-            // if showdown-min.js is not included on the page.
-            if (Attacklab) {
-                return new Attacklab.showdown.converter();
-            } else {
-                return {
-                    makeHtml: function(text) { return text }
-                }
+    post_fragment: $("#post_template"),
+    replybox: $("#replybox"),
+    replybox_thread_title: $("#replybox_thread_title"),
+    reply_text: $("#replybox texarea").first(),
+    post_preview: undefined,
+
+    btnPostReply: $("#btnPostReply"),
+    btnCancelReply: $("#btnCancelReply"),
+    selReplyTo: $("#selReplyTo"),
+    selThreadFolder: $("#selThreadFolder"),
+    showdown: (function() {
+        // Necessary otherwise it causes the JS interpreter to fall over
+        // if showdown-min.js is not included on the page.
+        if (Attacklab) {
+            return new Attacklab.showdown.converter();
+        } else {
+            return {
+                makeHtml: function(text) { return text }
             }
-        })(),
-
-        showReplyBox: function(in_post, options) {
-            var show_speed,
-                $element,
-                u = "u0",
-                post_data;
-
-            // Set default 'options' in case it's not passed (prevents "Cannot
-            // read property 'new_thread' of undefined." errors)
-            options = options || {
-                new_thread: false,
-                quote: false
-            };
-
-            if (in_post) {
-                show_speed = 100;
-                $element = in_post;//.children(".post_foot");
-                FORJ.ui.btnCancelReply.button("enable");
-
-                post_data = FORJ.getData(in_post);
-                FORJ.setData(FORJ.ui.replybox, post_data);
-
-                u = (FORJ.status.editing_post ?
-                    post_data.reply_user :
-                    post_data.user_id);
-            } else {
-                show_speed = 0;
-                $element = FORJ.ui.post_buttons_next;
-                FORJ.ui.btnCancelReply.button(options.new_thread ? 
-                    "enable" : "disable");
-            }
-
-            FORJ.ui.replybox.
-                detach().
-                insertAfter($element).
-                show();
-                FORJ.ui.selReplyTo.selectmenu("value", u+"");
-            if (in_post) {
-                FORJ.ui.replybox.find("textarea").focus();
-
-                if (options.quote) {
-                    FORJ.ui.replybox.find("textarea").
-                        val(FORJ.makeQuote(post_data.body)).
-                        trigger("keyup");
-                }
-            }
-
-        },
-
-        hideReplyBox: function() {
-            FORJ.ui.btnPostReply.button("enable");
-            FORJ.setData(FORJ.ui.replybox);
-            FORJ.ui.showReplyBox();
-            //});
         }
-    },
+    })(),
 
-    status: {
-        current_thread: 0, previous_thread: 0,
-        editing_post: undefined,
-        offset_top: 0, offset_bottom: 0,
-        prev_txt: "",
-        current_user: {
-            id: parseInt(($("#sign input").val()).slice(1), 10) || 0,
-            rank: +($("#sign input").val()).slice(0, 1) || 0,
-            unread_counts: []
+    showReplyBox: function(in_post, options) {
+        var show_speed,
+            $element,
+            u = "u0",
+            post_data;
+
+        // Set default 'options' in case it's not passed (prevents "Cannot
+        // read property 'new_thread' of undefined." errors)
+        options = options || {
+            new_thread: false,
+            quote: false
+        };
+
+        if (in_post) {
+            show_speed = 100;
+            $element = in_post;//.children(".post_foot");
+            FORJ.ui.btnCancelReply.button("enable");
+
+            post_data = FORJ.getData(in_post);
+            FORJ.setData(FORJ.ui.replybox, post_data);
+
+            u = (FORJ.status.editing_post ?
+                post_data.reply_user :
+                post_data.user_id);
+        } else {
+            show_speed = 0;
+            $element = FORJ.ui.post_buttons_next;
+            FORJ.ui.btnCancelReply.button(options.new_thread ? 
+                "enable" : "disable");
         }
+
+        FORJ.ui.replybox.
+            detach().
+            insertAfter($element).
+            show();
+            FORJ.ui.selReplyTo.selectmenu("value", u+"");
+        if (in_post) {
+            FORJ.ui.replybox.find("textarea").focus();
+
+            if (options.quote) {
+                FORJ.ui.replybox.find("textarea").
+                    val(FORJ.makeQuote(post_data.body)).
+                    trigger("keyup");
+            }
+        }
+
     },
 
-    config: {
-        default_post_data: {
-            user_id: 0,
-            reply_user: 0,
-            post_index: 0,
-            id: 0,
-            body: ""
-        },
-        show_unread: false,     // Modified by the 'Threads:' select menu and
-                                // read by populateThreadList()
-        unread_priority: false, // put folders/threads with unread messages before
-                                // others
-        limit: 50, // max number of posts to load at once
-        precache: false, // doesn't do anything yet
-        MAX_POST_LENGTH: 10000,
-        post_preview_target: ".post_body",
+    hideReplyBox: function() {
+        FORJ.ui.btnPostReply.button("enable");
+        FORJ.setData(FORJ.ui.replybox);
+        FORJ.ui.showReplyBox();
+        //});
+    }
+};
 
-        delete_post_url: "/delete_post/",
-        delete_thread_url: "/delete_thread/",
-        edit_post_url: "/edit_post/",
-        edit_folder_url: "/edit_folder/",
-        edit_user_url: "/edit_user/",
-        delete_folder_url: "/delete_folder/",
-        posts_url: "/posts",
-        users_url: "/users",
-        threads_url: "/msg_threads",
-        new_folder_url: "/folders",
-        reply_url: "/posts?reply_user="
+FORJ.status = {
+    current_thread: 0, previous_thread: 0,
+    editing_post: undefined,
+    offset_top: 0, offset_bottom: 0,
+    prev_txt: "",
+    current_user: {
+        id: parseInt(($("#sign input").val()).slice(1), 10) || 0,
+        rank: +($("#sign input").val()).slice(0, 1) || 0,
+        unread_counts: []
+    }
+};
+
+FORJ.emospan = function(emote) {
+    return '<span class="emote #"></span>'.replace("#", emote);
+};
+
+FORJ.config = {
+    // This defines the CSS class each emote should have. Sequences are
+    // converted to upper case and have the 'nose' - removed first, to avoid
+    // the need to define each variation (uppercase, lowercase, with and
+    // without nose).
+    emotes: {
+        ":)": "smile",
+        ":(": "sad",
+        ":D": "joy",
+        ":'(": "cry",
+        ":P": "tongue",
+        ":$": "shame",
+        ":O": "gasp",
+        ":|": "unamused",
+        ":@": "angry",
+        ":/": "unsure",
+        ":\\": "unsure",
+        ":S": "erm",
+        ":C": "grumpy",
+        ":&": "yuck",
+        ":'D": "joytear",
+        "|(": "fail",
+        ":{": "tache",
+        "8)": "cool", // '8D' might occur too regularly in normal text
+        
+        ":99:": "rolleyes",
+        ":FAIL:": "fail",
+
+        ";)": "wink",
     },
+    default_post_data: {
+        user_id: 0,
+        reply_user: 0,
+        post_index: 0,
+        id: 0,
+        body: ""
+    },
+    show_unread: false,     // Modified by the 'Threads:' select menu and
+                            // read by populateThreadList()
+    unread_priority: false, // put folders/threads with unread messages before
+                            // others
+    limit: 50, // max number of posts to load at once
+    precache: false, // doesn't do anything yet
+    MAX_POST_LENGTH: 10000,
+    post_preview_target: ".post_body",
 
-    folders: [],
-    threads: [],
-    post_cache: {}
-}; // if (FORJ is undefined)
+    delete_post_url: "/delete_post/",
+    delete_thread_url: "/delete_thread/",
+    edit_post_url: "/edit_post/",
+    edit_folder_url: "/edit_folder/",
+    edit_user_url: "/edit_user/",
+    delete_folder_url: "/delete_folder/",
+    posts_url: "/posts",
+    users_url: "/users",
+    threads_url: "/msg_threads",
+    new_folder_url: "/folders",
+    reply_url: "/posts?reply_user="
+};
+
+FORJ.folders = [];
+FORJ.threads = [];
+FORJ.post_cache = {};
 
 FORJ.setData = function($obj, data) {
     // Set post-related data on $obj, using defaults if no second parameter
@@ -200,6 +233,62 @@ FORJ.makeQuote = function(text) {
     return quoted.replace(/> (\[.+?\]:)/g, "$1");
 };
 
+FORJ.emotify = function(inp) {
+    // Emoticon conversion:
+    // First, it removes all <code> and "quoted" parts, and stores them.
+    // Next, it searches for any remaining emotes and converts them to the
+    // appropriate <span> tag.
+    // Finally it converts the previously stored parts back into
+    // their original forms.
+
+    var codeblock = /(<code(?:[^>]*)>[^<]*)<\/code>/i,
+        codeblocks = [],
+        quotedblock = /\w+="[^"]+"/,
+        quotedblocks = [],
+        // This is the regex that defines the emoticons the application will
+        // detect:
+        emote = /(?:[:;|8]'?-?[)(DpP$oOsScC\/\\{&|@])|(?::(?:99|fail):)/g,
+        i = 0;
+
+    // Remove <code> and "quoted" parts, and store them for later
+    for (i = 0; codeblock.test(inp); i += 1) {
+        inp = inp.replace(codeblock, function() {
+                codeblocks[i] = arguments[1];
+                return [
+                    "FORJ_CODEBLOCK", i,
+                    "</code>"].join("");
+            });
+    }
+
+    for (i = 0; quotedblock.test(inp); i += 1) {
+        inp = inp.replace(quotedblock, function() {
+                quotedblocks[i] = arguments[0];
+                return ["FORJ_QUOTEDBLOCK", i].join("");
+            });
+    }
+
+    // Replace remaining emote sequences with appropriate <span>s, or just
+    // return the emote sequence if the appropriate tag can't be found
+    inp = inp.replace(emote, function(m) {
+            var em = FORJ.config.emotes[m.replace("-", "").toUpperCase()];
+            return em ? FORJ.emospan(em) : m;
+        });
+
+    // Restore <code> and "quoted" blocks
+    i = -1;
+    inp = inp.replace(/FORJ_CODEBLOCK\d{1,4}/g, function() {
+            i += 1;
+            return codeblocks[i];
+        });
+    i = -1;
+    inp = inp.replace(/FORJ_QUOTEDBLOCK\d{1,4}/g, function() {
+            i += 1;
+            return quotedblocks[i];
+        });
+
+    return inp;
+};
+
 FORJ.markup = function(inp) {
     // Converts the Markdown-formatted input into sanitised HTML
     if (typeof inp === "string") {
@@ -215,80 +304,7 @@ FORJ.markup = function(inp) {
         inp = inp.replace(/(<.+?style\s*?=\s*?")(.*?)(position\s*?:\s*?(absolute|relative|fixed);?)(.*?">)/gi,
             "$1$2$5");
 
-        // Emoticon conversion:
-        // First, it removes all <code> and "quoted" parts, and stores them.
-        // Next, it searches for any remaining emotes and converts them to the
-        // appropriate <span> tag.
-        // Finally it converts the previously stored parts back into
-        // their original forms.
-        var codeblock = /(<code(?:[^>]*)>[^<]*)<\/code>/i,
-            codeblocks = [],
-            quotedblock = /\w+="[^"]+"/,
-            quotedblocks = [],
-            emote = /[:;]'?-?[)(DpP$oO|@]/g,
-            i = 0,
-            emospan = '<span class="emote #"></span>',
-            emotes = {
-                ":)": emospan.replace("#", "smile"),
-                ":-)": emospan.replace("#", "smile"),
-                ":(": emospan.replace("#", "sad"),
-                ":-(": emospan.replace("#", "sad"),
-                ":D": emospan.replace("#", "joy"),
-                ":-D": emospan.replace("#", "joy"),
-                ":'(": emospan.replace("#", "cry"),
-                ":'-(": emospan.replace("#", "cry"),
-                ":P": emospan.replace("#", "tongue"),
-                ":-P": emospan.replace("#", "tongue"),
-                ":p": emospan.replace("#", "tongue"),
-                ":-p": emospan.replace("#", "tongue"),
-                ":$": emospan.replace("#", "shame"),
-                ":-$": emospan.replace("#", "shame"),
-                ":o": emospan.replace("#", "gasp"),
-                ":O": emospan.replace("#", "gasp"),
-                ":-o": emospan.replace("#", "gasp"),
-                ":-O": emospan.replace("#", "gasp"),
-                ":|": emospan.replace("#", "unamused"),
-                ":-|": emospan.replace("#", "unamused"),
-                ":@": emospan.replace("#", "angry"),
-                ":-@": emospan.replace("#", "angry"),
-                ";)": emospan.replace("#", "wink"),
-                ";-)": emospan.replace("#", "wink")
-            };
-
-        // Remove <code> and "quoted" parts, and store them for later
-        for (i = 0; codeblock.test(inp); i += 1) {
-            inp = inp.replace(codeblock, function() {
-                    codeblocks[i] = arguments[1];
-                    return [
-                        "FORJ_CODEBLOCK", i,
-                        "</code>"].join("");
-                });
-        }
-
-        for (i = 0; quotedblock.test(inp); i += 1) {
-            inp = inp.replace(quotedblock, function() {
-                    quotedblocks[i] = arguments[0];
-                    return ["FORJ_QUOTEDBLOCK", i].join("");
-                });
-        }
-
-        // Replace remaining emote sequences with appropriate <span>s, or just
-        // return the emote sequence if the appropriate tag can't be found
-        inp = inp.replace(emote, function(m) {
-                return emotes[m] || m;
-            });
-
-        // Restore <code> and "quoted" blocks
-        i = -1;
-        inp = inp.replace(/FORJ_CODEBLOCK\d{1,4}/g, function() {
-                i += 1;
-                return codeblocks[i];
-            });
-        i = -1;
-        inp = inp.replace(/FORJ_QUOTEDBLOCK\d{1,4}/g, function() {
-                i += 1;
-                return quotedblocks[i];
-            });
+        inp = FORJ.emotify(inp);
 
         // Convert <script> to HTML character escaped plain text
         return inp.replace(/<(\/)?script/gi, "&lt;$1script");
