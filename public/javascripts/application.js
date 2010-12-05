@@ -246,9 +246,10 @@ FORJ.emotify = function(inp) {
         quotedblock = /\w+="[^"]+"/,
         quotedblocks = [],
         // This is the regex that defines the emoticons the application will
-        // detect. 'Face-style' emotes must not have a / after them (it causes
-        // problems with how URLs are displayed).
-        emote = /(?:([>\s])[:;|8]'?-?(?:[()DpP$oOsScC\/\\{|@]|&amp;))|(?::(?:99|fail):)/g,
+        // detect. 'Face-style' emotes must not have a whitespace or '>' before
+        // them (the '>' is so emotes can appear at the start of paragraphs and
+        // other HTML elements).
+        emote = /([>\s])(?:[:;|8]'?-?(?:[()DpP$oOsScC\/\\{|@]|&amp;)|(?::(?:99|fail):))/g,
         i = 0;
 
     // Remove <code> and "quoted" parts, and store them for later
