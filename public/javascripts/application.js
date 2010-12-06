@@ -1373,6 +1373,9 @@ FORJ.initForum = function(config) {
         removeAttr("id").
         removeClass("unfouc");
 
+    FORJ.ui.post_buttons_prev.removeClass("unfouc");
+    FORJ.ui.post_buttons_next.removeClass("unfouc");
+
     console.log("Current user: ", FORJ.status.current_user.id);
     console.log("Rank:", FORJ.status.current_user.rank);
 
