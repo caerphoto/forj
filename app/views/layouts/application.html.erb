@@ -9,6 +9,12 @@
   <%= stylesheet_link_tag "colours.css" %>
   <%= stylesheet_link_tag "emotes.css" %>
   <%= csrf_meta_tag %>
+  <style>
+      .unfouc {
+          /* Prevent elements from being visible before JavaScript loads */
+          margin-left: -10000px;
+      }
+  </style>
 </head>
 <body class="clr0">
     <div id="header" class="clr1">

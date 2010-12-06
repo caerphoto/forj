@@ -1141,7 +1141,7 @@ FORJ.initUserEditor = function() {
             ];
 
 
-        dlg.dialog({
+        dlg.removeClass("unfouc").dialog({
             autoOpen: false,
             modal: true,
             title: "User Details"
@@ -1247,7 +1247,7 @@ FORJ.initFolderEditor = function() {
 
         tbxName = $("#tbxFE_Name");
 
-        _dlg.dialog({
+        _dlg.removeClass("unfouc").dialog({
             autoOpen: false,
             modal: true,
             buttons: {
@@ -1369,10 +1369,10 @@ FORJ.initForum = function(config) {
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
     FORJ.loadThreadsList();
 
-    // Load post template
     FORJ.ui.post_fragment.detach().
         removeAttr("id").
-        removeClass("hidden");
+        removeClass("unfouc");
+
     console.log("Current user: ", FORJ.status.current_user.id);
     console.log("Rank:", FORJ.status.current_user.rank);
 
