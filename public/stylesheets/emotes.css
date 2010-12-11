@@ -7,6 +7,10 @@
     background-image: url("/images/emotes.png");
 }
 
+.emote span {
+    display: none;
+}
+
 .emote.fail { background-position: 0px 0px }
 .emote.tache { background-position: -12px 0px }
 .emote.cool { background-position: -24px 0px }

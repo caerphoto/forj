@@ -141,10 +141,7 @@ FORJ.status = {
     }
 };
 
-FORJ.emospan = function(emote) {
-    return '<span class="emote #"></span>'.replace("#", emote);
-};
-
+FORJ
 FORJ.config = {
     // This defines the CSS class each emote should have. Sequences are
     // converted to upper case and have the 'nose' - removed first, to avoid
@@ -241,6 +238,20 @@ FORJ.emotify = function(inp) {
     // Finally it converts the previously stored parts back into
     // their original forms.
 
+    var emospan = function(emo) {
+        // Converts the given emote sequence into its HTML/CSS representation,
+        // if possible, otherwise just returns the sequence as text
+        var simple_emote = emo.replace("-", "").toUpperCase().slice(1),
+            emote_class = FORJ.config.emotes[simple_emote];
+        return emote_class ?
+            [
+                '<span class="emote ', emote_class, '">',
+                '<span>', emo, '</span>',
+                '</span>'
+            ].join("") :
+            emo.slice(1);
+    };
+
     var codeblock = /(<code(?:[^>]*)>[^<]*)<\/code>/i,
         codeblocks = [],
         quotedblock = /\w+="[^"]+"/,
@@ -272,9 +283,7 @@ FORJ.emotify = function(inp) {
     // Replace remaining emote sequences with appropriate <span>s, or just
     // return the emote sequence if the appropriate tag can't be found
     inp = inp.replace(emote, function(m) {
-            // Remove 'nose' dash and convert to uppercase
-            var em = FORJ.config.emotes[m.replace("-", "").toUpperCase().slice(1)];
-            return em ? arguments[1] + FORJ.emospan(em) : m;
+            return arguments[1] + emospan(m);
         });
 
     // Restore <code> and "quoted" blocks
@@ -1360,18 +1369,19 @@ FORJ.initForum = function(config) {
     FORJ.initUserEditor();
     FORJ.initFolderEditor();
 
+    $(".post").removeClass("unfouc");
     FORJ.createPostPreview();
     FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox.find("#post_preview_info"));
 
     FORJ.ui.replybox_thread_title.hide();
+    FORJ.ui.replybox.removeClass("unfouc");
     FORJ.ui.replybox.hide();
 
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
     FORJ.loadThreadsList();
 
     FORJ.ui.post_fragment.detach().
-        removeAttr("id").
-        removeClass("unfouc");
+        removeAttr("id");
 
     FORJ.ui.post_buttons_prev.removeClass("unfouc");
     FORJ.ui.post_buttons_next.removeClass("unfouc");
