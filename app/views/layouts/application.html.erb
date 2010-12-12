@@ -44,7 +44,15 @@
     </div> <!-- #footer -->
     <div id="log"></div>
 
+  <%=  javascript_include_tag "http://code.jquery.com/jquery-1.4.4.min.js" %>
+  <%=  javascript_include_tag "jquery-ui-all-min.js" %>
+  <%=  javascript_include_tag "showdown-underscore-min.js" %>
 
-    <%= javascript_include_tag "jquery-min", "scrollto-min", "jquery-ui-min", "jquery-ui-selectmenu", "underscore-min", "showdown-min", "application", :cache => true %>
+    <script>
+        var se = document.createElement("script");
+        se.src = "javascripts/application.js";
+        document.getElementsByTagName("head")[0].appendChild(se);
+    </script>
+
 </body>
 </html>
