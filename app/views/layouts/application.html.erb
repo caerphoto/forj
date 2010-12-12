@@ -11,9 +11,10 @@
   <%= csrf_meta_tag %>
   <style>
       .unfouc {
-          /* Prevent elements from being visible before JavaScript loads */
-          margin-left: -10000px;
-          visibility: hidden;
+          /* Prevent certain elements from being visible before JavaScript loads */
+          position: absolute;
+          top: -10000px;
+          left: -10000px;
       }
   </style>
 </head>
