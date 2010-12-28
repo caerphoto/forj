@@ -8,4 +8,13 @@ class Folder < ActiveRecord::Base
             thread.save
         end
     end
+
+    def to_h
+        {
+            :name => self.name,
+            :id => self.id,
+            :threads => [],
+            :thread_count => self.msg_threads.length
+        }
+    end
 end

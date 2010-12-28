@@ -40,53 +40,14 @@ end
 
 class UsersController < ApplicationController
     # Nothing fancy in here - most actions just return JSON data
-    def get_basic_user_details(user)
-        unless user.nil?
-            result = {
-                :name => user.name,
-                :id => user.id,
-            }
-        else
-            result = {
-                :name => "(unknown)",
-                :id => 0,
-            }
-        end
-    end
-
-#     var user = {
-#             id: 0,
-#             name: "",
-#             email: "",
-#             rank: -1,
-#             last_login: ""
-#         },
-
-    def get_full_user_details(user)
-        if user.nil?
-            return nil
-        else
-            result = get_basic_user_details(user)
-            result.merge!(
-                :last_login => format_date(user.last_sign_in_at),
-                :rank => user.rank)
-
-            if user_signed_in? and current_user.rank > 0
-                result.merge!({
-                    :email => user.email,
-                    :id => user.id
-                })
-            end
-            return result
-        end
-    end
-
     def show
         user = User.find(params[:id].to_i)
-
-        result = get_full_user_details(user)
-
-        render :json => result.to_json
+        if user_signed_in?
+            rank = current_user.rank
+        else
+            rank = 0
+        end
+        render :json => user.to_h_full(rank).to_json
     end
 
     def index
@@ -95,7 +56,7 @@ class UsersController < ApplicationController
         result = []
 
         allusers.each do |user|
-            result.push get_basic_user_details(user)
+            result.push user.to_h_basic
         end
         render :json => result.to_json
     end

@@ -46,13 +46,13 @@
     </div> <!-- #footer -->
     <div id="log"></div>
 
-  <%=  javascript_include_tag "http://code.jquery.com/jquery-1.4.4.min.js" %>
+  <%=  javascript_include_tag "jquery-min.js" %>
   <%=  javascript_include_tag "jquery-ui-all-min.js" %>
   <%=  javascript_include_tag "showdown-underscore-min.js" %>
 
     <script>
         var se = document.createElement("script");
-        se.src = "javascripts/application.js";
+        se.src = "/javascripts/application.js";
         document.getElementsByTagName("head")[0].appendChild(se);
     </script>
 

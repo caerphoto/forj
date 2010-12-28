@@ -444,15 +444,19 @@ FORJ.createPost = function(p) {
             "#", FORJ.status.current_thread,
             "/", (p.post_index + 1)
             ].join(""));
-    $post.find(".post_head_from").
-        attr("href", [FORJ.config.users_url, p.from.id].join("/")).
-        data("id", p.from.id).
-        text(p.from.name);
-    if (p.to_user.id === 0) {
-        $post.find(".post_head_to").after(
-            document.createTextNode(p.to_user.name));
-        $post.find(".post_head_to").remove();
-    } else {
+
+    if (p.from) {
+        $post.find(".post_head_from").
+            attr("href", [FORJ.config.users_url, p.from.id].join("/")).
+            data("id", p.from.id).
+            text(p.from.name);
+    } else { // No 'from' info, so post was made anonymously
+        $post.find(".post_head_from").after(
+            document.createTextNode("(anonymous)"));
+        $post.find(".post_head_from").remove();
+    }
+
+    if (p.to_user) {
         $post.find(".post_head_to").
             attr("href", p.to_user.id ?
                 [FORJ.config.users_url, p.to_user.id].join("/") :
@@ -460,6 +464,10 @@ FORJ.createPost = function(p) {
             ).
             data("id", p.to_user.id).
             text(p.to_user.name);
+    } else { // No 'to' info, so post is to '(all)'
+        $post.find(".post_head_to").after(
+            document.createTextNode("(all)"));
+        $post.find(".post_head_to").remove();
     }
 
     $post.find(".post_head_date").
@@ -499,8 +507,8 @@ FORJ.createPost = function(p) {
     }
 
     FORJ.setData($post, {
-        user_id: p.from.id,
-        reply_user: p.to_user.id,
+        user_id: p.from ? p.from.id : 0,
+        reply_user: p.to_user ? p.to_user.id : 0,
         post_index: p.post_index,
         id: p.id,
         body: p.body
@@ -788,6 +796,18 @@ FORJ.populateThreadsList = function(folders) {
     FORJ.ui.selThreadFolder.selectmenu("destroy");
     FORJ.ui.selThreadFolder.empty();
 
+    // Do a quick scan through to see if the total unread count is 0. If so,
+    // show all threads.
+    var total_unread = 0;
+    _(folders).each(function(folder) {
+        _(folder.threads).each(function(thread) {
+            total_unread += thread.unread_count;
+        });
+    });
+    if (total_unread === 0) {
+        FORJ.config.show_unread = true;
+    }
+
     _(folders).each(function(folder) {
         var new_folder = $("<li />").
             data("id", folder.id).
@@ -852,6 +872,10 @@ FORJ.populateThreadsList = function(folders) {
         style: "dropdown",
         width: "20em"
     });
+
+    if (FORJ.config.show_unread) {
+        FORJ.ui.selThreadsView.selectmenu("value", "ALL");
+    }
 
     FORJ.folders = folders;
     FORJ.ui.folders_loading_msg.fadeOut(100);

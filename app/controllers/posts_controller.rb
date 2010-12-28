@@ -157,24 +157,6 @@ EOS
 
     lorem = lorem.gsub!(/ \./,'.')
 end
-
-def get_post_user_info(user)
-    # Kinda like get_user_details, except it returns info pertinent to posts
-    unless user.nil?
-        {
-            :name => user.name,
-            :sig => user.sig,
-            :id => user.id
-        }
-    else
-        {
-            :name => "(all)",
-            :sig => "no sig",
-            :id => 0
-        }
-    end
-end
-
 def format_date(date)
     date_str = date.strftime(" at %H:%M")
 
@@ -200,18 +182,6 @@ def format_date(date)
     end
 end
 
-
-def get_post_info(post)
-    { :from => get_post_user_info(post.user),
-      :to_index => post.reply_index,
-      :to_user => get_post_user_info(post.reply_user),
-      :date => format_date(post.created_at),
-      :post_index => post.post_index,
-      :body => post.content,
-      :thread => post.msg_thread_id,
-      :id => post.id
-    }
-end
 
 def create_post thread, post_details
     thread.posts.build(
@@ -251,20 +221,23 @@ class PostsController < ApplicationController
             :offset => params[:offset],
             :include => [:user, :reply_user]
         ).each do |post|
-            post_array.push get_post_info(post)
+            post_array.push post.to_h #get_post_info(post)
         end
 
         post_count = params[:offset].to_i + params[:limit].to_i
 
         post_count = thread.posts.length if post_count > thread.posts.length
-        update_last_read thread.id, post_count
+
+        if user_signed_in?
+            current_user.update_last_read thread.id, post_count
+        end
 
         result = [
             {
                 :posts => post_array,
                 :count => thread.posts.length
             },
-            get_thread_info(thread)
+            thread.to_h
         ]
 
         render :json => result.to_json
@@ -288,13 +261,13 @@ class PostsController < ApplicationController
                 :reply_user_id => params[:reply_user].to_i
             thread.save
 
-            render :json => get_post_info(thread.posts.last)
+            render :json => thread.posts.last.to_h.to_json
         end
     end
 
     def show
         post = Post.find(params[:id])
-        render :json => get_post_info(post).to_json
+        render :json => post.detail_hash.to_json
     end
 
     def destroy
@@ -305,18 +278,12 @@ class PostsController < ApplicationController
         end
 
         if post.post_index == 0
+            # Destroy thread if first post is deleted
             thread = MsgThread.find(post.msg_thread_id)
-            # This is no longer necessary since it's implemented as a callback
-            # in the MsgThread model
-#             allposts = Post.find(:all,
-#                                  :conditions => ["msg_thread_id = ?",
-#                                                  post.msg_thread_id])
-#             allposts.each do |eachpost|
-#                 eachpost.destroy
-#             end
-            thread.destroy
+            thread.destroy # callback in thread model deletes all thread's posts
             render :json => nil
         else
+            # Find post_index of next post, then delete post
             thread_posts = Post.find(:all,
                                      :conditions => ["msg_thread_id = ?",
                                                      post.msg_thread_id],
@@ -348,6 +315,6 @@ class PostsController < ApplicationController
         post.reply_user_id = params[:reply_user].to_i
         post.save
 
-        render :json => get_post_info(post).to_json
+        render :json => post.detail_hash.to_json
     end
 end

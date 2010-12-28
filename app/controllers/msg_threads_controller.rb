@@ -1,11 +1,3 @@
-def reset_folder_ids
-  # Not necessary any more - a leftover from before I'd implemented folders
-  MsgThread.all.each do |thread|
-      thread.folder_id = 0
-      thread.save
-  end
-end
-
 def user_clearance
     clearance = 0
     if user_signed_in?
@@ -13,38 +5,6 @@ def user_clearance
         clearance += current_user.rank
     end
     return clearance
-end
-
-def get_folder_info(folder)
-    { :name => folder.name,
-      :id => folder.id,
-      :threads => [],
-      :thread_count => folder.msg_threads.length }
-end
-
-def get_thread_info(thread)
-    f = thread.folder.nil? ? 0 : thread.folder.id
-
-    last_read = 0
-    if user_signed_in? and current_user.last_read
-        # Extract the number of posts the user has read in this thread, if
-        # possible
-        m = current_user.last_read.match(/(^|,)#{thread.id}:(\d+)(,|$)/)
-        if m
-            last_read = m[2].to_i
-        else
-            last_read = 0
-        end
-    end
-
-    unread_count = thread.posts.length - last_read
-    unread_count = 0 if unread_count < 0
-
-    { :title => thread.title,
-      :id => thread.id,
-      :folder_id => f,
-      :unread_count => unread_count,
-      :post_count => thread.posts.length }
 end
 
 class MsgThreadsController < ApplicationController
@@ -56,14 +16,15 @@ class MsgThreadsController < ApplicationController
             :include => :msg_threads,
             :conditions => "clearance <= #{user_clearance}")
 
+        last_read = user_signed_in? ? current_user.last_read : ""
         # Add each folder, and for each folder, add info for its threads
         folders.each do |folder|
-            f = get_folder_info(folder)
+            f = folder.to_h
 
             folder.msg_threads.all(
                 :order => "updated_at DESC"
             ).each do |thread|
-                f[:threads].push get_thread_info(thread)
+                f[:threads].push thread.to_h last_read
             end
 
             result.push f
@@ -76,8 +37,11 @@ class MsgThreadsController < ApplicationController
             :order => "updated_at DESC")
         result.push :name => "Uncategorised", :id => 0, :threads => [],
             :thread_count => threads.length
+
+        # Need to make a class variable available because the user_signed_in?
+        # and current_user helpers are not accessible from within model methods
         threads.each do |thread|
-            result.last[:threads].push get_thread_info(thread)
+            result.last[:threads].push thread.to_h last_read
         end
 
         render :json => result.to_json
@@ -105,7 +69,7 @@ class MsgThreadsController < ApplicationController
 
         thread.save
 
-        render :json => get_post_info(thread.posts.first).to_json
+        render :json => thread.posts.first.to_h.to_json
     end
 
     def destroy
