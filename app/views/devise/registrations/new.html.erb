@@ -11,10 +11,11 @@
 
   <p><%= f.label "E-mail" %>:<br />
   <%= f.text_field :email, :class => "signtextbox" %><br />
-  <em>This is what you will use to sign in.</em></p>
+  <em>This is what you will use to sign in. Only forum administrators can see this &ndash; it is not shown to normal users.</em></p>
 
   <p><%= f.label :password %>:<br />
-  <%= f.password_field :password, :class => "signtextbox" %></p>
+  <%= f.password_field :password, :class => "signtextbox" %><br />
+  <em>Maximum length is 20 characters. You can use any characters you like.</em></p>
 
   <p><%= f.label "Confirm password" %>:<br />
   <%= f.password_field :password_confirmation, :class => "signtextbox" %></p>

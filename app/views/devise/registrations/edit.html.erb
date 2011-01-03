@@ -14,18 +14,21 @@
   <p><%= f.label :password_confirmation, "Confirm new password:" %><br />
   <%= f.password_field :password_confirmation, :class => "signtextbox" %></p>
 
-  <p><%= f.label :current_password, "Current password:" %><br />
-  <%= f.password_field :current_password, :class => "signtextbox" %><br />
-  <em>We need your current password to confirm your changes.</em></p>
-
   <div id="sigeditor">
   <h3>Signature</h3>
   <p>This is a preview of what your signature will look like in posts. Edit the text in the box below it to your liking:</p>
+  <ul>
   <%= render :partial => "layouts/post_partial" %>
-  <%= f.text_area :sig, :rows => 5 %>
-  <p>Signature is <span id="post_length">0</span> characters (maximum
-  <span id="max_post_length">300</span>).
+  </ul>
+  <p>Edit signature:<br />
+  <%= f.text_area :sig, :rows => 5 %><br />
+  <em>Signature is <span id="post_length">0</span> characters (maximum
+      <span id="max_post_length">300</span>).</em></p>
   </div>
+
+  <p><%= f.label :current_password, "Current password:" %><br />
+  <%= f.password_field :current_password, :class => "signtextbox" %><br />
+  <em>This is a security precaution to prevent unauthorised changes being made in case you accidentally leave yourself logged in.</em></p>
 
   <p><%= f.submit "Update" %></p>
 <% end %>

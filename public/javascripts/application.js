@@ -1425,6 +1425,7 @@ FORJ.initOther = function() {
 
     // Create a clone of #post_fragment, insert it before the original, then
     // remove the original
+    $(".post").removeClass("unfouc");
     FORJ.createPostPreview(true); // true will point the preview updater at .post_sig
     FORJ.ui.post_preview.insertBefore(FORJ.ui.post_fragment);
     FORJ.ui.post_fragment.remove();
