@@ -1,15 +1,12 @@
-def user_clearance
-    clearance = 0
-    if user_signed_in?
-        clearance += 1
-        clearance += current_user.rank
-    end
-    return clearance
-end
-
 class MsgThreadsController < ApplicationController
     def index
         result = []
+
+        if user_signed_in?
+            user_clearance = current_user.rank
+        else
+            user_clearance = 0
+        end
 
         folders = Folder.all(
             :order => "updated_at DESC",
