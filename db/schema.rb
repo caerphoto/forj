@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(:version => 20101122002322) do
     t.integer  "user_id"
     t.integer  "msg_thread_id"
     t.integer  "reply_index",                    :default => 0
-    t.text     "content",       :limit => 10000
+    t.text     "content"
     t.integer  "post_index"
     t.datetime "created_at"
     t.datetime "updated_at"
