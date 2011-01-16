@@ -72,7 +72,7 @@ class PostsController < ApplicationController
 
     def show
         post = Post.find(params[:id])
-        render :json => post.detail_hash.to_json
+        render :json => post.to_h.to_json
     end
 
     def destroy
