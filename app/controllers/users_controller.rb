@@ -75,7 +75,15 @@ class UsersController < ApplicationController
         render :text => "UPDATE_OK"
     end
 
-  def new
+  def create
+      puts "*************************************************************"
+      puts "Creating NEW USER, count:"
+      puts User.count
+      user = User.count == 1
+      if user.id == 1
+          user.rank = 3
+          user.save
+      end
   end
 
 end

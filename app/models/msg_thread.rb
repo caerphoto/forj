@@ -44,6 +44,8 @@ class MsgThread < ActiveRecord::Base
     # Ensure folder is marked as updated when a new thread is added to it, so
     # folders can be sorted properly
     def timestamp_folder
-        folder.update_attribute(:updated_at, Time.now)
+        unless folder.nil?
+            folder.update_attribute(:updated_at, Time.now)
+        end
     end
 end

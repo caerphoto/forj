@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+    include CommonFunctions
+
     # Include default devise modules. Others available are:
     # :token_authenticatable, :confirmable, :lockable and :timeoutable
     devise :database_authenticatable, :registerable,
@@ -15,6 +17,8 @@ class User < ActiveRecord::Base
     validates :name,
         :presence => true,
         :uniqueness => { :case_sensitive => false }
+
+    after_create :maybe_admin
 
     def update_last_read(thread_id, post_count)
         # Read the user's last_read string, then see if the given thread is
@@ -70,5 +74,14 @@ class User < ActiveRecord::Base
             })
         end
         return result
+    end
+
+    private
+    def maybe_admin
+        # If this is the only user, make it an administrator
+        if User.count == 1
+            self.rank = 3
+            self.save
+        end
     end
 end

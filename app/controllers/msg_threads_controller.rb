@@ -8,6 +8,8 @@ def user_clearance
 end
 
 class MsgThreadsController < ApplicationController
+    include CommonFunctions
+
     def index
         result = []
 
@@ -48,14 +50,14 @@ class MsgThreadsController < ApplicationController
     end
 
     def create
-        folder = Folder.find(params[:folder])
+        folder = Folder.exists?(0) ? Folder.find(params[:folder]) : nil
         # Put the new thread in 'Uncategorised' if user does not have
         # sufficient clearance to post in the given folder. This is a security
         # precaution, since on client side the user won't even see folders to
         # which they don't have access, but it prevents access via query
         # string manipulation.
-        if folder.clearance > user_clearance
-            thread = MsgThreads.build(
+        if folder.nil? or folder.clearance > user_clearance
+            thread = MsgThread.create(
                 :title => params[:title],
                 :folder_id => 0
             )
