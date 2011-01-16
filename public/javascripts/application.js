@@ -1167,6 +1167,7 @@ FORJ.initUserEditor = function() {
             UE_loading = $("#UE_loading"),
             UE_last_login = $("#UE_last_login"),
             ranks = [
+                "Anonymous",
                 "Normal user",
                 "Moderator",
                 "Admin"
@@ -1251,6 +1252,7 @@ FORJ.initUserEditor = function() {
                         user = user_info;
                         UE_name.text(user.name);
                         UE_email.text(user.email);
+                        console.log("Rank of user:", user.rank);
                         UE_rank.text(ranks[user.rank] || "Forum owner");
 
                         dlg.find("input[name='user_type']").each(function() {

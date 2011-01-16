@@ -81,6 +81,9 @@ class User < ActiveRecord::Base
         if User.count == 1
             self.rank = 3
             self.save
+        else # Otherwise make it a normal user
+            self.rank = 1
+            self.save
         end
     end
 end
