@@ -13,6 +13,7 @@ class Folder < ActiveRecord::Base
         {
             :name => self.name,
             :id => self.id,
+            :clearance => self.clearance,
             :threads => [],
             :thread_count => self.msg_threads.length
         }

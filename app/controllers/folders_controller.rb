@@ -24,9 +24,10 @@ class FoldersController < ApplicationController
             return render :text => "UNAUTHORISED"
         end
 
+        folder.clearance = params[:clearance]
         folder.name = params[:newname]
         folder.save
 
-        render :text => folder.name
+        render :json => { :name => folder.name, :clearance => folder.clearance }.to_json
     end
 end

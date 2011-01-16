@@ -141,7 +141,6 @@ FORJ.status = {
     }
 };
 
-FORJ
 FORJ.config = {
     // This defines the CSS class each emote should have. Sequences are
     // converted to upper case and have the 'nose' - removed first, to avoid
@@ -1300,22 +1299,39 @@ FORJ.initFolderEditor = function() {
                 },
                 "OK": function() {
                     var url = FORJ.config.edit_folder_url + folder.id + "?",
-                        self = this;
-                    url += [
-                        "newname=", encodeURIComponent(tbxName.val())
-                    ].join("");
+                        self = this,
+                        clearance = -1;
 
-                    $.post(url, function(newname) {
-                        _(FORJ.folders).each(function(f) {
-                            if (f.id === folder.id) {
-                                f.name = newname;
-                                FORJ.populateThreadsList(FORJ.folders);
-                                _.breakLoop();
+                    $(self).find("input[name='clearance']").each(function () {
+                            if ($(this).attr("checked")) {
+                                clearance = +($(this).val());
+                                return false;
                             }
-                        });
-
-                        $(self).dialog("close");
                     });
+
+                    console.log("clearance =", clearance);
+                    if (clearance === -1) {
+                        console.log("Failed to get new clearance.");
+                        $(self).dialog("close");
+                    } else {
+                        url += [
+                            "clearance=", clearance,
+                            "&newname=", encodeURIComponent(tbxName.val())
+                        ].join("");
+
+                        $.post(url, function(newdata) {
+                            _(FORJ.folders).each(function(f) {
+                                if (f.id === folder.id) {
+                                    f.name = newdata.name;
+                                    f.clearance = newdata.clearance;
+                                    FORJ.populateThreadsList(FORJ.folders);
+                                    _.breakLoop();
+                                }
+                            });
+
+                            $(self).dialog("close");
+                        });
+                    }
                 },
                 "Cancel": function() {
                     $(this).dialog("close");
@@ -1327,7 +1343,20 @@ FORJ.initFolderEditor = function() {
             // Public methods
             open: function(folder_id) {
                 folder = FORJ.getFolderFromId(folder_id);
+
+                console.log("Folder clearance:", folder.clearance);
+
                 tbxName.val(folder.name);
+                _dlg.find("input[type=radio]").removeAttr("checked");
+
+                _dlg.find("input[name='clearance']").each(function () {
+                        console.log("Radiobutton.val:", $(this).val());
+                        if ($(this).val() == folder.clearance) {
+                            $(this).attr("checked", "checked");
+                            return false;
+                        }
+                });
+
                 _dlg.dialog("option", "title", "Edit Folder: " + folder.name);
                 _dlg.dialog("open");
                 tbxName.focus();
