@@ -8,8 +8,6 @@ def user_clearance
 end
 
 class MsgThreadsController < ApplicationController
-    include CommonFunctions
-
     def index
         result = []
 
