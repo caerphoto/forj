@@ -48,7 +48,7 @@ class MsgThreadsController < ApplicationController
     end
 
     def create
-        folder = Folder.exists?(0) ? Folder.find(params[:folder]) : nil
+        folder = Folder.exists?(params[:folder]) ? Folder.find(params[:folder]) : nil
         # Put the new thread in 'Uncategorised' if user does not have
         # sufficient clearance to post in the given folder. This is a security
         # precaution, since on client side the user won't even see folders to
