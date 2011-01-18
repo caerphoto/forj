@@ -120,6 +120,6 @@ class PostsController < ApplicationController
         post.reply_user_id = params[:reply_user].to_i
         post.save
 
-        render :json => post.detail_hash.to_json
+        render :json => post.to_h.to_json
     end
 end
