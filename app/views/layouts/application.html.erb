@@ -2,14 +2,13 @@
 <html>
 <head>
     <title><%= title %></title>
-  <%= stylesheet_link_tag "reset.css" %>
-  <%= stylesheet_link_tag "jquery-ui.css" %>
-  <%= stylesheet_link_tag "jquery-ui-selectmenu.css" %>
-  <meta name="google-site-verification" content="ENwjKv4GN6-xbhknTmAufkm5ReP0iE1uckrkN0mhbaQ" />
-  <link href='http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
-  <%= stylesheet_link_tag "layout.css" %>
-  <%= stylesheet_link_tag "colours.css" %>
-  <%= stylesheet_link_tag "emotes.css" %>
+  <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic" %>
+  <%= stylesheet_link_tag "reset.css", :cache => true %>
+  <%= stylesheet_link_tag "jquery-ui.css", :cache => true %>
+  <%= stylesheet_link_tag "jquery-ui-selectmenu.css", :cache => true %>
+  <%= stylesheet_link_tag "layout.css", :cache => true %>
+  <%= stylesheet_link_tag "colours.css", :cache => true %>
+  <%= stylesheet_link_tag "emotes.css", :cache => true %>
   <%= csrf_meta_tag %>
   <style>
       .unfouc {
@@ -47,9 +46,9 @@
     </div> <!-- #footer -->
     <div id="log"></div>
 
-  <%=  javascript_include_tag "jquery-min.js" %>
-  <%=  javascript_include_tag "jquery-ui-all-min.js" %>
-  <%=  javascript_include_tag "showdown-underscore-min.js" %>
+  <%=  javascript_include_tag "jquery-min.js", :cache => true %>
+  <%=  javascript_include_tag "jquery-ui-all-min.js", :cache => true %>
+  <%=  javascript_include_tag "showdown-underscore-min.js", :cache => true %>
     <script type="text/javascript">
         var se = document.createElement("script");
         se.src = "/javascripts/application.js";
