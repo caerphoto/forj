@@ -3,12 +3,7 @@
 <head>
     <title><%= title %></title>
   <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic" %>
-  <%= stylesheet_link_tag "reset.css", :cache => true %>
-  <%= stylesheet_link_tag "jquery-ui.css", :cache => true %>
-  <%= stylesheet_link_tag "jquery-ui-selectmenu.css", :cache => true %>
-  <%= stylesheet_link_tag "layout.css", :cache => true %>
-  <%= stylesheet_link_tag "colours.css", :cache => true %>
-  <%= stylesheet_link_tag "emotes.css", :cache => true %>
+  <%= stylesheet_link_tag :usual, :cache => true %>
   <%= csrf_meta_tag %>
   <style>
       .unfouc {
@@ -46,9 +41,7 @@
     </div> <!-- #footer -->
     <div id="log"></div>
 
-  <%=  javascript_include_tag "jquery-min.js", :cache => true %>
-  <%=  javascript_include_tag "jquery-ui-all-min.js", :cache => true %>
-  <%=  javascript_include_tag "showdown-underscore-min.js", :cache => true %>
+  <%=  javascript_include_tag :usual, :cache => true %>
     <script type="text/javascript">
         var se = document.createElement("script");
         se.src = "/javascripts/application.js";
