@@ -165,11 +165,11 @@ FORJ.config = {
         "|(": "fail",
         ":{": "tache",
         "8)": "cool", // '8D' might occur too regularly in normal text
-        
+
         ":99:": "rolleyes",
         ":FAIL:": "fail",
 
-        ";)": "wink",
+        ";)": "wink"
     },
     default_post_data: {
         user_id: 0,
