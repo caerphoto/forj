@@ -1,6 +1,6 @@
 
 /* Common border styles: */
- * {
+div, p, h1, h2, h3, blockquote, code, pre, hr, input, textarea, ul, li, a {
     /* Everything has a solid border style, but most elements have a
      * border-width of 0.
      * Doing this allows us to simply specify border widths in this file, since
@@ -28,9 +28,7 @@ body {
 }
 
 body, textarea, input, .ui-widget {
-    /* What's a good Ubuntu/Verdana equivalent for Mac? Helvetica's a bit too
-     * narrow I think. */
-    font-family: 'Ubuntu', sans-serif;
+    font-family: "Lucida Grande", "Tahoma", sans-serif;
 }
 
 p, blockquote, li, fieldset {
@@ -69,7 +67,7 @@ fieldset {
 }
 
 code {
-    font-family: 'Liberation Mono', 'Consolas', 'Lucida Sans Console',  monospace;
+    font-family: 'Consolas', 'Inconsolata', 'Menlo', 'Lucida Sans Console',  monospace;
     font-size: 85%;
     border-width: 1px;
 }
@@ -170,12 +168,14 @@ strong, b {
 
 #postspane {
     position: absolute;
-    left: 27em;
-    top: 0;
+    top: 5.5em;
     right: 0.5em;
+    bottom: 3.7em;
+    left: 27em;
     z-index: 3;
 
     padding: 5.5em 0 3.7em 0;
+    overflow: auto;
 }
 
 #folder_list {

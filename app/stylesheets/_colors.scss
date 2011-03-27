@@ -17,6 +17,10 @@
  * #4AC - mid blue-green (link mouseover)
  */
 
+$color1bg: #FEA;
+$color1fg: #333;
+$color1bo: #EC4;
+
 /* This is the colour of the header and footer. */
 .clr1 {
     background-color: #FEA;
@@ -42,16 +46,16 @@
  */
 .thread_list_item {
     border-color: #FEC;
-    background-image: url('/images/icon_nonewposts.png');
+    background-image: inline-image('/icon_nonewposts.png');
 }
 .has_unread {
-    background-image: url("/images/icon_newposts.png");
+    background-image: inline-image("/icon_newposts.png");
 }
 .pinned {
-    background-image: url("/images/icon_newposts_pinned.png");
+    background-image: inline-image("/icon_newposts_pinned.png");
 }
 .has_unread.pinned {
-    background-image: url("/images/icon_nonewposts_pinned.png");
+    background-image: inline-image("/icon_nonewposts_pinned.png");
 }
 
 /* This is the accent colour. Static page elements can have the "clr3" class
@@ -64,11 +68,11 @@
 }
 
 .loading_msg {
-    background-image: url("/images/loading_blue.gif");
+    background-image: inline-image("/loading_blue.gif");
 }
 
 .btn-icon-reload {
-    background-image: url("/images/ui-icon-reload.png") !important;
+    background-image: inline-image("/ui-icon-reload.png") !important;
     background-position: right bottom;
 }
 
@@ -84,20 +88,20 @@
     width: 15em;
 }
 
-.btn-icon-firstposts { background-image: url("/images/ui-icon-first_posts.png") !important;
+.btn-icon-firstposts { background-image: inline-image("/ui-icon-first_posts.png") !important;
 }
 
-.btn-icon-prevposts { background-image: url("/images/ui-icon-prev_posts.png") !important;
+.btn-icon-prevposts { background-image: inline-image("/ui-icon-prev_posts.png") !important;
 }
 
-.btn-icon-nextposts { background-image: url("/images/ui-icon-next_posts.png") !important;
+.btn-icon-nextposts { background-image: inline-image("/ui-icon-next_posts.png") !important;
 }
 
-.btn-icon-lastposts { background-image: url("/images/ui-icon-last_posts.png") !important;
+.btn-icon-lastposts { background-image: inline-image("/ui-icon-last_posts.png") !important;
 }
 
 .folder_name {
-    background-image: url('/images/icon_contract.gif');
+    background-image: inline-image('/icon_contract.png');
 }
 
 .folder_name:hover {
@@ -105,15 +109,15 @@
 }
 
 .folder_contracted {
-    background-image: url('/images/icon_expand.gif');
+    background-image: inline-image('/icon_expand.png');
 }
 
 .folder_settings {
-    background-image: url("/images/icon_settings_1.png");
+    background-image: inline-image("/icon_settings_1.png");
 }
 
 .folder_settings:hover {
-    background-image: url("/images/icon_settings_2.png");
+    background-image: inline-image("/icon_settings_2.png");
 }
 
 /* Common grey border colour */

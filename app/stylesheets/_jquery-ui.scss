@@ -50,27 +50,26 @@
  *
  * http://docs.jquery.com/UI/Theming/API
  *
- * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=%20\\'Ubuntu\\',%20\\'Verdana\\',%20\\'Helvetica\\',%20sans-serif&fwDefault=normal&fsDefault=85%&cornerRadius=0&bgColorHeader=ffeeaa&bgTextureHeader=01_flat.png&bgImgOpacityHeader=75&borderColorHeader=eecc44&fcHeader=222222&iconColorHeader=222222&bgColorContent=ffffdd&bgTextureContent=01_flat.png&bgImgOpacityContent=75&borderColorContent=ffeeaa&fcContent=222222&iconColorContent=222222&bgColorDefault=eeeeee&bgTextureDefault=01_flat.png&bgImgOpacityDefault=75&borderColorDefault=cccccc&fcDefault=115577&iconColorDefault=888888&bgColorHover=ddeeff&bgTextureHover=04_highlight_hard.png&bgImgOpacityHover=75&borderColorHover=aaccdd&fcHover=115577&iconColorHover=454545&bgColorActive=ddeeff&bgTextureActive=01_flat.png&bgImgOpacityActive=65&borderColorActive=aaccdd&fcActive=212121&iconColorActive=454545&bgColorHighlight=ffeecc&bgTextureHighlight=02_glass.png&bgImgOpacityHighlight=55&borderColorHighlight=ffcc55&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=02_glass.png&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=01_flat.png&bgImgOpacityShadow=50&opacityShadow=30&thicknessShadow=0px&offsetTopShadow=8px&offsetLeftShadow=8px&cornerRadiusShadow=0px
  */
 
 
 /* Component containers
 ----------------------------------*/
-.ui-widget { font-family:  \\\\\\\\\\\\\\\'Ubuntu\\\\\\\\\\\\\\\', \\\\\\\\\\\\\\\'Verdana\\\\\\\\\\\\\\\', \\\\\\\\\\\\\\\'Helvetica\\\\\\\\\\\\\\\', sans-serif; font-size: 100%; }
+.ui-widget { font-family:  'Ubuntu', 'Verdana', 'Helvetica', sans-serif; font-size: 100%; }
 .ui-widget .ui-widget { font-size: 1em; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family:  \\\\\\\\\\\\\\\'Ubuntu\\\\\\\\\\\\\\\', \\\\\\\\\\\\\\\'Verdana\\\\\\\\\\\\\\\', \\\\\\\\\\\\\\\'Helvetica\\\\\\\\\\\\\\\', sans-serif; font-size: 1em; }
-.ui-widget-content { border: 1px solid #ffeeaa; background: #ffffdd url(images/ui-bg_flat_75_ffffdd_40x100.png) 50% 50% repeat-x; color: #222222; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family:  'Ubuntu', 'Verdana', 'Helvetica', sans-serif; font-size: 1em; }
+.ui-widget-content { border: 1px solid #EECC44; background-color: #ffffdd; color: #222222; }
 .ui-widget-content a { color: #222222; }
-.ui-widget-header { border: 1px solid #eecc44; background: #ffeeaa url(images/ui-bg_flat_75_ffeeaa_40x100.png) 50% 50% repeat-x; color: #222222; font-weight: bold; }
+.ui-widget-header { border: 1px solid #eecc44; background-color: #ffeeaa; color: #222222; font-weight: bold; }
 .ui-widget-header a { color: #222222; }
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #cccccc; background: #eeeeee url(images/ui-bg_flat_75_eeeeee_40x100.png) 50% 50% repeat-x; font-weight: normal; color: #115577; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #cccccc; background: #eeeeee; font-weight: normal; color: #115577; }
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #115577; text-decoration: none; }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #aaccdd; background: #ddeeff url(images/ui-bg_highlight-hard_75_ddeeff_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #115577; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #115577; text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaccdd; background: #ddeeff url(images/ui-bg_flat_65_ddeeff_40x100.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaccdd; background: #ddeeff; font-weight: normal; color: #212121; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121; text-decoration: none; }
 .ui-widget :active { outline: none; }
 
@@ -280,19 +279,19 @@
 ----------------------------------*/
 
 /* Corner radius */
-.ui-corner-tl { -moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0; border-top-left-radius: 0; }
-.ui-corner-tr { -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0; border-top-right-radius: 0; }
-.ui-corner-bl { -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; border-bottom-left-radius: 0; }
-.ui-corner-br { -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; border-bottom-right-radius: 0; }
-.ui-corner-top { -moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0; border-top-left-radius: 0; -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0; border-top-right-radius: 0; }
-.ui-corner-bottom { -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; border-bottom-left-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; border-bottom-right-radius: 0; }
-.ui-corner-right {  -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0; border-top-right-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; border-bottom-right-radius: 0; }
-.ui-corner-left { -moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0; border-top-left-radius: 0; -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; border-bottom-left-radius: 0; }
-.ui-corner-all { -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; }
+.ui-corner-tl { -moz-border-radius-topleft: 2px; -webkit-border-top-left-radius: 2px; border-top-left-radius: 2px; }
+.ui-corner-tr { -moz-border-radius-topright: 2px; -webkit-border-top-right-radius: 2px; border-top-right-radius: 2px; }
+.ui-corner-bl { -moz-border-radius-bottomleft: 2px; -webkit-border-bottom-left-radius: 2px; border-bottom-left-radius: 2px; }
+.ui-corner-br { -moz-border-radius-bottomright: 2px; -webkit-border-bottom-right-radius: 2px; border-bottom-right-radius: 2px; }
+.ui-corner-top { -moz-border-radius-topleft: 2px; -webkit-border-top-left-radius: 2px; border-top-left-radius: 2px; -moz-border-radius-topright: 2px; -webkit-border-top-right-radius: 2px; border-top-right-radius: 2px; }
+.ui-corner-bottom { -moz-border-radius-bottomleft: 2px; -webkit-border-bottom-left-radius: 2px; border-bottom-left-radius: 2px; -moz-border-radius-bottomright: 2px; -webkit-border-bottom-right-radius: 2px; border-bottom-right-radius: 2px; }
+.ui-corner-right {  -moz-border-radius-topright: 2px; -webkit-border-top-right-radius: 2px; border-top-right-radius: 2px; -moz-border-radius-bottomright: 2px; -webkit-border-bottom-right-radius: 2px; border-bottom-right-radius: 2px; }
+.ui-corner-left { -moz-border-radius-topleft: 2px; -webkit-border-top-left-radius: 2px; border-top-left-radius: 2px; -moz-border-radius-bottomleft: 2px; -webkit-border-bottom-left-radius: 2px; border-bottom-left-radius: 2px; }
+.ui-corner-all { -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; }
 
 /* Overlays */
 .ui-widget-overlay { background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); }
-.ui-widget-shadow { margin: 8px 0 0 8px; padding: 0px; background: #aaaaaa url(images/ui-bg_flat_50_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; }/*
+.ui-widget-shadow { margin: 8px 0 0 8px; padding: 1px; background: #aaaaaa url(images/ui-bg_flat_50_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; }/*
  * jQuery UI Button 1.8.6
  *
  * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
@@ -339,7 +338,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  *
  * http://docs.jquery.com/UI/Dialog#theming
  */
-.ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; }
+.ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; border-width: 2px}
 .ui-dialog .ui-dialog-titlebar { padding: .5em 1em .3em; position: relative;  }
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .2em 0; } 
 .ui-dialog .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }

@@ -34,8 +34,6 @@ module Forj
     # config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
     config.action_view.javascript_expansions[:usual] = %w(jquery-min jquery-ui-all-min showdown-underscore-min)
 
-    config.action_view.stylesheet_expansions[:usual] = %w(reset jquery-ui jquery-ui-selectmenu layout colours emotes)
-
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
