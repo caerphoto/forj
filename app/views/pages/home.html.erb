@@ -9,7 +9,7 @@
         <button id="btnReloadThreadsList">Refresh</button>
         <br />
     <% if user_signed_in? %>
-        <label for="selThreadsView">Threads:</label> <select id="selThreadsView">
+        <label class="select-menu" for="selThreadsView">Threads:</label> <select id="selThreadsView">
             <option value="UNREAD" selected>unread</option>
             <option value="ALL">all</option>
         </select>
@@ -51,13 +51,13 @@
         <div id="replybox_thread_title">
             <h2>Thread Title:</h2>
             <input type="text" /><br />
-            <label for="thread_folder">Post in folder:</label>
+            <label class="select-menu" for="thread_folder">Post in folder:</label>
             <select id="selThreadFolder">
                 <option value="0">(uncategorised)</option>
             </select>
         </div>
         <div id="replybox_options">
-            <label for="selReplyTo">To user:</label>
+            <label class="select-menu" for="selReplyTo">To user:</label>
             <select id="selReplyTo">
                 <option value="u0">(all)</option>
             </select>

@@ -128,7 +128,6 @@
 .ui-widget-content {
     border: 1px solid $bo2;
     background-color: $bg2;
-    
     color: #333;
 }
 
@@ -137,7 +136,7 @@
 }
 
 .ui-widget-header {
-    border: 1px solid $bo1;
+    border: 1px solid $accentBo;
     background-color: $accentBg;
     color: #333;
     font-weight: bold;
@@ -155,11 +154,11 @@
     border: 1px solid #cccccc;
     background: #FFF;
     font-weight: normal;
-    color: #115577;
+    color: $accentBo;
 }
 
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
-    color: #115577;
+    color: $accentBo;
     text-decoration: none;
 }
 
@@ -167,11 +166,11 @@
     border: 1px solid #aaccdd;
     background: #ddeeff url(images/ui-bg_highlight-hard_75_ddeeff_1x100.png) 50% 50% repeat-x;
     font-weight: normal;
-    color: #115577;
+    color: $accentBo;
 }
 
 .ui-state-hover a, .ui-state-hover a:hover {
-    color: #115577;
+    color: $accentBo;
     text-decoration: none;
 }
 

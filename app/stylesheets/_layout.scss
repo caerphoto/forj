@@ -159,7 +159,7 @@ strong, b {
     top: 5.5em;
     bottom: 3.7em;
     left: 0.5em;
-    width: 25em;
+    width: 27em;
 
     padding: 0.5em;
 
@@ -171,11 +171,23 @@ strong, b {
     top: 5.5em;
     right: 0.5em;
     bottom: 3.7em;
-    left: 27.5em;
+    left: 29.5em;
     z-index: 3;
 
     padding: 0;
     overflow: auto;
+}
+
+#threadspane label.select-menu {
+    margin-left: 0.5em;
+}
+
+label.select-menu {
+    display: block;
+    float: left;
+    height: 21px;
+    line-height: 21px;
+    margin-right: 0.5em;
 }
 
 #folder_list {

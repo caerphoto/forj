@@ -1205,6 +1205,7 @@ FORJ.initUserEditor = function () {
         dlg.removeClass("unfouc").dialog({
             autoOpen: false,
             modal: true,
+            width: "25em",
             title: "User Details"
         });
 
@@ -1317,6 +1318,7 @@ FORJ.initFolderEditor = function () {
         _dlg.removeClass("unfouc").dialog({
             autoOpen: false,
             modal: true,
+            width: "30em",
             buttons: {
                 "Delete": function () {
                     if (window.confirm([
