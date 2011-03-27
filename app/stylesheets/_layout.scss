@@ -159,7 +159,7 @@ strong, b {
     top: 5.5em;
     bottom: 3.7em;
     left: 0.5em;
-    width: 24.5em;
+    width: 25em;
 
     padding: 0.5em;
 
@@ -171,10 +171,10 @@ strong, b {
     top: 5.5em;
     right: 0.5em;
     bottom: 3.7em;
-    left: 27em;
+    left: 27.5em;
     z-index: 3;
 
-    padding: 5.5em 0 3.7em 0;
+    padding: 0;
     overflow: auto;
 }
 
@@ -227,6 +227,7 @@ strong, b {
 
     cursor: pointer;
     font-size: 108%;
+    border-bottom-width: 1px;
 }
 
 .folder_contracted {
@@ -307,22 +308,15 @@ strong, b {
 /*    text-align: center;*/
 /*}*/
 
-.posts_container {
-    overflow: auto;
+#posts_container {
+    margin-right: 0.5em;
 }
 
 .post {
     padding: 0.5em;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.8em;
 
     list-style: none;
-}
-
-.post_shim {
-    margin-top: -5.5em;
-    padding-bottom: 5.5em;
-    height: 0;
-    overflow: hidden;
 }
 
 .post_head {

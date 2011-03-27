@@ -9,34 +9,34 @@ if (!FORJ) {
 FORJ.ui = {
     panes: undefined,
     buttons: $("input:submit"),
-    page_header: $("#header"),
-    page_footer: $("#footer"),
+    $header: $("#header"),
+    $footer: $("#footer"),
 
-    threads_pane: $("#threadspane"),
-    folder_list: $("#folder_list"),
-    folders_loading_msg: $("#folders_loading_msg"),
+    //$threadsPane: $("#threadspane"),
+    $folderList: $("#folder_list"),
+    $foldersLoadingMsg: $("#folders_loading_msg"),
     btnNewFolder: $("#btnNewFolder"),
     btnNewThread: $("#btnNewThread"),
     btnReloadThreadsList: $("#btnReloadThreadsList"),
     selThreadsView: $("#selThreadsView"),
 
-    posts_pane: $("#postspane"),
-    thread_loading_msg: $("#thread_loading_msg"),
-    thread_title: $("#thread_title"),
-    posts_container: $("#posts_container"),
+    $postsPane: $("#postspane"),
+    $threadLoading: $("#thread_loading"),
+    $threadTitle: $("#thread_title"),
+    $postsContainer: $("#posts_container"),
 
-    post_buttons_prev: $("#post_buttons_prev"),
-    post_buttons_next: $("#post_buttons_next"),
+    $postButtonsPrev: $("#post_buttons_prev"),
+    $postButtonsNext: $("#post_buttons_next"),
     btnFirstPosts: $("#btnFirstPosts"),
     btnPrevPosts: $("#btnPrevPosts"),
     btnNextPosts: $("#btnNextPosts"),
     btnLastPosts: $("#btnLastPosts"),
 
-    post_fragment: $("#post_template"),
-    replybox: $("#replybox"),
-    replybox_thread_title: $("#replybox_thread_title"),
-    reply_text: $("#replybox texarea").first(),
-    post_preview: undefined,
+    $postFragment: $("#post_template"),
+    $replybox: $("#replybox"),
+    $replyboxThreadTitle: $("#replybox_thread_title"),
+    $replyText: $("#replybox texarea").first(),
+    $postPreview: undefined,
 
     btnPostReply: $("#btnPostReply"),
     btnCancelReply: $("#btnCancelReply"),
@@ -75,19 +75,19 @@ FORJ.ui = {
             FORJ.ui.btnCancelReply.button("enable");
 
             post_data = FORJ.getData(in_post);
-            FORJ.setData(FORJ.ui.replybox, post_data);
+            FORJ.setData(FORJ.ui.$replybox, post_data);
 
             u = (FORJ.status.editing_post ?
                 post_data.reply_user :
                 post_data.user_id);
         } else {
             show_speed = 0;
-            $element = FORJ.ui.post_buttons_next;
+            $element = FORJ.ui.$postButtonsNext;
             FORJ.ui.btnCancelReply.button(options.new_thread ? 
                 "enable" : "disable");
         }
 
-        FORJ.ui.replybox.
+        FORJ.ui.$replybox.
             detach().
             insertAfter($element).
             show();
@@ -95,10 +95,10 @@ FORJ.ui = {
         FORJ.ui.selReplyTo.selectmenu("value", u + "");
 
         if (in_post) {
-            FORJ.ui.replybox.find("textarea").focus();
+            FORJ.ui.$replybox.find("textarea").focus();
 
             if (options.quote) {
-                FORJ.ui.replybox.find("textarea").
+                FORJ.ui.$replybox.find("textarea").
                     val(FORJ.makeQuote(post_data.body)).
                     trigger("keyup");
             }
@@ -108,7 +108,7 @@ FORJ.ui = {
 
     hideReplyBox: function () {
         FORJ.ui.btnPostReply.button("enable");
-        FORJ.setData(FORJ.ui.replybox);
+        FORJ.setData(FORJ.ui.$replybox);
         FORJ.ui.showReplyBox();
         //});
     }
@@ -393,8 +393,8 @@ FORJ.scrollToPost = function ($post) {
     // well due to the moving about of the replybox messing with the size of
     // the scrollable area.
     var offset = 100,
-        pos = FORJ.ui.replybox.position().top -
-        (FORJ.ui.replybox.parent().position().top || 0) -
+        pos = FORJ.ui.$replybox.position().top -
+        (FORJ.ui.$replybox.parent().position().top || 0) -
         offset;
 
     pos = pos < 0 ? 0 : pos;
@@ -402,9 +402,9 @@ FORJ.scrollToPost = function ($post) {
 }; // FORJ.scrollToPost()
 
 FORJ.resetReplyBox = function () {
-    FORJ.ui.replybox_thread_title.find("input").val("");
+    FORJ.ui.$replyboxThreadTitle.find("input").val("");
     $("#replybox textarea").val("");
-    FORJ.ui.replybox.find("textarea").trigger("keyup");
+    FORJ.ui.$replybox.find("textarea").trigger("keyup");
 }; // FORJ.resetReplyBox()
 
 FORJ.getPostFromId = function (id) {
@@ -433,7 +433,7 @@ FORJ.getCacheIndexFromId = function (id) {
 }; // FORJ.getCacheIndexFromId()
 
 FORJ.createPost = function (p) {
-    var $post = $(FORJ.ui.post_fragment).clone(),
+    var $post = $(FORJ.ui.$postFragment).clone(),
         reply_url = "";
 
     $post.find(".post_shim").
@@ -529,9 +529,9 @@ FORJ.deletePost = function (post_id) {
                 return;
             }
 
-            FORJ.ui.replybox.detach();
-            FORJ.ui.posts_container.empty();
-            FORJ.ui.thread_title.text("");
+            FORJ.ui.$replybox.detach();
+            FORJ.ui.$postsContainer.empty();
+            FORJ.ui.$threadTitle.text("");
 
             // Find and remove thread from list
             $(".thread_list_item").each(function (i, $item) {
@@ -596,7 +596,7 @@ FORJ.showThread = function (t) {
     // Loads a new thread and renders it in the posts pane.
     var thread, s;
 
-    FORJ.ui.replybox_thread_title.hide();
+    FORJ.ui.$replyboxThreadTitle.hide();
 
     if (typeof t === "string") {
         t = (window.location.hash).split("/")[0].slice(1);
@@ -609,7 +609,7 @@ FORJ.showThread = function (t) {
     thread = FORJ.getThread(t);
 
     if (thread) {
-        FORJ.ui.thread_title.show().text(thread.title);
+        FORJ.ui.$threadTitle.show().text(thread.title);
         FORJ.status.offset_top = FORJ.getFirstPostOffset(thread);
     } else {
         s = (window.location.hash).split("/")[1];
@@ -618,8 +618,8 @@ FORJ.showThread = function (t) {
     }
 
     FORJ.posts = [];
-    FORJ.ui.thread_loading_msg.fadeIn(100);
-    FORJ.ui.replybox.detach();
+    FORJ.ui.$threadLoading.fadeIn(100);
+    FORJ.ui.$replybox.detach();
     FORJ.showPosts(thread.id, FORJ.status.offset_top, 0);
 }; // FORJ.showThread()
 
@@ -639,11 +639,11 @@ FORJ.showPosts = function (thread_id, offset, insert_direction) {
         // insert_direction is -2 if jumping to the first posts of a thread,
         // or 2 if jumping to the end
         if (Math.abs(insert_direction) === 2 || insert_direction === 0) {
-            FORJ.ui.posts_container.empty();
+            FORJ.ui.$postsContainer.empty();
         }
 
         //FORJ.status.current_thread = thread.id;
-        FORJ.ui.thread_title.show().text(thread.title);
+        FORJ.ui.$threadTitle.show().text(thread.title);
 
         //time_start = new Date();
 
@@ -654,9 +654,9 @@ FORJ.showPosts = function (thread_id, offset, insert_direction) {
         });
 
         if (insert_direction < 0) {
-            FORJ.ui.posts_container.prepend(container);
+            FORJ.ui.$postsContainer.prepend(container);
         } else {
-            FORJ.ui.posts_container.append(container);
+            FORJ.ui.$postsContainer.append(container);
         }
 
         //time_end = new Date();
@@ -716,18 +716,18 @@ FORJ.showPosts = function (thread_id, offset, insert_direction) {
 
         // Hide or show post navigation buttons appropriately
         if (FORJ.status.offset_top > 0 - FORJ.config.limit) {
-            FORJ.ui.post_buttons_prev.show();
+            FORJ.ui.$postButtonsPrev.show();
         } else {
-            FORJ.ui.post_buttons_prev.hide();
+            FORJ.ui.$postButtonsPrev.hide();
         }
         if (thread.post_count > FORJ.status.offset_bottom) {
-            FORJ.ui.post_buttons_next.show();
+            FORJ.ui.$postButtonsNext.show();
         } else {
-            FORJ.ui.post_buttons_next.hide();
+            FORJ.ui.$postButtonsNext.hide();
         }
 
         // UI finishing-up:
-        FORJ.ui.thread_loading_msg.fadeOut(100);
+        FORJ.ui.$threadLoading.fadeOut(100);
         FORJ.ui.showReplyBox();
         document.title = thread.title + " - FORJ Forum";
         ot = FORJ.status.offset_top + FORJ.config.limit;
@@ -810,7 +810,7 @@ FORJ.populateThreadsList = function (folders) {
     var $folder, total_unread = 0;
 
     FORJ.threads = [];
-    FORJ.ui.folder_list.empty();
+    FORJ.ui.$folderList.empty();
     FORJ.ui.selThreadFolder.selectmenu("destroy");
     FORJ.ui.selThreadFolder.empty();
 
@@ -829,7 +829,7 @@ FORJ.populateThreadsList = function (folders) {
     _(folders).each(function (folder) {
         var new_folder = $("<li />").
             data("id", folder.id).
-            addClass("folder_list_item").
+            addClass("$folderList_item").
             append($("<a />").
                 addClass("folder_name").
                 text(folder.name).
@@ -848,7 +848,7 @@ FORJ.populateThreadsList = function (folders) {
                     })()
                 )
             ).
-            appendTo(FORJ.ui.folder_list),
+            appendTo(FORJ.ui.$folderList),
             $thread_list;
 
         FORJ.ui.selThreadFolder.append(
@@ -898,13 +898,13 @@ FORJ.populateThreadsList = function (folders) {
     }
 
     FORJ.folders = folders;
-    FORJ.ui.folders_loading_msg.fadeOut(100);
+    FORJ.ui.$foldersLoadingMsg.fadeOut(100);
 }; // FORJ.populateThreadsList()
 
 FORJ.newPostCallback = function (newpost) {
     // Generic handler for both replies to existing threads, and first posts in
     // new threads.
-    FORJ.ui.replybox_thread_title.hide();
+    FORJ.ui.$replyboxThreadTitle.hide();
     if (newpost.post_index === 0) {
         FORJ.loadThreadsList();
         FORJ.status.current_thread = newpost.thread;
@@ -919,7 +919,7 @@ FORJ.newPostCallback = function (newpost) {
         FORJ.status.editing_post = undefined;
 
     } else {
-        FORJ.createPost(newpost).appendTo(FORJ.ui.posts_container);
+        FORJ.createPost(newpost).appendTo(FORJ.ui.$postsContainer);
     }
 };
 
@@ -937,9 +937,9 @@ FORJ.lnkEditClick = function (event) {
     event.preventDefault();
     var post = $(this).parents(".post");
     FORJ.status.editing_post = post;
-    FORJ.ui.replybox.find("textarea").val(FORJ.getData(post).body);
+    FORJ.ui.$replybox.find("textarea").val(FORJ.getData(post).body);
     FORJ.ui.showReplyBox(post);
-    FORJ.ui.replybox.find("textarea").trigger("keyup");
+    FORJ.ui.$replybox.find("textarea").trigger("keyup");
     post.hide();
 }; // FORJ.lnkEditClick()
 
@@ -950,24 +950,24 @@ FORJ.lnkDeleteClick = function (event) {
 };
 
 FORJ.btnFirstPostsClick = function () {
-    FORJ.ui.thread_loading_msg.fadeIn(100);
+    FORJ.ui.$threadLoading.fadeIn(100);
     FORJ.showPosts(FORJ.status.current_thread, 0, -2);
 };
 
 FORJ.btnPrevPostsClick = function () {
-    FORJ.ui.thread_loading_msg.fadeIn(100);
+    FORJ.ui.$threadLoading.fadeIn(100);
     FORJ.showPosts(FORJ.status.current_thread, 
         FORJ.status.offset_top, -1);
 };
 
 FORJ.btnNextPostsClick = function () {
-    FORJ.ui.thread_loading_msg.fadeIn(100);
+    FORJ.ui.$threadLoading.fadeIn(100);
     FORJ.showPosts(FORJ.status.current_thread,
         FORJ.status.offset_bottom, 1);
 };
 
 FORJ.btnLastPostsClick = function () {
-    FORJ.ui.thread_loading_msg.fadeIn(100);
+    FORJ.ui.$threadLoading.fadeIn(100);
     var t = FORJ.getThread(FORJ.status.current_thread);
     FORJ.showPosts(FORJ.status.current_thread,
         t.post_count - FORJ.config.limit, 2);
@@ -993,7 +993,7 @@ FORJ.postTextChange = function (is_sig) {
 
     window.setTimeout(function () {
         var h = FORJ.markup(txt);
-        FORJ.ui.post_preview.find(FORJ.config.post_preview_target).html(h);
+        FORJ.ui.$postPreview.find(FORJ.config.post_preview_target).html(h);
     }, 0);
 }; // FORJ.postTextChange()
 
@@ -1004,7 +1004,7 @@ FORJ.btnPostReplyClick = function () {
 
     if (FORJ.status.current_thread === 0) {
         // Starting a new thread
-        title = FORJ.ui.replybox_thread_title.find("input").val();
+        title = FORJ.ui.$replyboxThreadTitle.find("input").val();
         url = FORJ.config.threads_url;
         url += [
             "?title=", encodeURIComponent(title),
@@ -1012,7 +1012,7 @@ FORJ.btnPostReplyClick = function () {
         ].join("");
     } else {
         // Replying to an existing thread
-        post_data = FORJ.getData(FORJ.ui.replybox);
+        post_data = FORJ.getData(FORJ.ui.$replybox);
 
         if (FORJ.status.editing_post) {
             url = FORJ.config.edit_post_url + post_data.id;
@@ -1032,7 +1032,7 @@ FORJ.btnPostReplyClick = function () {
         }
     }
 
-    txt = (FORJ.ui.replybox.find("textarea").val()).slice(0,
+    txt = (FORJ.ui.$replybox.find("textarea").val()).slice(0,
         FORJ.config.MAX_POST_LENGTH);
 
     $.post(url, { textData: txt }, FORJ.newPostCallback);
@@ -1051,7 +1051,7 @@ FORJ.btnCancelReplyClick = function () {
     // if it's not attached to a post, attach it to a "Reply To All" link, then
     // only show it when that link is clicked. This should alleviate some of
     // the scrolling bugs.
-    FORJ.ui.replybox_thread_title.hide();
+    FORJ.ui.$replyboxThreadTitle.hide();
     if (FORJ.status.previous_thread) {
         FORJ.status.current_thread = FORJ.status.previous_thread;
         FORJ.status.previous_thread = 0;
@@ -1096,13 +1096,13 @@ FORJ.btnNewThreadClick = function () {
     FORJ.status.previous_thread = FORJ.status.current_thread;
     FORJ.status.current_thread = 0;
 
-    FORJ.ui.thread_title.hide();
+    FORJ.ui.$threadTitle.hide();
 
     FORJ.ui.showReplyBox(undefined, { new_thread: true });
-    FORJ.ui.posts_container.empty();
+    FORJ.ui.$postsContainer.empty();
 
-    FORJ.ui.replybox_thread_title.show();
-    FORJ.ui.replybox_thread_title.find("input").focus();
+    FORJ.ui.$replyboxThreadTitle.show();
+    FORJ.ui.$replyboxThreadTitle.find("input").focus();
 }; // FORJ.btnNewThreadClick()
 
 FORJ.btnNewFolderClick = function () {
@@ -1136,7 +1136,7 @@ FORJ.selThreadsViewChange = function () {
 };
 
 FORJ.loadThreadsList = function () {
-    FORJ.ui.folders_loading_msg.fadeIn(100);
+    FORJ.ui.$foldersLoadingMsg.fadeIn(100);
     $.get(FORJ.config.threads_url, FORJ.populateThreadsList);
 }; // FORJ.loadThreadsList()
 
@@ -1154,18 +1154,18 @@ FORJ.lipsum = function () {
 FORJ.createPostPreview = function (sig) {
     FORJ.config.post_preview_target = sig ? ".post_sig" : ".post_body";
     $("#max_post_length").text(FORJ.config.MAX_POST_LENGTH);
-    FORJ.ui.post_preview = FORJ.ui.post_fragment.clone();
-    FORJ.ui.post_preview.removeClass("hidden").
+    FORJ.ui.$postPreview = FORJ.ui.$postFragment.clone();
+    FORJ.ui.$postPreview.removeClass("hidden").
         addClass("post_preview").
         removeAttr("id");
-    FORJ.ui.post_preview.find(".post_head").remove();
-    FORJ.ui.post_preview.find(".post_foot").remove();
+    FORJ.ui.$postPreview.find(".post_head").remove();
+    FORJ.ui.$postPreview.find(".post_foot").remove();
     if (sig) {
-        FORJ.ui.post_preview.find(".post_body").
+        FORJ.ui.$postPreview.find(".post_body").
             text(FORJ.lipsum()).
             addClass("sig_body_preview");
     } else {
-        FORJ.ui.post_preview.find(".post_sig").remove();
+        FORJ.ui.$postPreview.find(".post_sig").remove();
     }
 }; // FORJ.createPostPreview()
 
@@ -1261,7 +1261,7 @@ FORJ.initUserEditor = function () {
             }
         ]);
 
-        FORJ.ui.posts_container.
+        FORJ.ui.$postsContainer.
             delegate(".post_head_fromto a", "click", FORJ.lnkUserClick);
 
         return {
@@ -1414,14 +1414,14 @@ FORJ.initForum = function (config) {
 
     //console.log("Starting application...");
 
-    FORJ.ui.posts_container.
+    FORJ.ui.$postsContainer.
         delegate(".post_foot_reply", "click", FORJ.lnkReplyClick).
         delegate(".post_foot_replyquote", "click", FORJ.lnkReplyQuoteClick).
         delegate(".post_foot_delete", "click", FORJ.lnkDeleteClick).
         delegate(".post_foot_edit", "click", FORJ.lnkEditClick);
-    FORJ.ui.posts_pane.
+    FORJ.ui.$postsPane.
         delegate("#replybox textarea", "keyup", FORJ.postTextChange);
-    FORJ.ui.folder_list.
+    FORJ.ui.$folderList.
         delegate(".thread_list_item", "click", FORJ.lnkThreadClick).
         delegate(".folder_name", "click", FORJ.lnkFolderClick).
         delegate(".folder_settings", "click", FORJ.lnkFolderSettingsClick);
@@ -1461,21 +1461,21 @@ FORJ.initForum = function (config) {
 
     $(".post").removeClass("unfouc");
     FORJ.createPostPreview();
-    FORJ.ui.post_preview.insertAfter(FORJ.ui.replybox.
+    FORJ.ui.$postPreview.insertAfter(FORJ.ui.$replybox.
         find("#post_preview_info"));
 
-    FORJ.ui.replybox_thread_title.hide();
-    FORJ.ui.replybox.removeClass("unfouc");
-    FORJ.ui.replybox.hide();
+    FORJ.ui.$replyboxThreadTitle.hide();
+    FORJ.ui.$replybox.removeClass("unfouc");
+    FORJ.ui.$replybox.hide();
 
     $.get(FORJ.config.users_url, FORJ.populateUserLists);
     FORJ.loadThreadsList();
 
-    FORJ.ui.post_fragment.detach().
+    FORJ.ui.$postFragment.detach().
         removeAttr("id");
 
-    FORJ.ui.post_buttons_prev.removeClass("unfouc");
-    FORJ.ui.post_buttons_next.removeClass("unfouc");
+    FORJ.ui.$postButtonsPrev.removeClass("unfouc");
+    FORJ.ui.$postButtonsNext.removeClass("unfouc");
 
     //console.log("Current user: ", FORJ.status.current_user.id);
     //console.log("Rank:", FORJ.status.current_user.rank);
@@ -1492,14 +1492,14 @@ FORJ.initOther = function () {
     FORJ.config.MAX_POST_LENGTH = 255; // "POST" in this case actually means
                                        // "signature"
 
-    // Create a clone of #post_fragment, insert it before the original, then
+    // Create a clone of #$postFragment, insert it before the original, then
     // remove the original
     $(".post").removeClass("unfouc");
 
     // true will point the preview updater at .post_sig
     FORJ.createPostPreview(true); 
-    FORJ.ui.post_preview.insertBefore(FORJ.ui.post_fragment);
-    FORJ.ui.post_fragment.remove();
+    FORJ.ui.$postPreview.insertBefore(FORJ.ui.$postFragment);
+    FORJ.ui.$postFragment.remove();
 
     $("#sigeditor").delegate("textarea", "keyup", FORJ.postTextChange);
     // trigger an initial keyup as the textarea gets filled automatically by

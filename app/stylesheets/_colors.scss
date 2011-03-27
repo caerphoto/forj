@@ -2,38 +2,22 @@
  * There are 3 main colours: the header/footer, the threads and posts, and the
  * 'accent' colour, used for things like the logo, signin links and loading
  * message.
- *
- * #FFD - pale yellow (page bg)
- * #FEA - mid yellow (header/footer bg)
- * #EC4 - dark yellow
- *
- * #FEC - pale orange (threads/posts bg)
- * #FC5 - mid orange
- * #D86 - red-orange (post counts etc.)
- *
- * #DEF - pale blue (accent colour bg)
- * #ACD - mid pastel blue
- * #157 - dark blue (links)
- * #4AC - mid blue-green (link mouseover)
  */
 
-$color1bg: #FEA;
-$color1fg: #333;
-$color1bo: #EC4;
 
 /* This is the colour of the header and footer. */
 .clr1 {
-    background-color: #FEA;
-    border-color: #EC4;
-    color: #000;
+    background-color: $bg1;
+    border-color: $bo1;
+    color: #333;
 }
 
 /* This is the colour of the threads pane and individual posts. */
 .clr2, .folder_list_item, input[type="text"], input[type="password"], textarea {
-    border-color: #FC5;
+    border-color: $bo2;
 }
 .clr2 {
-    background-color: #FEC;
+    background-color: $bg2;
 }
 
 /* Items in thread lists that are not the current thread and don't have the
@@ -45,7 +29,7 @@ $color1bo: #EC4;
  * take precedence when setting border colour.
  */
 .thread_list_item {
-    border-color: #FEC;
+    border-color: $bg2;
     background-image: inline-image('/icon_nonewposts.png');
 }
 .has_unread {
@@ -63,8 +47,8 @@ $color1bo: #EC4;
  * class specifically in the selector here.
  */
 .clr3, .loading_msg, .current_thread, .post_preview {
-    background-color: #DEF;
-    border-color: #ACD;
+    background-color: $accentBg;
+    border-color: #369;
 }
 
 .loading_msg {
@@ -102,10 +86,11 @@ $color1bo: #EC4;
 
 .folder_name {
     background-image: inline-image('/icon_contract.png');
+    border-color: $bg2 * 0.9;
 }
 
 .folder_name:hover {
-    background-color: #FEA;
+    background-color: $folderHover;
 }
 
 .folder_contracted {
@@ -121,8 +106,17 @@ $color1bo: #EC4;
 }
 
 /* Common grey border colour */
-.thread_list_item:hover, .post_body, .post_sig, pre {
+.post_body, .post_sig, pre {
     border-color: #CCC;
+}
+
+.thread_list_item:hover {
+    background-color: #F8F8F8;
+    border-color: $linkHover;
+}
+
+.thread_list_item:hover a {
+    color: $linkHover;
 }
 
 /* Inline <code> elements look better with a slightly lighter border */
@@ -130,7 +124,7 @@ code {
     border-color: #DDD;
 }
 
-.thread_list_item:hover, pre, code {
+pre, code {
     background-color: #EEE;
 }
 
@@ -141,7 +135,21 @@ pre code {
 }
 
 .item_count {
-    color: #D86; /* Similar to .clr2 border colour, but a bit darker */
+    color: $itemCount; /* Similar to .clr2 border colour, but a bit darker */
+}
+
+#threadspane {
+    -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-width: 1px;
+}
+
+.post {
+    -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-width: 1px;
 }
 
 .post_body, .post_sig {
@@ -163,30 +171,31 @@ del, .sig_body_preview {
 /* Element styles
  * ============== */
 
-body, blockquote {
-    border-color: #FEA; /* same as .clr1 background-color */
-}
-
 body, html {
-    background-color: #FFD;
+    background-color: $bodyBg;
 }
 
 blockquote {
-    background-color: #FFE;
+    background-color: $quoteBg;
+    border-color: $quoteBo; /* same as .clr1 background-color */
 }
 
-a, .thread_list_item a:hover {
-    color: #157;
+.post p {
+    color: #333;
+}
+
+a {
+    color: $linkColor;
 }
 
 a:hover {
-    color: #4AC;
+    color: $linkHover;
 }
 
 hr {
     border-color: #CCC #F8F8F8;
 }
 
-blockquote hr {
-    border-color: #EC4 #FEA;
-}
+//blockquote hr {
+    //border-color: #EC4 #FEA;
+//}
