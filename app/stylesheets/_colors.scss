@@ -48,7 +48,7 @@
  */
 .clr3, .loading_msg, .current_thread, .post_preview {
     background-color: $accentBg;
-    border-color: #369;
+    border-color: $accentBo;
 }
 
 .loading_msg {
