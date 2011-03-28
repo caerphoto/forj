@@ -1,11 +1,16 @@
 # Deploy minified CSS and JavaScript to Heroku.
+echo "Compiling and compressing CSS..."
 compass compile -s compressed --force
+
+echo "Merging library JavaScript files..."
 cat \
 public/javascripts/jquery-min.js \
 public/javascripts/jquery-ui-all-min.js \
 public/javascripts/showdown-underscore-min.js \
 > public/javascripts/all.js
 
+echo "Minifying application.js..."
 jsmin < public/javascripts/application.js > public/javascripts/application-min.js
 
+echo "Pushing to Heroku..."
 git push heroku
