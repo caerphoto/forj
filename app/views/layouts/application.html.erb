@@ -40,10 +40,19 @@
     </div> <!-- #footer -->
     <div id="log"></div>
 
-  <%=  javascript_include_tag :usual %>
+    <% if Rails.env.production? %>
+        <%= javascript_include_tag "all.js" %>
+    <% else %>
+        <%=  javascript_include_tag :usual %>
+    <% end %>
+
     <script type="text/javascript">
         var se = document.createElement("script");
+        <% if Rails.env.production? %>
+        se.src = "/javascripts/application-min.js";
+        <% else %>
         se.src = "/javascripts/application.js";
+        <% end %>
         document.getElementsByTagName("head")[0].appendChild(se);
     </script>
 
