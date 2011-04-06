@@ -432,6 +432,77 @@ FORJ.getCacheIndexFromId = function (id) {
     return result;
 }; // FORJ.getCacheIndexFromId()
 
+// Returns a date in one of the following formats:
+// dd(st|nd|rd|th) of mmmm [yyyy] at hh:mm
+// (Today|Yesterday) at hh:mm [([about] xx (hours|minutes) ago)]
+FORJ.formatDate = function (date) {
+    var result = [], today, yesterday, age,
+        months = [
+            "January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"
+        ];
+
+    today = new Date();
+    yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    if (date.year === today.getFullYear() && date.month === today.getMonth() &&
+        date.day === today.getDate()) {
+
+        result.push("Today");
+    } else if (date.year === yesterday.getFullYear() && date.month ===
+        yesterday.getMonth() && date.day === yesterday.getDate()) {
+
+        result.push("Yesterday");
+    } else {
+        result.push(date.day);
+
+        switch (date.day) {
+        case 1:
+        case 21:
+        case 31:
+            result.push("st");
+            break;
+        case 2:
+        case 22:
+            result.push("nd");
+            break;
+        case 3:
+        case 23:
+            result.push("rd");
+            break;
+        default:
+            result.push("th");
+        } // switch (day)
+
+        result.push(" of " + months[date.month]);
+
+        if (date.year !== today.getFullYear()) {
+            result.push(" " + date.year);
+        }
+    }
+
+    result.push([" at ", date.hour, ":", date.minute].join(""));
+
+    // Calculate post's age in minutes.
+    age = (today - (new Date(date.year, date.month, date.day, date.hour,
+        date.minute, 0, 0))) / 60000;
+
+    if (age < 0) {
+        result.push(" (from the FUTURE!)");
+    } else if (age < 60) {
+        result.push(" (" + age + " minutes ago)");
+    } else if (age < 60 * 24) {
+        age = Math.round(age / 60);
+        result.push(age === 1 ?
+            " (about an hour ago)" :
+            " (about " + age + " hours ago)");
+    }
+
+    return result.join("");
+
+}; // FORJ.formatDate()
+
 FORJ.createPost = function (p) {
     var $post = $(FORJ.ui.$postFragment).clone(),
         reply_url = "";
@@ -468,7 +539,7 @@ FORJ.createPost = function (p) {
     }
 
     $post.find(".post_head_date").
-        text(p.date);
+        text(FORJ.formatDate(p.date));
     $post.find(".post_head_index").
         text(p.post_index + 1).
         attr("href", [

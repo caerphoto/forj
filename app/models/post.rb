@@ -13,7 +13,7 @@ class Post < ActiveRecord::Base
             :to_index => self.reply_index,
             :to_user => self.reply_user.nil? ?
                 nil : self.reply_user.to_h_basic,
-            :date => format_date(self.created_at),
+            :date => date_to_parts(self.created_at),
             :post_index => self.post_index,
             :body => self.content,
             :thread => self.msg_thread_id,

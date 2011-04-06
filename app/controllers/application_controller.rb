@@ -9,6 +9,17 @@ def create_post thread, post_details
     )
 end
 
+# Returns an hash containing each part of the given date as a number
+def date_to_parts(date)
+    {
+      :day => date.mday,
+      :month => date.month - 1, # JavaScript months start at 0
+      :year => date.year,
+      :hour => date.to_time.hour,
+      :minute => date.to_time.min
+    }
+end
+
 def format_date(date)
     date_str = date.strftime(" at %H:%M")
 
@@ -21,14 +32,17 @@ def format_date(date)
             date_str = date.to_date.to_s + date_str
         end
     end
+
     if date.to_time > Time.now.-(3600)
         minutes = Time.now.min - date.to_time.min
         minutes += 60 if minutes < 0
         return date_str + " (#{minutes} minute#{minutes == 1 ? "" : "s"} ago)"
+
     elsif date.to_time > Time.now.-(60 * 60 * 24)
         hours = Time.now.hour - date.to_time.hour
         hours += 24 if hours < 0
         return date_str + " (about #{hours} hour#{hours == 1 ? "" : "s"} ago)"
+
     else
         return date_str
     end
