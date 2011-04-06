@@ -36,8 +36,9 @@
         <%= yield %>
 
     <div id="footer" class="clr1">
-        <a href="/about">FORJ Forum</a> by <a href="mailto:forj@caerphoto.com">Andy Farrell</a>
+        <a href="/about">FORJ Forum</a> by <a href="mailto:forj@caerphoto.com">Andy Farrell</a>. Source available on <a href="https://github.com/caerphoto/forj">GitHub</a>.
     </div> <!-- #footer -->
+
     <div id="log"></div>
 
     <% if Rails.env.production? %>
@@ -47,6 +48,7 @@
     <% end %>
 
     <script type="text/javascript">
+        // Lazy loading of main application JS.
         var se = document.createElement("script");
         <% if Rails.env.production? %>
         se.src = "/javascripts/application-min.js";
