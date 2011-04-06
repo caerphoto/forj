@@ -53,6 +53,10 @@
 
 .loading_msg {
     background-image: inline-image("/loading_blue.gif");
+    -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-width: 1px;
 }
 
 .btn-icon-reload {
@@ -139,10 +143,10 @@ pre code {
 }
 
 #threadspane {
-    -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    border-width: 1px;
+    //-moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    //-webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    //box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    //border-width: 1px;
 }
 
 .post {

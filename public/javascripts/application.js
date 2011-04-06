@@ -21,7 +21,7 @@ FORJ.ui = {
     selThreadsView: $("#selThreadsView"),
 
     $postsPane: $("#postspane"),
-    $threadLoading: $("#thread_loading"),
+    $threadLoading: $("#thread_loading_msg"),
     $threadTitle: $("#thread_title"),
     $postsContainer: $("#posts_container"),
 
