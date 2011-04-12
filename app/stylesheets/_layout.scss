@@ -21,14 +21,15 @@ div, p, h1, h2, h3, blockquote, code, pre, hr, input, textarea, ul, li, a {
     border-width: 1px 1px 1px 4px;
 }
 
-body {
-    font-size: 79%;
+body, textarea, input, .ui-widget {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Tahoma", sans-serif;
+    font-size: 14px;
     word-spacing: 0.1em;
-    padding: 5.5em 0.5em 3.7em 0.5em;
 }
 
-body, textarea, input, .ui-widget {
-    font-family: "Lucida Grande", "Tahoma", sans-serif;
+body {
+    padding: 5.5em 0.5em 3.7em 0.5em;
+    overflow: hidden;
 }
 
 p, blockquote, li, fieldset {
@@ -68,7 +69,7 @@ fieldset {
 
 code {
     font-family: 'Consolas', 'Inconsolata', 'Menlo', 'Lucida Sans Console',  monospace;
-    font-size: 85%;
+    padding-top: 2px;
     border-width: 1px;
 }
 
