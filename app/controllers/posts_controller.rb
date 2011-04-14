@@ -78,7 +78,7 @@ class PostsController < ApplicationController
     def destroy
         post = Post.find(params[:id])
 
-        if post.user.id != current_user.id and current_user.rank < 1
+        if post.user.id != current_user.id and current_user.rank < 2
             return render :text => "WRONG_USER"
         end
 
@@ -112,7 +112,7 @@ class PostsController < ApplicationController
     def edit
         post = Post.find(params[:id])
 
-        if post.user.id != current_user.id and current_user.rank < 1
+        if post.user.id != current_user.id and current_user.rank < 2
             return render :text => "WRONG_USER"
         end
 

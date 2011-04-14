@@ -570,7 +570,7 @@ FORJ.createPost = function (p) {
     // request via hax0ry means, it still won't work - the client-side link
     // removal is more just a UI thing than any kind of real security.
     if (FORJ.status.current_user.id !== p.from.id &&
-        FORJ.status.current_user.rank < 1) {
+        FORJ.status.current_user.rank < 2) {
         $post.find(".post_foot_editlinks").remove();
     }
 
@@ -910,6 +910,7 @@ FORJ.populateThreadsList = function (folders) {
                         (folder.thread_count === 1 ? " thread" : " threads")
                     )
                 ).
+                // Add a Folder Settings link if the user is high enough rank.
                 append(
                     (function () {
                         return FORJ.status.current_user.rank > 1 &&
