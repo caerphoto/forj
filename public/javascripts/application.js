@@ -849,7 +849,8 @@ FORJ.populateUserLists = function (users) {
 
     FORJ.ui.selReplyTo.selectmenu({
         style: "dropdown",
-        width: "10em"
+        width: "17em",
+        maxHeight: 300
     });
 
 }; // FORJ.populateUserLists()

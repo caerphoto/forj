@@ -15,6 +15,8 @@ end
 
 gem "compass", ">= 0.10.6"
 
+gem "thin"
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
