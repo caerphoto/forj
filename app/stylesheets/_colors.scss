@@ -30,6 +30,7 @@
  */
 .thread_list_item {
     border-color: $bg2;
+	border-color: rgba(0, 0, 0, 0);
     background-image: inline-image('/icon_nonewposts.png');
 }
 .has_unread {
@@ -144,17 +145,71 @@ pre code {
 
 #threadspane {
     border-width: 1px;
+	border-radius: 0 5px 5px 0;
+	background: -webkit-linear-gradient(right, #F5F5F5 0%, #EEE 100%);
+	background: -moz-linear-gradient(right, #F5F5F5 0%, #EEE 100%);
+	background: linear-gradient(right, #F5F5F5 0%, #EEE 100%);
+	-webkit-box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#postspane:before {
+	content: "";
+	position: fixed;
+	top: 5.5em;
+	left: 29em;
+	right: 16px;
+	height: 10px;
+	background: -moz-linear-gradient(top, $bodyBg 0%, rgba(237, 240, 242, 0) 100%);
+	background: -webkit-linear-gradient(top, $bodyBg 0%, rgba(237, 240, 242, 0) 100%);
+	background: linear-gradient(top, $bodyBg 0%, rgba(237, 240, 242, 0) 100%);
+	z-index: 4;
+}
+
+#postspane:after {
+	content: "";
+	position: fixed;
+	height: 1em;
+	bottom: 4.2em;
+	left: 29em;
+	right: 16px;
+	background: -moz-linear-gradient(bottom, $bodyBg 0%, rgba(237, 240, 242, 0) 100%);
+	background: -webkit-linear-gradient(bottom, $bodyBg 0%, rgba(237, 240, 242, 0) 100%);
+	background: linear-gradient(bottom, $bodyBg 0%, rgba(237, 240, 242, 0) 100%);
+	z-index: 4;
 }
 
 .post {
-    -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
     border-width: 1px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.post_head, .post_foot {
+	background-color: $bg2;
+}
+
+.post_head {
+	background: -webkit-linear-gradient(top, #F5F5F5 0%, #E0E0E0 100%);
+	background: -moz-linear-gradient(top, #F5F5F5 0%, #E0E0E0 100%);
+	background: linear-gradient(top, #F5F5F5 0%, #E0E0E0 100%);
+	border-radius: 6px 6px 0 0;
 }
 
 .post_body, .post_sig {
     background-color: #FFF;
+}
+
+.post_foot {
+	background: -webkit-linear-gradient(top, #F5F5F5 0%, #EEE 100%);
+	background: -moz-linear-gradient(top, #F5F5F5 0%, #EEE 100%);
+	background: linear-gradient(top, #F5F5F5 0%, #EEE 100%);
+	border-top: 1px solid #E0E0E0;
+	border-radius: 0 0 6px 6px;
 }
 
 /* Colour of the dummy text shown when a user is editing their sig */
@@ -181,7 +236,7 @@ blockquote {
     border-color: $quoteBo; /* same as .clr1 background-color */
 }
 
-.post p {
+.post  {
     color: #333;
 }
 

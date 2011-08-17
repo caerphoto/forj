@@ -307,6 +307,7 @@ label.select-menu {
 #thread_title {
     margin-bottom: 0.5em;
     margin-left: 0.5em;
+	margin-top: 10px;
 }
 
 #post_buttons_prev, #post_buttons_next {
@@ -324,7 +325,6 @@ label.select-menu {
 
 
 .post {
-    padding: 0.5em;
     margin-bottom: 0.8em;
     margin-right: 0.5em;
     list-style: none;
@@ -335,8 +335,8 @@ label.select-menu {
 }
 
 .post_head_fromto, .post_head_info {
-    position: relative;
-    margin-bottom: 0.5em;
+    //position: relative;
+    //margin-bottom: 0.5em;
 }
 
 .post_head_fromto, .post_foot_replylinks {
@@ -354,22 +354,25 @@ label.select-menu {
     cursor: pointer;
 }
 
-.post_foot {
-    height: 1.5em;
+.post_head, .post_foot {
+	overflow: hidden;
+	padding: 0.5em 1.5em;
+}
+
+.post_body {
+	border-bottom-width: 1px;
 }
 
 .post_body, .post_sig {
-    clear: both;
-    padding: 0.5em 0.75em;
-    border-width: 1px;
+    padding: 1em 1.5em;
 
     overflow-x: auto;
     overflow-y: hidden;
 }
 
 .post_sig {
-    border-top-width: 0;
-    margin-bottom: 0.5em;
+    //border-top-width: 0;
+    //margin-bottom: 0.5em;
 }
 
 .post p, .post_body pre, .post li, #post_length_info {
