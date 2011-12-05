@@ -1,62 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= title %></title>
-  <%= stylesheet_link_tag 'screen.css', :media => 'screen, projection' %>
-  <%= csrf_meta_tag %>
-  <style>
-      .unfouc {
-          /* Prevent certain elements from being visible before JavaScript loads */
-          position: absolute;
-          top: -10000px;
-          left: -10000px;
-      }
-  </style>
+  <title>Forj</title>
+  <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
 </head>
-<body class="clr0">
-    <div id="header" class="clr1">
-        <a id="logo" class="clr3 bb" href="/">FORJ Forum /</a>
+<body>
 
-        <div id="sign" class="clr3 bb">
-  <% if user_signed_in? %>
-      Signed in as <span class="current_user"><%= current_user.email %></span>
-      (<%= current_user.name %>) |
-      <%= link_to "Edit Details", edit_user_registration_path %> |
-      <%= link_to "Sign out", destroy_user_session_path %>
-      <input type="hidden" value="<%= current_user.rank.to_s + current_user.id.to_s %>" />
-  <% else %>
-    <%= link_to "Sign up", new_user_registration_path %> |
-    <%= link_to "Sign in", new_user_session_path %>
-    <input type="hidden" value="00" />
-  <% end %>
-        </div>
-
-    </div> <!-- #header -->
-
-        <%= yield %>
-
-    <div id="footer" class="clr1">
-        <a href="/about">FORJ Forum</a> by <a href="mailto:forj@caerphoto.com">Andy Farrell</a>. Source available on <a href="https://github.com/caerphoto/forj">GitHub</a>.
-    </div> <!-- #footer -->
-
-    <div id="log"></div>
-
-    <% if Rails.env.production? %>
-        <%= javascript_include_tag "all.js" %>
-    <% else %>
-        <%=  javascript_include_tag :usual %>
-    <% end %>
-
-    <script type="text/javascript">
-        // Lazy loading of main application JS.
-        var se = document.createElement("script");
-        <% if Rails.env.production? %>
-        se.src = "/javascripts/application-min.js";
-        <% else %>
-        se.src = "/javascripts/application.js";
-        <% end %>
-        document.getElementsByTagName("head")[0].appendChild(se);
-    </script>
+<%= yield %>
 
 </body>
 </html>

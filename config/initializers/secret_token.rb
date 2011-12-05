@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Forj::Application.config.secret_token = 'fbd1308e75964d109bb292c41ccdad7c5c6873e3cac8e5aba83e29a6e3e63e7561100b03c0e8123435365e4787bf13e3fb5adbe93c8619d423522d2803c29254'
+Forj::Application.config.secret_token = '418d57789667e5d3d50de9c3632837274774cfa6c2500c056f22918f8eaec2e33771f0b0415a9bf7af7bd0c2b9e7c85437e707d461c0f2bc7303f2b83dd91051'

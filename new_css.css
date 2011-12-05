@@ -1,0 +1,127 @@
+html, body {
+    background-color: #f5f5ef;
+}
+
+body, textarea, input, .ui-widget {
+    word-spacing: 0;
+}
+
+.clr1 {
+    background-color: #e5e5e0;
+}
+
+.clr3, .loading_msg, .current_thread, .post_preview {
+    background: #FAFAF5;
+    border-color: #A98;
+}
+
+#header, #footer {
+    position: absolute;
+}
+
+#header {
+    border: none;
+}
+
+#logo {
+    text-shadow: none;
+}
+
+#threadspane {
+    border: none;
+    background: none;
+    right: 0;
+    left: 64em;
+    box-shadow: none;
+    width: auto;
+}
+
+#threadspane a {
+    text-decoration: none;
+}
+
+#postspane {
+    left: 0;
+    padding-left: 2em;
+    right: auto;
+    width: 60em;
+    margin: 0;
+}
+
+#postspane::before, #postspane::after {
+    background: none;
+}
+
+#footer {
+    border: none;
+}
+
+.post {
+    border-width: 1px 0;
+    border-color: #DDD;
+    border-style: solid;
+    box-shadow: 0px 2px 8px rgba(0,0,128,0.05);
+    border-radius: 0;
+    margin-right: 2em;
+    background: #F8F8F5;
+    line-height: 1.5;
+    margin-bottom: 1.5em;
+}
+
+.post_head, .post_foot {
+    background: none;
+    border-radius: 0;
+    color: #888;
+    font-size: 0.9em;
+}
+
+.post_head {
+    background: #fff;
+}
+
+.post_body, .post_sig {
+    background: none;
+    border: none;
+}
+
+.post_body {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.post_foot {
+    border-top: 1px solid #eee;
+}
+
+blockquote {
+    background: none;
+    border: none;
+    border-left: 1px solid #DDD;
+    padding: 0 1em;
+    color: #857a66;
+}
+
+li.thread_list_item {
+    clear: left;
+    background: none;
+    padding-left: 2em;
+}
+
+li.thread_list_item.current_thread {
+    background-color: #fafaf5;
+}
+
+li.thread_list_item:before {
+    display: block;
+    float: left;
+    position: relative;
+    left: -1.5em;
+    width: 0;
+    content: "-";
+    color: #888;
+}
+
+li.thread_list_item.has_unread:before {
+    content: "Δ";
+    color: #333;
+}
